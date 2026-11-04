@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Picchio Rosso · Pizzeria con forno a legna a Fiorano Modenese</title>
+<meta name="description" content="Picchio Rosso, pizzeria con forno a legna a Fiorano Modenese dal 2014. In sala, da asporto o con consegna a domicilio.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#120b08">
+<link rel="icon" href="img/brand/logo-badge.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Extra+Condensed:wght@700;800;900&family=Sofia+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="img/cut/margherita.webp">
+<link rel="stylesheet" href="assets/css/site.css">
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
+</head>
+<body>
+<div class="grana" aria-hidden="true"></div>
+<header class="testa" data-testa>
+  <a class="logo" href="index.html" aria-label="Pizzeria Picchio Rosso, home"><img src="img/brand/logo-badge.png" alt="Pizzeria Picchio Rosso, forno a legna dal 2014" width="640" height="640"></a>
+  <nav>
+    <a class="tel" href="tel:+3905361753948"><span class="col"><span>0536 175 3948</span><span>0536 175 3948</span></span></a>
+    <a class="ordina" href="menu.html"><span class="col"><span>Ordina</span><span>Ordina</span></span></a>
+    <button data-apri-menu aria-label="Apri il menu"><span class="col"><span>Menù</span><span>Menù</span></span><span class="barre"><i></i><i></i></span></button>
+  </nav>
+</header>
+
+<main>
+  <section class="eroe" data-eroe>
+    <div class="eroe-fisso">
+      <video class="fuoco" poster="media/forno.jpg" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
+      <script>document.querySelector('.fuoco').src=innerWidth<=720?'media/forno-m.mp4':'media/forno.mp4'</script>
+      <div class="velo"></div>
+      <div class="alone" aria-hidden="true"></div>
+      <h1 class="titolo t-cotta" aria-label="Cotta a legna"><span data-riga>Cotta a legna</span></h1>
+      <p class="titolo t-dal" aria-label="Dal 2014"><span data-riga>Dal 2014</span></p>
+      <canvas id="pizza" aria-hidden="true"></canvas>
+      <img class="pizza-riserva" src="img/cut/margherita.webp" alt="La margherita del Picchio Rosso">
+      <p class="frase sx" data-f="0">Cotta a legna, dal 2014<i></i></p>
+      <p class="frase dx" data-f="1">Pizze anche per celiaci<i></i></p>
+      <p class="frase sx" data-f="2">In sala e da asporto<i></i></p>
+      <p class="frase dx" data-f="3">Consegna a domicilio<i></i></p>
+      <img class="foto-arrivo" src="img/pizze/margherita-tavolo.jpg" alt="" aria-hidden="true">
+    </div>
+  </section>
+
+  <section class="storie" data-storie aria-label="Il gusto del Picchio Rosso">
+    <div class="storie-fisso">
+      <article class="storia">
+        <img src="img/pizze/margherita-tavolo.jpg" alt="La Margherita del Picchio Rosso appena servita">
+        <div class="storia-t"><p>La classica. Fatta come si deve.</p><h2><span class="r"><span>La prima</span></span><span class="r"><span>non si scorda.</span></span></h2><a href="menu.html">Scegli la tua pizza</a></div>
+      </article>
+      <article class="storia">
+        <img src="img/pizze/radicchio-tavolo.jpg" alt="Pizza con radicchio, rucola e scaglie">
+        <div class="storia-t"><p>Un carattere tutto nostro.</p><h2><span class="r"><span>Rosso.</span></span><span class="r"><span>Di personalità.</span></span></h2><a href="menu.html">Scopri le speciali</a></div>
+      </article>
+      <article class="storia">
+        <img src="img/pizze/tavola.jpg" alt="Le pizze da condividere a tavola">
+        <div class="storia-t"><p>Ci mettiamo la pizza. Tu la compagnia.</p><h2><span class="r"><span>Il bello</span></span><span class="r"><span>è dividerla.</span></span></h2><a href="menu.html">Organizza la serata</a></div>
+      </article>
+      <div class="progressi"><button class="su"><i></i>La classica</button><button><i></i>Il carattere</button><button><i></i>La compagnia</button></div>
+    </div>
+  </section>
+  <section class="rosso" data-rosso aria-labelledby="r-t" data-tono="scuro">
+    <div class="rosso-t">
+      <h2 id="r-t" class="grande"><span class="r"><span>Buona idea.</span></span><span class="r"><span>Buona pizza.</span></span></h2>
+      <p>Una base, il tuo impasto, gli ingredienti che ami. La pizza la immagini tu, al forno pensiamo noi.</p>
+      <a class="bott crema" href="menu.html">Crea la tua pizza</a>
+    </div>
+    <div class="rosso-pizza" data-attira><img src="img/cut/burrata.webp" alt="Pizza del Picchio Rosso con burrata e prosciutto" width="900" height="887" loading="lazy"></div>
+    <div class="scintille" aria-hidden="true"></div>
+  </section>
+
+  <section class="impasti" data-impasti aria-labelledby="i-t">
+    <div class="impasti-fisso">
+      <h2 id="i-t" class="vh">Tre impasti. Un solo fuoco.</h2>
+      <div class="strati" aria-hidden="true"><span>Impasti</span><span>Impasti</span><span>Impasti</span><span>Impasti</span></div>
+      <img class="impasti-pizza" src="img/cut/bianca.webp" alt="Pizza bianca del Picchio Rosso" width="751" height="740" loading="lazy">
+      <ul class="col-l" aria-hidden="true"><li>Tradizionale</li><li>Integrale</li><li>Ai cereali</li></ul>
+      <ul class="col-r" aria-hidden="true"><li>24 ore</li><li>Al 100%</li><li>A pietra</li></ul>
+      <div class="impasti-d">
+        <p>Lievitato 24 ore. Il nostro impasto tradizionale, cotto nel forno a legna.</p>
+        <p>Integrale al 100%. Più fibre e sali minerali, tutto il carattere dell’integrale.</p>
+        <p>Ai cereali, con farina macinata a pietra. Tre impasti, un solo fuoco.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cancello" data-cancello aria-labelledby="s-t">
+    <div class="cancello-fisso">
+      <div class="porta"><p class="porta-anno">2014</p></div>
+      <div class="ritratto"><img src="img/gare/paestum-2022.jpg" alt="Alessandro premiato al Campionato Nazionale Pizza DOC di Paestum, 2022" width="1400" height="934"></div>
+      <div class="storia-testo">
+        <h2 id="s-t" class="grande" data-accendi>La pizza è la stessa. Dal primo giorno.</h2>
+        <div class="note">
+          <p>Nel 2014 Alessandro ha acceso il forno per la prima volta. Aveva vent’anni e già otto di gavetta alle spalle.</p>
+          <p>Siamo partiti con due vetture in un paese piccolo. Oggi i mezzi sono più di dieci e in carta trovi più di cento pizze, ma la pizza si fa ancora nello stesso modo.</p>
+        </div>
+        <a class="sott" href="storia.html">Entra nella nostra storia</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="carta" data-carta data-tono="chiaro" aria-labelledby="c-t">
+    <img class="carta-foto" src="img/pizze/tavola.jpg" alt="" width="1600" height="1200" loading="lazy">
+    <h2 id="c-t" class="vh">A casa. Ancora calda.</h2>
+    <canvas class="carta-tela" aria-hidden="true"></canvas>
+    <div class="carta-info">
+      <p>Nelle nostre vetture il forno resta caldo fino alla tua porta. Così la pizza che ricevi è quella che mangeresti seduto da noi.</p>
+      <div class="prezzi"><span><b>2 €</b> in paese</span><span><b>da 3 €</b> fuori comune</span></div>
+      <a class="bott nero" href="menu.html">Scegli il tuo orario</a>
+    </div>
+  </section>
+
+  <section class="roba" aria-labelledby="ro-t">
+    <h2 id="ro-t" class="grande" data-fuoco>Roba buona. Gente seria.</h2>
+    <p data-fuoco>La pizza è buona se è buono quello che ci metti sopra. Lavoriamo solo con chi sceglie la materia prima come la sceglieremmo noi.</p>
+    <div class="fornitori" data-fornitori aria-label="I nostri fornitori">
+      <div class="fila"><img src="img/fornitori/ferrarini.png" alt="Ferrarini" loading="lazy"><img src="img/fornitori/mortaretta.png" alt="Latteria Mortaretta" loading="lazy"><img src="img/fornitori/mrfood.png" alt="Mr Food" loading="lazy"><img src="img/fornitori/dyle.png" alt="Dylé" loading="lazy"><img src="img/fornitori/ferrarini.png" alt="" loading="lazy"><img src="img/fornitori/mortaretta.png" alt="" loading="lazy"><img src="img/fornitori/mrfood.png" alt="" loading="lazy"><img src="img/fornitori/dyle.png" alt="" loading="lazy"></div>
+    </div>
+  </section>
+
+  <section class="mezzodi" data-mezzodi aria-labelledby="m-t">
+    <div class="ora" aria-hidden="true">12:00<div class="coperchi"><i></i><i></i><i></i><i></i><i></i></div></div>
+    <div class="mezzodi-t">
+      <h2 id="m-t" class="grande">La pausa è servita.</h2>
+      <p>Pizza, primi e secondi. Prezzi riservati alle aziende del territorio.</p>
+      <a class="bott crema" href="aziende.html">Scopri la convenzione</a>
+    </div>
+  </section>
+
+  <section class="domande" aria-labelledby="d-t">
+    <h2 id="d-t" class="grande">Prima di ordinare.</h2>
+    <div class="elenco">
+      <details><summary>Quali impasti avete?</summary><div><p>Tre: tradizionale lievitato 24 ore, integrale al 100% con più fibre e sali minerali, e ai cereali con farina macinata a pietra. Tutti cotti nel forno a legna.</p></div></details>
+      <details><summary>Fate consegna a domicilio?</summary><div><p>Sì, tutti i giorni. Nelle vetture teniamo il forno acceso, così la pizza arriva calda davvero. In paese costa 2 €, fuori comune parte da 3 €.</p></div></details>
+      <details><summary>Posso ordinare online?</summary><div><p>Sì, da qui: scegli le pizze, indica consegna o ritiro e segui l’ordine in diretta. Paghi quando arriva.</p></div></details>
+      <details><summary>Come si paga?</summary><div><p>Contanti, carte, buoni pasto elettronici, Satispay, PagoBancomat e inprimePay. Anche alla consegna.</p></div></details>
+      <details><summary>Avete il senza glutine?</summary><div><p>Sì: la Margherita per celiaci e le basi senza glutine. Per le aggiunte, chiedici pure quando ordini.</p></div></details>
+      <details><summary>Quali sono gli orari?</summary><div><p>Siamo aperti tutti i giorni. Pranzo 12:00–14:00, cena 18:00–24:00. La domenica e i festivi solo a cena.</p></div></details>
+      <details><summary>Quanti formati avete?</summary><div><p>Otto: tonda, alta, tirata, baby, gigante, al metro, a ruota di carro e mezza luna. Più calzoni, strie, piadine e panini.</p></div></details>
+    </div>
+  </section>
+
+  <section class="finale" data-finale aria-labelledby="f-t">
+    <img src="img/pizze/tavola.jpg" alt="" loading="lazy">
+    <h2 id="f-t" class="grande">Hai già scelto<br>la tua prossima<br>pizza?</h2>
+    <div class="finale-b"><a class="bott rosso-b" href="menu.html">Ordina la tua pizza</a><p>Pranzo 12–14 · Cena 18–24. Domenica e festivi solo cena.<br>Oppure chiama lo <a href="tel:+3905361753948">0536 175 3948</a> o scrivici su <a href="https://wa.me/393493838146">WhatsApp</a>.</p></div>
+  </section>
+</main>
+
+<footer class="piede">
+  <img src="img/brand/logo-badge.png" alt="Pizzeria Picchio Rosso" width="640" height="640" loading="lazy">
+  <div><b>Dove</b><p>Via Machiavelli 2<br>41042 Fiorano Modenese (MO)</p><a href="https://www.google.com/maps/search/?api=1&query=Picchio+Rosso+Via+Machiavelli+2+Fiorano+Modenese">Indicazioni</a></div>
+  <div><b>Orari</b><p>Pranzo 12–14 · Cena 18–24<br>Domenica e festivi solo cena</p><a href="contatti.html">Tutti i contatti</a></div>
+  <div><b>Pagine</b><a href="menu.html">Il menù</a><a href="storia.html">La storia</a><a href="aziende.html">Aziende</a><a href="contatti.html">Contatti</a></div>
+  <div><b>Seguici</b><a href="https://www.instagram.com/picchio__rosso_di_fiorano/">Instagram</a><a href="https://www.facebook.com/people/Pizzeria-Picchio-Rosso-di-Fiorano-Modenese/100093708481729/">Facebook</a><a href="https://wa.me/393493838146">WhatsApp</a></div>
+  <p class="piede-b">© 2026 Picchio Rosso · P.IVA 03436440360</p>
+</footer>
+
+<div class="marea" data-marea inert>
+  <div class="marea-f"></div>
+  <button class="marea-x" data-chiudi-menu>Chiudi</button>
+  <img class="marea-p" src="img/cut/margherita.webp" alt="" aria-hidden="true">
+  <nav class="marea-l" aria-label="Principale">
+    <a href="index.html" data-cut="margherita">Home</a><a href="menu.html" data-cut="radicchio">Il menù</a><a href="menu.html" data-cut="burrata">Ordina</a><a href="storia.html" data-cut="rossa-nero">La storia</a><a href="aziende.html" data-cut="crocche">Aziende</a><a href="contatti.html" data-cut="bianca">Contatti</a>
+  </nav>
+  <div class="marea-b"><a href="tel:+3905361753948">0536 175 3948</a><a href="https://wa.me/393493838146">WhatsApp 349 383 8146</a><span>Via Machiavelli 2, Fiorano Modenese</span></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script type="module" src="assets/js/eroe.js"></script>
+<script src="assets/js/sezioni.js"></script>
+</body>
+</html>

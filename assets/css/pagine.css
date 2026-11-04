@@ -1,0 +1,96 @@
+/* pagine interne: storia, aziende, contatti */
+.p-eroe{position:relative;min-height:100svh;display:grid;align-content:end;padding:140px var(--g) 8vh;overflow:hidden}
+.p-eroe .sfondo{position:absolute;inset:0;z-index:0}
+.p-eroe .sfondo img{width:100%;height:100%;object-fit:cover}
+.p-eroe .sfondo:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,10,7,.25),rgba(18,10,7,.88) 85%)}
+.p-eroe>*:not(.sfondo){position:relative;z-index:1}
+.p-eroe h1{font-size:clamp(64px,11vw,190px);max-width:12ch}
+.p-eroe .sotto{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;margin-top:36px}
+.p-eroe .sotto p{max-width:440px;color:var(--farina-2);font-size:17px}
+@media(max-width:760px){.p-eroe .sotto{flex-direction:column;align-items:flex-start}}
+
+/* storia: numero fisso a sinistra, capitoli che scorrono */
+.anni{display:grid;grid-template-columns:1fr 1fr;gap:var(--g);padding:0 var(--g);background:var(--notte)}
+.anni-fisso{position:sticky;top:0;height:100svh;display:grid;place-items:center;overflow:hidden}
+.anni-num{font-family:var(--titoli);font-weight:300;font-size:clamp(120px,22vw,360px);letter-spacing:-.07em;line-height:.8;color:var(--farina);position:relative;width:100%;height:.85em;text-align:center}
+.anni-num span{display:block;position:absolute;inset:0;transition:opacity .6s var(--ease),transform .8s var(--ease),filter .6s}
+.anni-num span.via{opacity:0;transform:translateY(-30%);filter:blur(16px)}
+.anni-num span.prima{opacity:0;transform:translateY(30%);filter:blur(16px)}
+.anni-testi{padding:30vh 0 20vh}
+.anno{min-height:80vh;display:flex;flex-direction:column;justify-content:center;max-width:520px}
+.anno h2{font-size:clamp(40px,4.6vw,76px);margin-bottom:22px}
+.anno p{color:var(--farina-2);font-size:18px}
+@media(max-width:860px){.anni{grid-template-columns:1fr}.anni-fisso{height:40vh;top:0;z-index:2;background:linear-gradient(var(--notte) 75%,transparent)}.anni-num{font-size:30vw}.anni-testi{padding-top:0}.anno{min-height:70vh}}
+
+.striscia{padding:16vh var(--g);background:var(--notte)}
+.striscia h2{font-size:clamp(48px,7vw,120px);margin-bottom:8vh;max-width:12ch}
+.striscia-righe{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--g)}
+.striscia figure{margin:0}
+.striscia .cornice{overflow:hidden;border-radius:6px;aspect-ratio:3/4}
+.striscia .cornice img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
+.striscia figure:hover img{transform:scale(1.06)}
+.striscia figcaption{display:flex;justify-content:space-between;margin-top:14px;font-size:14px;color:var(--farina-2)}
+.striscia figcaption b{font-family:var(--titoli);font-weight:400;font-size:28px;letter-spacing:-.03em;color:var(--farina)}
+@media(max-width:760px){.striscia-righe{grid-template-columns:1fr}}
+
+.impasti{background:var(--farina);color:var(--ink);padding:16vh var(--g)}
+.impasti h2{font-size:clamp(48px,7vw,120px);margin-bottom:8vh}
+.impasto{display:grid;grid-template-columns:1fr 1.2fr;gap:var(--g);padding:34px 0;border-top:1px solid var(--linea-ink);align-items:baseline}
+.impasto h3{font-family:var(--titoli);font-weight:350;font-size:clamp(34px,4vw,64px);letter-spacing:-.04em}
+.impasto p{color:var(--ink-2);font-size:18px;max-width:46ch}
+@media(max-width:760px){.impasto{grid-template-columns:1fr;gap:10px}}
+
+/* aziende */
+body.chiaro .p-eroe.chiaro{color:var(--ink)}
+.p-chiaro{padding:150px var(--g) 10vh;display:grid;grid-template-columns:1.2fr 1fr;gap:var(--g);align-items:end}
+.p-chiaro h1{font-size:clamp(60px,9vw,160px);max-width:10ch}
+.p-chiaro .img{border-radius:6px;overflow:hidden;aspect-ratio:4/5}
+.p-chiaro .img img{width:100%;height:100%;object-fit:cover}
+.p-chiaro p{color:var(--ink-2);font-size:18px;max-width:44ch;margin:30px 0}
+@media(max-width:860px){.p-chiaro{grid-template-columns:1fr;padding-top:120px}}
+.vantaggi{padding:12vh var(--g)}
+.vantaggio{display:grid;grid-template-columns:1fr 1fr;gap:var(--g);padding:40px 0;border-top:1px solid var(--linea-ink);align-items:baseline}
+.vantaggio h3{font-family:var(--titoli);font-weight:350;font-size:clamp(32px,3.8vw,60px);letter-spacing:-.04em}
+.vantaggio p{color:var(--ink-2);font-size:18px;max-width:46ch}
+@media(max-width:760px){.vantaggio{grid-template-columns:1fr;gap:10px}}
+.passaggi{background:var(--notte);color:var(--farina);padding:16vh var(--g)}
+.passaggi h2{font-size:clamp(48px,7vw,120px);margin-bottom:8vh}
+.passaggi-righe{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--g)}
+.passaggio{border-top:1px solid var(--linea);padding-top:24px}
+.passaggio small{font-size:12px;color:#ffb35c;letter-spacing:.02em}
+.passaggio h3{font-family:var(--titoli);font-weight:350;font-size:clamp(30px,3vw,48px);letter-spacing:-.04em;margin:10px 0 14px}
+.passaggio p{color:var(--farina-2)}
+@media(max-width:760px){.passaggi-righe{grid-template-columns:1fr;gap:40px}}
+.richiesta{padding:16vh var(--g);display:grid;grid-template-columns:1fr 1fr;gap:var(--g)}
+.richiesta h2{font-size:clamp(48px,7vw,120px)}
+.richiesta .campo input,.richiesta .campo textarea{background:#fbf7f1}
+.richiesta small{display:block;color:var(--ink-2);margin-top:12px;font-size:13px}
+@media(max-width:860px){.richiesta{grid-template-columns:1fr}}
+
+/* contatti */
+.numeri{display:grid;gap:0;margin-top:40px}
+.numeri a{display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding:22px 0;border-top:1px solid var(--linea);font-family:var(--titoli);font-weight:300;font-size:clamp(40px,6.4vw,108px);letter-spacing:-.05em;line-height:1;transition:color .3s,padding .5s var(--ease)}
+.numeri a small{font-family:var(--testo);font-size:14px;letter-spacing:0;color:var(--farina-2);font-weight:400;white-space:nowrap}
+.numeri a:hover{color:#ffb35c;padding-left:14px}
+.dove{display:grid;grid-template-columns:1fr 1fr;min-height:90vh;background:var(--farina);color:var(--ink)}
+.dove iframe{width:100%;height:100%;min-height:420px;border:0;filter:grayscale(.9) contrast(1.05) sepia(.15)}
+.dove-testo{padding:14vh var(--g);display:flex;flex-direction:column;justify-content:center;gap:30px}
+.dove-testo h2{font-size:clamp(48px,6vw,104px)}
+.orari{display:grid;gap:0}
+.orari div{display:flex;justify-content:space-between;padding:16px 0;border-top:1px solid var(--linea-ink);font-size:18px}
+.orari div span:last-child{font-family:var(--titoli);font-size:24px;letter-spacing:-.02em}
+@media(max-width:860px){.dove{grid-template-columns:1fr}.dove iframe{height:60vh}}
+
+/* notte anche per aziende */
+.tema-notte{--ink:var(--farina);--ink-2:var(--farina-2);--linea-ink:var(--linea)}
+.tema-notte .campo input,.tema-notte .campo textarea{background:var(--notte-2);color:var(--farina)}
+.tema-notte .campo label{color:var(--farina-2)}
+.vantaggio h3,.passaggio h3,.impasto h3{font-family:var(--titoli);font-weight:800;text-transform:uppercase;letter-spacing:0;line-height:1;font-size:clamp(40px,4.4vw,74px)}
+.anni-num{font-weight:900;letter-spacing:-.01em;font-size:clamp(150px,26vw,430px);text-transform:uppercase}
+.numeri a{font-weight:800;letter-spacing:0;font-size:clamp(56px,8.4vw,150px)}
+.striscia figcaption b{font-weight:800;text-transform:uppercase;letter-spacing:0;font-size:36px}
+.orari div span:last-child{font-weight:800;letter-spacing:0}
+.p-eroe h1{font-size:clamp(76px,11.5vw,210px);max-width:13ch}
+.anno h2{font-size:clamp(56px,6vw,104px)}
+.striscia-righe{grid-template-columns:1fr 1fr}
+@media(max-width:760px){.striscia-righe{grid-template-columns:1fr}}

@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Il tuo ordine · Picchio Rosso</title>
+<meta name="description" content="Segui il tuo ordine in diretta.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#120b08">
+<link rel="icon" href="img/brand/logo-badge.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Extra+Condensed:wght@700;800;900&family=Sofia+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/ordine-ui.css">
+<style>
+.o-scena{position:relative;min-height:100svh;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);overflow:hidden}
+.o-fuoco{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.62) contrast(1.05)}.o-scena:before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(10,5,3,.55),rgba(10,5,3,.2) 50%,rgba(10,5,3,.5)),linear-gradient(0deg,rgba(10,5,3,.7),transparent 50%)}
+.o-sx{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:flex-end;padding:120px var(--g) 8vh;gap:18px}
+.o-codice{font-size:14px;color:var(--farina-2)}
+.o-codice b{color:var(--farina);font-weight:500;letter-spacing:.04em}
+.o-titolo{font-size:clamp(76px,11vw,190px);max-width:9ch}
+.o-sotto{color:var(--farina-2);max-width:440px;font-size:17px}
+.o-dx{position:relative;z-index:2;padding:120px var(--g) 8vh;display:flex;flex-direction:column;justify-content:flex-end;gap:28px}
+.o-carta{background:rgba(18,10,7,.6);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--linea);border-radius:4px;padding:24px}
+.o-passi{list-style:none;position:relative;display:grid;gap:4px}
+.o-passi:before{content:"";position:absolute;left:7px;top:12px;bottom:12px;width:1px;background:var(--linea)}
+.o-passi li{position:relative;padding:10px 0 10px 32px;color:var(--farina-2);transition:color .6s}
+.o-passi li:before{content:"";position:absolute;left:2px;top:16px;width:11px;height:11px;border-radius:50%;background:var(--notte);border:1px solid var(--farina-2);transition:all .6s}
+.o-passi li small{display:block;font-size:12px;opacity:.7}
+.o-passi li.fatto{color:var(--farina)}.o-passi li.fatto:before{background:var(--farina);border-color:var(--farina)}
+.o-passi li.adesso{color:#ffb35c}.o-passi li.adesso:before{background:var(--brace);border-color:var(--brace);box-shadow:0 0 0 6px rgba(255,106,42,.18),0 0 20px var(--brace);animation:pulsa 1.6s infinite}
+@keyframes pulsa{50%{box-shadow:0 0 0 10px rgba(255,106,42,.05),0 0 30px var(--brace)}}
+.o-righe{display:grid;gap:8px;font-size:14px}
+.o-righe div{display:flex;justify-content:space-between;gap:16px;color:var(--farina-2)}
+.o-righe div b{color:var(--farina);font-weight:500}
+.o-righe .tot{border-top:1px solid var(--linea);padding-top:10px;margin-top:4px;font-size:18px;color:var(--farina)}
+.o-aiuto{font-size:14px;color:var(--farina-2)}
+.o-aiuto a{color:#ffb35c}
+.o-azioni{display:flex;gap:10px;flex-wrap:wrap}
+.vivo{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--farina-2)}
+.vivo i{width:7px;height:7px;border-radius:50%;background:#58d68d;box-shadow:0 0 10px #58d68d;animation:pulsa2 2s infinite}
+@keyframes pulsa2{50%{opacity:.3}}
+@media(max-width:860px){.o-scena{grid-template-columns:minmax(0,1fr)}.o-sx{min-height:78svh;padding-top:100px}.o-dx{padding-top:0}}
+</style>
+</head>
+<body data-pagina="ordine">
+<div class="grana" aria-hidden="true"></div>
+<header class="testa" data-testa>
+  <a class="logo" href="index.html" aria-label="Pizzeria Picchio Rosso, home"><img src="img/brand/logo-badge.png" alt="Pizzeria Picchio Rosso, forno a legna dal 2014" width="640" height="640"></a>
+  <nav>
+    <a class="tel" href="tel:+3905361753948"><span class="col"><span>0536 175 3948</span><span>0536 175 3948</span></span></a>
+    <button class="ordina" data-apri-carrello aria-label="Apri il tuo ordine"><span class="col"><span>Ordine</span><span>Ordine</span></span> <b class="conta">0</b></button>
+    <button data-apri-menu aria-label="Apri il menu"><span class="col"><span>Menù</span><span>Menù</span></span><span class="barre"><i></i><i></i></span></button>
+  </nav>
+</header>
+<main class="o-scena">
+  <video class="o-fuoco" poster="media/forno.jpg" autoplay muted loop playsinline aria-hidden="true"></video><script>document.querySelector('.o-fuoco').src=innerWidth<=720?'media/forno-m.mp4':'media/forno.mp4'</script>
+  <section class="o-sx">
+    <span class="vivo"><i></i>In diretta dalla cucina</span>
+    <p class="o-codice">Ordine <b class="o-cod">····</b></p>
+    <h1 class="o-titolo display">Un attimo…</h1>
+    <p class="o-sotto"></p>
+  </section>
+  <section class="o-dx">
+    <div class="o-carta"><ol class="o-passi"></ol></div>
+    <div class="o-carta o-righe"></div>
+    <p class="o-aiuto">Qualcosa non va? Chiamaci al <a href="tel:+393493838146">349 383 8146</a>, rispondiamo noi dalla cucina.</p>
+    <div class="o-azioni"></div>
+  </section>
+</main>
+<div class="marea" data-marea inert>
+  <div class="marea-f"></div>
+  <button class="marea-x" data-chiudi-menu>Chiudi</button>
+  <img class="marea-p" src="img/cut/margherita.webp" alt="" aria-hidden="true">
+  <nav class="marea-l" aria-label="Principale">
+    <a href="index.html" data-cut="margherita">Home</a><a href="menu.html" data-cut="radicchio">Il menù</a><a href="menu.html" data-cut="burrata">Ordina</a><a href="storia.html" data-cut="rossa-nero">La storia</a><a href="aziende.html" data-cut="crocche">Aziende</a><a href="contatti.html" data-cut="bianca">Contatti</a>
+  </nav>
+  <div class="marea-b"><a href="tel:+3905361753948">0536 175 3948</a><a href="https://wa.me/393493838146">WhatsApp 349 383 8146</a><span>Via Machiavelli 2, Fiorano Modenese</span></div>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/sezioni.js"></script>
+<script>
+const id = location.hash.slice(1);
+const ora = d => new Date(d).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
+let ultimo = null;
+
+function arrivo(o) {
+  if (!o.eta_minutes || !o.accepted_at) return null;
+  return ora(new Date(o.accepted_at).getTime() + o.eta_minutes * 60000);
+}
+function testi(o) {
+  const t = arrivo(o), casa = o.mode === 'consegna';
+  switch (o.status) {
+    case 'ricevuto': return ['Ricevuto.', 'Lo stiamo guardando adesso. Appena lo accettiamo ti diciamo l\'orario, qui e via email.', null];
+    case 'accettato': return [casa ? `Arriva verso le ${t}.` : `Pronta alle ${t}.`, 'Confermato dalla cucina. Tra poco entra nel forno.', t];
+    case 'in_preparazione': return ['È nel forno a legna.', `450 gradi, novanta secondi. ${t ? (casa ? 'Arrivo previsto alle ' : 'Pronta alle ') + t + '.' : ''}`, t];
+    case 'in_consegna': return ['È partita.', `Il forno in macchina è acceso. Arriva verso le ${t || 'a breve'}.`, t];
+    case 'pronto': return ['È pronta.', 'Ti aspettiamo in Via Machiavelli 2, dentro il centro commerciale.', '✓'];
+    case 'consegnato': return ['Buon appetito.', 'Grazie di averci scelto. Alla prossima infornata.', '✓'];
+    case 'rifiutato': return ['Stasera non ce la facciamo.', (o.reject_reason ? o.reject_reason + '. ' : '') + 'Ci dispiace davvero: chiamaci e troviamo una soluzione.', null];
+    default: return ['…', '', null];
+  }
+}
+function passi(o) {
+  const casa = o.mode === 'consegna';
+  const elenco = [['ricevuto', 'Ricevuto', ora(o.created_at)], ['accettato', 'Accettato', o.accepted_at && ora(o.accepted_at)], ['in_preparazione', 'Nel forno a legna', ''],
+    casa ? ['in_consegna', 'Partita, forno acceso', o.departed_at && ora(o.departed_at)] : ['pronto', 'Pronta da ritirare', o.departed_at && ora(o.departed_at)],
+    ['consegnato', casa ? 'Consegnata' : 'Ritirata', o.delivered_at && ora(o.delivered_at)]];
+  const ordine = elenco.map(e => e[0]);
+  let k = ordine.indexOf(o.status);
+  if (o.status === 'rifiutato') return `<li class="fatto">Ricevuto<small>${ora(o.created_at)}</small></li><li class="adesso">Non accettato<small>${o.reject_reason || ''}</small></li>`;
+  return elenco.map((e, i) => `<li class="${i < k || o.status === 'consegnato' ? 'fatto' : i === k ? 'adesso' : ''}">${e[1]}${e[2] ? `<small>${e[2]}</small>` : ''}</li>`).join('');
+}
+function disegna(o) {
+  document.querySelector('.o-cod').textContent = o.code;
+  const [titolo, sotto, forma] = testi(o);
+  const h = document.querySelector('.o-titolo');
+  if (!ultimo || ultimo.status !== o.status) {
+    h.textContent = titolo;
+    gsap.fromTo(PR.parole(h), { yPercent: 110 }, { yPercent: 0, duration: 1.1, stagger: .05, ease: 'expo.out' });
+    if (ultimo) PR.toast('Aggiornamento: ' + titolo);
+  }
+  document.querySelector('.o-sotto').textContent = sotto;
+  document.querySelector('.o-passi').innerHTML = passi(o);
+  document.querySelector('.o-righe').innerHTML = o.items.map(r => `<div><span><b>${r.qty}×</b> ${r.name}${r.size && r.size !== 'Prezzo' ? ' · ' + r.size : ''}${r.note ? `<br><small>${r.note}</small>` : ''}</span><span>${PR.euro(r.unit_cents * r.qty)}</span></div>`).join('')
+    + (o.mode === 'consegna' ? `<div><span>Consegna</span><span>${PR.euro(200)}</span></div>` : '')
+    + `<div class="tot"><span>Totale, paghi alla ${o.mode === 'consegna' ? 'consegna' : 'cassa'}</span><b>${PR.euro(o.total_cents)}</b></div>`;
+  document.querySelector('.o-azioni').innerHTML = ['consegnato', 'rifiutato'].includes(o.status)
+    ? `<button class="btn rosso" data-riordina>Riordina uguale ${PR.freccia}</button><a class="btn linea" href="index.html">Torna al sito</a>`
+    : ``;
+  document.title = `${titolo} · Ordine ${o.code} · Picchio Rosso`;
+  ultimo = o;
+}
+async function aggiorna() {
+  if (!id) { document.querySelector('.o-titolo').textContent = 'Nessun ordine qui.'; return; }
+  try { const o = await PR.rpc('pr_order_status', { p_id: id }); if (o) disegna(o); else document.querySelector('.o-titolo').textContent = 'Ordine non trovato.'; }
+  catch (e) { /* rete: riprova al giro dopo */ }
+}
+document.addEventListener('click', e => {
+  if (!e.target.closest('[data-riordina]') || !ultimo) return;
+  ultimo.items.forEach(r => PR.aggiungi({ id: r.id, name: r.name, size: r.size, unit: r.unit_cents, qty: r.qty, dough: r.dough, note: r.note }));
+  PR.apriCassetto();
+});
+aggiorna();
+if (id) PR.ascolta('picchio-ordine-' + id, 'stato', aggiorna);
+setInterval(aggiorna, 6000);
+</script>
+</body>
+</html>

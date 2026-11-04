@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Cucina · Picchio Rosso</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0F0E0C">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Cucina">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icona-192.png"><link rel="apple-touch-icon" href="icona-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wdth,wght@85..100,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body data-tema="sera">
+
+<section class="pin" id="pin">
+  <div class="pin-box">
+    <img src="../img/brand/logo-badge.png" alt="Pizzeria Picchio Rosso" width="92" height="92">
+    <p class="pin-nome">Cucina</p>
+    <div class="caselle" aria-live="polite"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <p class="pin-msg" role="status"></p>
+    <div class="tast" id="tast-pin">
+      <button>1</button><button>2</button><button>3</button><button>4</button><button>5</button><button>6</button><button>7</button><button>8</button><button>9</button><span></span><button>0</button><button data-k="c" aria-label="Cancella"><i class="ph-bold ph-backspace"></i></button>
+    </div>
+  </div>
+</section>
+
+<div class="app" id="app" hidden>
+  <div class="fascia" id="fascia" hidden></div>
+  <nav class="nav" aria-label="Sezioni">
+    <button data-v="ordini" aria-current="true"><i class="ph-fill ph-receipt"></i><span>Ordini</span><em hidden></em></button>
+    <button data-v="menu"><i class="ph-bold ph-pizza"></i><span>Menù</span></button>
+    <button data-v="ingredienti"><i class="ph-bold ph-carrot"></i><span>Ingredienti</span></button>
+    <button data-v="impostazioni"><i class="ph-bold ph-gear-six"></i><span>Impostazioni</span></button>
+    <div class="nav-ora"><b id="ora">--:--</b><span id="rete">online</span></div>
+  </nav>
+  <main>
+    <section class="vista su" data-vista="ordini">
+      <div class="fasi" id="fasi"><button data-f="nuovi" aria-pressed="true">Nuovi <b>0</b></button><button data-f="cucina" aria-pressed="false">Cucina <b>0</b></button><button data-f="fuori" aria-pressed="false">Fuori <b>0</b></button></div>
+      <div class="banco" id="banco" data-fase="nuovi"></div>
+    </section>
+    <section class="vista" data-vista="menu">
+      <div class="menu-g">
+        <div class="cats" id="cats"></div>
+        <div class="menu-d">
+          <div class="str"><label class="cerca"><i class="ph-bold ph-magnifying-glass"></i><input id="q-menu" type="search" placeholder="Cerca un piatto" autocomplete="off"></label><div class="seg" id="seg-menu"><button aria-pressed="true" data-m="tutti">Tutti</button><button aria-pressed="false" data-m="spenti">Spenti</button></div></div>
+          <div id="righe"></div>
+        </div>
+      </div>
+    </section>
+    <section class="vista" data-vista="ingredienti">
+      <div class="str"><label class="cerca"><i class="ph-bold ph-magnifying-glass"></i><input id="q-ing" type="search" placeholder="Cerca un ingrediente" autocomplete="off"></label></div>
+      <div id="tessere"></div>
+    </section>
+    <section class="vista" data-vista="impostazioni"><div class="imp" id="imp"></div></section>
+  </main>
+</div>
+
+<div class="velo" id="velo" hidden></div>
+<aside class="pann" id="pann" role="dialog" aria-modal="true" hidden></aside>
+<div class="avv" id="avv" role="status"><span></span><button>Annulla</button><u></u></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
