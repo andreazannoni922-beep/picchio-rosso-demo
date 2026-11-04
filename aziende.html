@@ -2,6 +2,7 @@
 <html lang="it">
 <head>
 <meta charset="utf-8">
+<script>try{if(sessionStorage.getItem('pr-via'))document.documentElement.classList.add('arrivo')}catch(e){}</script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Convenzioni aziende · Pausa pranzo a Fiorano · Picchio Rosso</title>
 <meta name="description" content="Convenzioni per le aziende di Fiorano Modenese e dintorni: prezzi riservati, consegna calda, buoni pasto.">
@@ -21,45 +22,54 @@
   <nav>
     <a class="tel" href="tel:+3905361753948"><span class="col"><span>0536 175 3948</span><span>0536 175 3948</span></span></a>
     <a class="ordina" href="menu.html"><span class="col"><span>Ordina</span><span>Ordina</span></span></a>
-    <button data-apri-menu aria-label="Apri il menu"><span class="col"><span>Menù</span><span>Menù</span></span><span class="barre"><i></i><i></i></span></button>
+    <a class="vai-menu" href="menu.html"><span class="col"><span>Menù</span><span>Menù</span></span></a>
+    <button class="apri-tutto" data-apri-menu aria-label="Apri la navigazione"><span class="barre"><i></i><i></i></span></button>
   </nav>
 </header>
 <main class="tema-notte">
-  <section class="p-chiaro">
-    <div>
-      <h1 class="display">La pausa pranzo è una cosa seria.</h1>
-      <p>Non solo pizza: primi, secondi e contorni della tradizione. Prezzi riservati e consegna calda in ufficio, dal lunedì al sabato tra mezzogiorno e le due.</p>
-      <a class="btn rosso" href="#richiesta">Richiedi la convenzione </a>
+  <section class="a-eroe">
+    <div class="fisso">
+      <div class="a-foto"><img src="img/pizze/calzone-fritto.jpg" alt="Calzone fritto servito sul tavolo di legno" width="1200" height="900"></div>
+      <h1 class="display" data-sale><span class="riga"><span>La pausa pranzo</span></span><span class="riga"><span>è una cosa seria.</span></span></h1>
+      <div class="a-sotto"><p>Non solo pizza: primi, secondi e contorni della tradizione. Prezzi riservati e consegna calda in ufficio, dal lunedì al sabato tra mezzogiorno e le due.</p><a class="bott crema" href="#richiesta">Richiedi la convenzione</a></div>
     </div>
-    <div class="img"><img src="img/pizze/calzone-fritto.jpg" alt="Calzone fritto e pizze sul tavolo di legno" width="1448" height="1086"></div>
   </section>
 
   <section class="vantaggi">
-    <div class="vantaggio"><h3>Prezzi riservati</h3><p>Condizioni dedicate ai dipendenti dell'azienda convenzionata. Un accordo stabile che vale tutto l'anno.</p></div>
-    <div class="vantaggio"><h3>Pizza e cucina</h3><p>A pranzo c'è anche chi vuole cambiare: primi, secondi e contorni della cucina di tradizione.</p></div>
-    <div class="vantaggio"><h3>Arriva caldo, all'ora giusta</h3><p>Il forno viaggia a bordo delle nostre auto. In paese 2 €, fuori comune da 3 €.</p></div>
-    <div class="vantaggio"><h3>Buoni pasto</h3><p>I principali circuiti, cartacei ed elettronici: Edenred, Pellegrini, Day, Sodexo, Repas e Ticket Restaurant.</p></div>
+    <div class="foglio f1"><div class="foglio-d"><h3>Prezzi riservati</h3><p>Condizioni dedicate ai dipendenti dell'azienda convenzionata. Un accordo stabile che vale tutto l'anno.</p><img src="img/cut/margherita.webp" alt="" aria-hidden="true" loading="lazy"></div></div>
+    <div class="foglio f2"><div class="foglio-d"><h3>Pizza e cucina</h3><p>A pranzo c'è anche chi vuole cambiare: primi, secondi e contorni della cucina di tradizione.</p><img src="img/cut/calzone-fritto.webp" alt="" aria-hidden="true" loading="lazy"></div></div>
+    <div class="foglio f3"><div class="foglio-d"><video poster="media/forno.jpg" src="media/forno.mp4" autoplay muted loop playsinline aria-hidden="true"></video><h3>Arriva caldo, all'ora giusta</h3><p>Il forno viaggia a bordo delle nostre auto. In paese 2 €, fuori comune da 3 €.</p></div></div>
+    <div class="foglio f4"><div class="foglio-d"><h3>Buoni pasto</h3><p>I principali circuiti, cartacei ed elettronici.</p><div class="circuiti"><span>Edenred</span><span>Pellegrini</span><span>Day</span><span>Sodexo</span><span>Repas</span><span>Ticket Restaurant</span></div></div></div>
   </section>
 
   <section class="passaggi">
-    <h2 class="display">Si comincia con una telefonata.</h2>
-    <div class="passaggi-righe">
-      <div class="passaggio"><small>Prima</small><h3>Ci conosciamo.</h3><p>Ci lasci il nome dell'azienda e quante persone siete.</p></div>
-      <div class="passaggio"><small>Poi</small><h3>La facciamo su misura.</h3><p>Concordiamo prezzi, menù della pausa pranzo e giorni di consegna.</p></div>
-      <div class="passaggio"><small>Da lì in poi</small><h3>Si va a tavola.</h3><p>Basta una chiamata o un messaggio. Inforniamo e consegniamo caldo, in orario per la pausa.</p></div>
+    <div class="fisso">
+      <h2 class="display">Si comincia con una telefonata.</h2>
+      <div>
+        <div class="pista" aria-hidden="true"><i></i><img src="img/cut/margherita.webp" alt=""></div>
+        <div class="passaggi-righe">
+          <div class="passaggio"><small>Prima</small><h3>Ci conosciamo.</h3><p>Ci lasci il nome dell'azienda e quante persone siete.</p></div>
+          <div class="passaggio"><small>Poi</small><h3>La facciamo su misura.</h3><p>Concordiamo prezzi, menù della pausa pranzo e giorni di consegna.</p></div>
+          <div class="passaggio"><small>Da lì in poi</small><h3>Si va a tavola.</h3><p>Basta una chiamata o un messaggio. Inforniamo e consegniamo caldo, in orario per la pausa.</p></div>
+        </div>
+      </div>
     </div>
   </section>
 
   <section class="richiesta" id="richiesta">
-    <h2 class="display">Parliamone. Davanti a una pizza.</h2>
+    <h2 class="display" data-parole>Parliamone. Davanti a una pizza.</h2>
     <form id="conv" novalidate>
-      <div class="campo"><label for="c-az">Nome dell'azienda</label><input id="c-az" required></div>
-      <div class="campo"><label for="c-n">Quante persone siete?</label><input id="c-n" inputmode="numeric"></div>
-      <div class="campo"><label for="c-m">La vostra richiesta</label><textarea id="c-m"></textarea></div>
-      <button class="btn rosso" type="submit">Prepara il messaggio WhatsApp </button>
-      <small>Si apre WhatsApp con i dati inseriti: il messaggio parte solo quando lo invii tu. Oppure chiama il <a href="tel:+393493838146">349 383 8146</a>.</small>
+      <div class="c-frase">
+        Siamo <label class="vh" for="c-az">Nome dell'azienda</label><input id="c-az" required placeholder="nome azienda" autocomplete="organization"> in <label class="vh" for="c-n">Quante persone siete?</label><input id="c-n" inputmode="numeric" placeholder="quanti"> persone.
+        <label class="vh" for="c-m">La vostra richiesta</label><textarea id="c-m" placeholder="Giorni, orari, cosa vi serve"></textarea>
+      </div>
+      <div class="richiesta-b">
+        <button class="bott crema" type="submit">Prepara il messaggio WhatsApp</button>
+        <small>Si apre WhatsApp con i dati inseriti: il messaggio parte solo quando lo invii tu. Oppure chiama il <a href="tel:+393493838146">349 383 8146</a>.</small>
+      </div>
     </form>
   </section>
+  <a class="prossima" href="contatti.html"><small>Continua con</small><b>Contatti</b><img src="img/cut/bianca.webp" alt="" aria-hidden="true" loading="lazy"></a>
 </main>
 <footer class="piede">
   <img src="img/brand/logo-badge.png" alt="Pizzeria Picchio Rosso" width="640" height="640" loading="lazy">
@@ -90,7 +100,7 @@
 document.getElementById('conv').addEventListener('submit', e => {
   e.preventDefault();
   const az = document.getElementById('c-az').value.trim();
-  if (!az) { document.getElementById('c-az').style.borderColor = 'var(--rosso)'; return; }
+  if (!az) { const c = document.getElementById('c-az'); c.classList.add('manca'); c.focus(); return; }
   const t = `Ciao Picchio Rosso, vorremmo una convenzione per la pausa pranzo.\nAzienda: ${az}\nPersone: ${document.getElementById('c-n').value || '-'}\n${document.getElementById('c-m').value}`;
   open('https://wa.me/393493838146?text=' + encodeURIComponent(t), '_blank', 'noopener');
 });

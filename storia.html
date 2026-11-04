@@ -2,6 +2,7 @@
 <html lang="it">
 <head>
 <meta charset="utf-8">
+<script>try{if(sessionStorage.getItem('pr-via'))document.documentElement.classList.add('arrivo')}catch(e){}</script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>La storia · Forno a legna dal 2014 · Picchio Rosso</title>
 <meta name="description" content="Dal 2014 a Fiorano Modenese: la storia di Alessandro e del forno a legna del Picchio Rosso.">
@@ -21,41 +22,51 @@
   <nav>
     <a class="tel" href="tel:+3905361753948"><span class="col"><span>0536 175 3948</span><span>0536 175 3948</span></span></a>
     <a class="ordina" href="menu.html"><span class="col"><span>Ordina</span><span>Ordina</span></span></a>
-    <button data-apri-menu aria-label="Apri il menu"><span class="col"><span>Menù</span><span>Menù</span></span><span class="barre"><i></i><i></i></span></button>
+    <a class="vai-menu" href="menu.html"><span class="col"><span>Menù</span><span>Menù</span></span></a>
+    <button class="apri-tutto" data-apri-menu aria-label="Apri la navigazione"><span class="barre"><i></i><i></i></span></button>
   </nav>
 </header>
 <main class="tema-notte">
-  <section class="p-eroe">
-    <div class="sfondo"><video poster="media/forno.jpg" src="media/forno.mp4" autoplay muted loop playsinline aria-hidden="true" style="width:100%;height:100%;object-fit:cover;object-position:30% 50%"></video></div>
-    <h1 class="display">Un forno acceso. Il resto è venuto dopo.</h1>
-    <div class="sotto"><p>Nel 2014 Alessandro ha acceso il forno per la prima volta. Aveva vent'anni e già otto di gavetta alle spalle.</p><a class="btn linea" href="#anni">La storia, anno per anno</a></div>
-  </section>
-
-  <section class="anni" id="anni">
-    <div class="anni-fisso"><div class="anni-num" aria-hidden="true"><span>2014</span></div></div>
-    <div class="anni-testi">
-      <article class="anno" data-n="2014"><h2 class="display">Vent'anni. E otto di gavetta.</h2><p>Tutto è iniziato al Picchio Rosso di Spezzano, dove le cose buone si fanno notare in fretta. Partiti con due macchine per le consegne e l'ossessione per la pizza fatta a regola d'arte.</p></article>
-      <article class="anno" data-n="Fiorano"><h2 class="display">Il grande passo.</h2><p>Poi Fiorano, e il nostro forno a legna. Niente gas, niente compromessi: solo legna di faggio. Se una pizza non ci convince, si rifà da capo.</p></article>
-      <article class="anno" data-n="10+"><h2 class="display">La pizza buona, fino a casa.</h2><p>Oggi le auto sono più di dieci, e in ognuna il forno resta caldo fino alla tua porta. Consegne calde e puntuali, ogni sera.</p></article>
-      <article class="anno" data-n="Oggi"><h2 class="display">La promessa non cambia.</h2><p>Tre impasti studiati, ingredienti scelti con cura, più di cento pizze in carta. La promessa è sempre quella: se non è perfetta, dal nostro locale non esce.</p></article>
+  <section class="s-eroe">
+    <div class="fisso">
+      <div class="fondo"><video poster="media/forno.jpg" src="media/forno.mp4" autoplay muted loop playsinline aria-hidden="true"></video></div>
+      <h1 class="display" data-sale><span class="riga"><span>Un forno acceso.</span></span><span class="riga"><span>Il resto è</span></span><span class="riga"><span>venuto dopo.</span></span></h1>
+      <div class="sotto"><p>Nel 2014 Alessandro ha acceso il forno per la prima volta. Aveva vent'anni e già otto di gavetta alle spalle.</p></div>
     </div>
   </section>
 
-  <section class="striscia">
-    <h2 class="display">Da Fiorano. Con carattere.</h2>
-    <div class="striscia-righe">
-      <figure><div class="cornice"><img src="img/gare/paestum-2022.jpg" alt="Il trofeo del Campionato Nazionale Pizza DOC di Paestum" loading="lazy" style="object-position:40% 50%"></div><figcaption><b>Paestum</b><span>Campionato Nazionale Pizza DOC</span></figcaption></figure>
-      <figure><div class="cornice"><img src="img/gare/rimini-2023-pizza.jpg" alt="Al Campionato del Mondo della Pizza di Rimini" loading="lazy"></div><figcaption><b>Rimini</b><span>Campionato del Mondo della Pizza</span></figcaption></figure>
+  <section class="anni" id="anni">
+    <div class="fisso">
+      <div class="anni-nastro">
+        <article class="capitolo"><div class="cap-n" aria-hidden="true">2014</div><div class="cap-basso"><div><h2 class="display">Vent'anni. E otto di gavetta.</h2><p>Tutto è iniziato al Picchio Rosso di Spezzano, dove le cose buone si fanno notare in fretta. Partiti con due macchine per le consegne e l'ossessione per la pizza fatta a regola d'arte.</p></div><div class="cap-f"><img src="img/scena/forno-sfocato.jpg" alt="" loading="lazy"></div></div></article>
+        <article class="capitolo"><div class="cap-n" aria-hidden="true">Fiorano</div><div class="cap-basso"><div><h2 class="display">Il grande passo.</h2><p>Poi Fiorano, e il nostro forno a legna. Niente gas, niente compromessi: solo legna di faggio. Se una pizza non ci convince, si rifà da capo.</p></div><div class="cap-f"><img src="media/forno.jpg" alt="" loading="lazy"></div></div></article>
+        <article class="capitolo"><div class="cap-n" aria-hidden="true" data-conta>2</div><div class="cap-basso"><div><h2 class="display">La pizza buona, fino a casa.</h2><p>Oggi le auto sono più di dieci, e in ognuna il forno resta caldo fino alla tua porta. Consegne calde e puntuali, ogni sera.</p></div><div class="cap-f"><img src="img/pizze/tavola.jpg" alt="" loading="lazy"></div></div></article>
+        <article class="capitolo"><div class="cap-n" aria-hidden="true">Oggi</div><div class="cap-basso"><div><h2 class="display">La promessa non cambia.</h2><p>Tre impasti studiati, ingredienti scelti con cura, più di cento pizze in carta. La promessa è sempre quella: se non è perfetta, dal nostro locale non esce.</p></div><div class="cap-f"><img src="img/pizze/margherita-tavolo.jpg" alt="" loading="lazy"></div></div></article>
       </div>
+      <div class="anni-linea" aria-hidden="true"></div>
+      <img class="anni-ruota" src="img/cut/margherita.webp" alt="" aria-hidden="true">
+    </div>
   </section>
 
-  <section class="impasti">
-    <h2 class="display">Tre impasti. Un solo fuoco.</h2>
-    <div class="impasto"><h3>Tradizionale</h3><p>Lievitato 24 ore. Il nostro impasto di sempre, leggero e digeribile, cotto nel forno a legna.</p></div>
-    <div class="impasto"><h3>Integrale al 100%</h3><p>Più fibre e sali minerali. Tutto il carattere dell'integrale, non il solito ripiego.</p></div>
-    <div class="impasto"><h3>Ai cereali</h3><p>Con farina macinata a pietra. Scegli tu quale: finiscono tutti nel forno a legna, uno per uno.</p></div>
-    <a class="btn rosso" href="menu.html" style="margin-top:40px">Scegli la tua </a>
+  <section class="trofei">
+    <h2 class="display">Da Fiorano.<br>Con<br>carattere.</h2>
+    <div class="trofei-foto">
+      <figure><div class="cornice"><img src="img/gare/paestum-2022.jpg" alt="Il trofeo del Campionato Nazionale Pizza DOC di Paestum" width="1400" height="934" loading="lazy"></div><figcaption><b>Paestum</b><span>Campionato Nazionale Pizza DOC</span></figcaption></figure>
+      <figure><div class="cornice"><img src="img/gare/rimini-2023-pizza.jpg" alt="Al Campionato del Mondo della Pizza di Rimini" width="900" height="1352" loading="lazy"></div><figcaption><b>Rimini</b><span>Campionato del Mondo della Pizza</span></figcaption></figure>
+    </div>
   </section>
+
+  <section class="tre" data-tono="chiaro">
+    <div class="fisso">
+      <h2 class="display">Tre impasti. Un solo fuoco.</h2>
+      <div class="impasto"><h3>Tradizionale</h3><div><p>Lievitato 24 ore. Il nostro impasto di sempre, leggero e digeribile, cotto nel forno a legna.</p></div></div>
+      <div class="impasto"><h3>Integrale al 100%</h3><div><p>Più fibre e sali minerali. Tutto il carattere dell'integrale, non il solito ripiego.</p></div></div>
+      <div class="impasto"><h3>Ai cereali</h3><div><p>Con farina macinata a pietra. Scegli tu quale: finiscono tutti nel forno a legna, uno per uno.</p></div></div>
+      <a class="bott rosso-b" href="menu.html">Scegli la tua</a>
+      <img class="tre-pizza" src="img/cut/margherita.webp" alt="" aria-hidden="true" loading="lazy">
+    </div>
+  </section>
+  <a class="prossima" href="aziende.html"><small>Continua con</small><b>Aziende</b><img src="img/cut/crocche.webp" alt="" aria-hidden="true" loading="lazy"></a>
 </main>
 <footer class="piede">
   <img src="img/brand/logo-badge.png" alt="Pizzeria Picchio Rosso" width="640" height="640" loading="lazy">

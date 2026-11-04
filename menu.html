@@ -2,6 +2,7 @@
 <html lang="it">
 <head>
 <meta charset="utf-8">
+<script>try{if(sessionStorage.getItem('pr-via'))document.documentElement.classList.add('arrivo')}catch(e){}</script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Il menù · Ordina a Fiorano Modenese · Picchio Rosso</title>
 <meta name="description" content="Il menù completo del Picchio Rosso: pizze classiche, gourmet, le 2.0, ruote di carro, calzoni, fritti e dolci. Ordina online, consegna a casa o ritiro a Fiorano Modenese.">
@@ -12,6 +13,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Extra+Condensed:wght@700;800;900&family=Sofia+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/site.css">
 <link rel="stylesheet" href="assets/css/ordine-ui.css">
+<link rel="stylesheet" href="assets/css/pagine.css">
 </head>
 <body data-pagina="menu">
 <div class="grana" aria-hidden="true"></div>
@@ -20,20 +22,22 @@
   <nav>
     <a class="tel" href="tel:+3905361753948"><span class="col"><span>0536 175 3948</span><span>0536 175 3948</span></span></a>
     <button class="ordina" data-apri-carrello aria-label="Apri il tuo ordine"><span class="col"><span>Ordine</span><span>Ordine</span></span> <b class="conta">0</b></button>
-    <button data-apri-menu aria-label="Apri il menu"><span class="col"><span>Menù</span><span>Menù</span></span><span class="barre"><i></i><i></i></span></button>
+    <a class="vai-menu" href="menu.html"><span class="col"><span>Menù</span><span>Menù</span></span></a>
+    <button class="apri-tutto" data-apri-menu aria-label="Apri la navigazione"><span class="barre"><i></i><i></i></span></button>
   </nav>
 </header>
 <main>
-  <section class="m-testa">
-    <div class="m-testa-foto" aria-hidden="true">
-      <img src="img/cut/margherita.webp" alt=""><img src="img/cut/radicchio.webp" alt=""><img src="img/cut/burrata.webp" alt="">
-    </div>
-    <h1 class="display">Stasera cosa<br>inforniamo?</h1>
-    <div class="m-testa-basso">
-      <p>Tutto il menù, prezzi veri, aggiornato dalla cucina in tempo reale. Ordini qui, paghi alla consegna.</p>
-      <div class="interruttore" id="modo"><i></i>
-        <button data-modo="consegna">A casa<small>consegna 2 € in paese</small></button>
-        <button data-modo="asporto">Passo io<small>Via Machiavelli 2</small></button>
+  <section class="m-palco">
+    <div class="fisso">
+      <video class="m-fuoco" poster="media/forno.jpg" src="media/forno.mp4" autoplay muted loop playsinline aria-hidden="true"></video>
+      <h1 class="display" data-sale><span class="riga"><span>Stasera</span></span><span class="riga"><span>cosa</span></span><span class="riga"><span>inforniamo?</span></span></h1>
+      <img class="m-pi" src="img/cut/margherita.webp" alt="" aria-hidden="true"><img class="m-pi" src="img/cut/radicchio.webp" alt="" aria-hidden="true"><img class="m-pi" src="img/cut/burrata.webp" alt="" aria-hidden="true">
+      <div class="m-giu">
+        <p>Tutto il menù, prezzi veri, aggiornato dalla cucina in tempo reale. Ordini qui, paghi alla consegna.</p>
+        <div class="interruttore" id="modo"><i></i>
+          <button data-modo="consegna">A casa<small>consegna 2 € in paese</small></button>
+          <button data-modo="asporto">Passo io<small>Via Machiavelli 2</small></button>
+        </div>
       </div>
     </div>
   </section>
@@ -46,6 +50,7 @@
     <div class="m-lista" aria-live="polite"><p class="carica">Accendiamo il forno…</p></div>
     <aside class="m-carrello" aria-label="Il tuo ordine"></aside>
   </div>
+  <a class="prossima" href="storia.html"><small>Continua con</small><b>La storia</b><img src="img/cut/rossa-nero.webp" alt="" aria-hidden="true" loading="lazy"></a>
 </main>
 
 <div class="barra-ordine" data-apri-carrello hidden><span class="b-n"></span><span>Vedi ordine →</span><span class="b-t"></span></div>
@@ -75,6 +80,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
 <script src="assets/js/core.js"></script>
+<script src="assets/js/pagine.js"></script>
 <script src="assets/js/menu.js"></script>
 <script src="assets/js/sezioni.js"></script>
 </body>

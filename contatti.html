@@ -2,6 +2,7 @@
 <html lang="it">
 <head>
 <meta charset="utf-8">
+<script>try{if(sessionStorage.getItem('pr-via'))document.documentElement.classList.add('arrivo')}catch(e){}</script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Contatti · Via Machiavelli 2, Fiorano Modenese · Picchio Rosso</title>
 <meta name="description" content="Telefono, WhatsApp, indirizzo e orari della pizzeria Picchio Rosso a Fiorano Modenese.">
@@ -21,34 +22,48 @@
   <nav>
     <a class="tel" href="tel:+3905361753948"><span class="col"><span>0536 175 3948</span><span>0536 175 3948</span></span></a>
     <a class="ordina" href="menu.html"><span class="col"><span>Ordina</span><span>Ordina</span></span></a>
-    <button data-apri-menu aria-label="Apri il menu"><span class="col"><span>Menù</span><span>Menù</span></span><span class="barre"><i></i><i></i></span></button>
+    <a class="vai-menu" href="menu.html"><span class="col"><span>Menù</span><span>Menù</span></span></a>
+    <button class="apri-tutto" data-apri-menu aria-label="Apri la navigazione"><span class="barre"><i></i><i></i></span></button>
   </nav>
 </header>
 <main class="tema-notte">
-  <section class="p-eroe" style="min-height:auto;padding-bottom:12vh">
-    <h1 class="display">Ci siamo.</h1>
-    <div class="sotto"><p>Chiama, scrivici o passa a trovarci. Ti rispondiamo noi, quelli che la pizza la fanno davvero.</p><a class="btn rosso" href="menu.html">Oppure ordina dal sito </a></div>
-    <div class="numeri">
-      <a href="tel:+3905361753948">0536 175 3948<small>al telefono, il più veloce</small></a>
-      <a href="tel:+390598678224">059 867 8224<small>Formigine</small></a>
-      <a href="https://wa.me/393493838146" target="_blank" rel="noopener">349 383 8146<small>WhatsApp</small></a>
-      <a href="https://wa.me/393761867403" target="_blank" rel="noopener">376 186 7403<small>WhatsApp</small></a>
+  <section class="c-eroe">
+    <video poster="media/forno.jpg" src="media/forno.mp4" autoplay muted loop playsinline aria-hidden="true"></video>
+    <div>
+      <p class="c-stato" data-stato></p>
+      <h1 class="display" data-sale><span class="riga"><span>Ci siamo.</span></span></h1>
+      <div class="c-basso"><p>Chiama, scrivici o passa a trovarci. Ti rispondiamo noi, quelli che la pizza la fanno davvero.</p><a class="bott crema" href="menu.html">Oppure ordina dal sito</a></div>
     </div>
   </section>
+
+  <section class="numeri">
+    <a href="tel:+3905361753948"><span>0536 175 3948</span><small>al telefono, il più veloce</small><img src="img/cut/margherita.webp" alt="" aria-hidden="true" loading="lazy"></a>
+    <a href="tel:+390598678224"><span>059 867 8224</span><small>Formigine</small><img src="img/cut/rossa-nero.webp" alt="" aria-hidden="true" loading="lazy"></a>
+    <a href="https://wa.me/393493838146" target="_blank" rel="noopener"><span>349 383 8146</span><small>WhatsApp</small><img src="img/cut/burrata.webp" alt="" aria-hidden="true" loading="lazy"></a>
+    <a href="https://wa.me/393761867403" target="_blank" rel="noopener"><span>376 186 7403</span><small>WhatsApp</small><img src="img/cut/radicchio.webp" alt="" aria-hidden="true" loading="lazy"></a>
+  </section>
+
   <section class="dove">
-    <iframe title="Mappa: Via Machiavelli 2, Fiorano Modenese" loading="lazy" src="https://maps.google.com/maps?q=Via%20Machiavelli%202%2C%2041042%20Fiorano%20Modenese&z=16&output=embed"></iframe>
-    <div class="dove-testo">
+    <div class="fisso">
+      <div class="dove-mappa"><iframe title="Mappa: Via Machiavelli 2, Fiorano Modenese" loading="lazy" src="https://maps.google.com/maps?q=Via%20Machiavelli%202%2C%2041042%20Fiorano%20Modenese&z=16&output=embed"></iframe></div>
       <h2 class="display">Via Machiavelli 2.</h2>
-      <p style="color:var(--ink-2);font-size:18px">41042 Fiorano Modenese, dentro il centro commerciale. <a href="https://maps.google.com/?q=Via+Machiavelli+2+Fiorano+Modenese" target="_blank" rel="noopener" style="text-decoration:underline">Portami qui ↗</a></p>
-      <div class="orari">
-        <div><span>Lunedì – sabato</span><span>12–14 · 18–24</span></div>
-        <div><span>Domenica e festivi</span><span>18–24</span></div>
-        <div><span>Consegna in paese</span><span>2 €</span></div>
-        <div><span>Fuori comune</span><span>da 3 €</span></div>
-      </div>
-      <p style="color:var(--ink-2)">Contanti, carta, buoni pasto, Satispay, PagoBancomat e inprimePay. Anche alla consegna.</p>
+      <a class="bott crema dove-vai" href="https://maps.google.com/?q=Via+Machiavelli+2+Fiorano+Modenese" target="_blank" rel="noopener">Portami qui</a>
     </div>
   </section>
+
+  <section class="foglio-orari" data-tono="chiaro">
+    <div class="orari">
+      <div data-oggi><span>Lunedì – sabato</span><span>12–14 · 18–24</span></div>
+      <div data-festa><span>Domenica e festivi</span><span>18–24</span></div>
+      <div><span>Consegna in paese</span><span>2 €</span></div>
+      <div><span>Fuori comune</span><span>da 3 €</span></div>
+    </div>
+    <div>
+      <p><b>Dentro il centro commerciale.</b>41042 Fiorano Modenese.</p>
+      <p>Contanti, carta, buoni pasto, Satispay, PagoBancomat e inprimePay. Anche alla consegna.</p>
+    </div>
+  </section>
+  <a class="prossima" href="menu.html"><small>Continua con</small><b>Il menù</b><img src="img/cut/radicchio.webp" alt="" aria-hidden="true" loading="lazy"></a>
 </main>
 <footer class="piede">
   <img src="img/brand/logo-badge.png" alt="Pizzeria Picchio Rosso" width="640" height="640" loading="lazy">

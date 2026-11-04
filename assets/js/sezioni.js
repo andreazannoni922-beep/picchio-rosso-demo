@@ -6,6 +6,7 @@
   const fermo = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const av = (el, a = .1) => { const r = el.getBoundingClientRect(); return clamp(-r.top / (el.offsetHeight - innerHeight || 1)); };
   const passi = [];
+  const te = $('[data-testa]'), chiare = $$('[data-tono=chiaro]');
   const ogni = f => passi.push(f);
   const vista = (el, fn, opz = { threshold: .25 }) => new IntersectionObserver((es, o) => es.forEach(e => { if (e.isIntersecting) { fn(e.target); o.unobserve(e.target); } }), opz).observe(el);
   const parole = el => { const t = el.textContent.trim().split(/\s+/); el.innerHTML = t.map(w => `<span class="p">${w}</span>`).join(' '); return $$('.p', el); };
@@ -83,62 +84,21 @@
     });
   }
 
-  /* carta: il calore scioglie la carta e scopre la tavola; il titolo è inchiostro sulla carta */
+  /* carta: il coperchio del cartone si apre con lo scroll e scopre la tavola */
   const cc = $('[data-carta]');
-  if (cc) {
-    const tv = $('.carta-tela', cc), x = tv.getContext('2d'), M = document.createElement('canvas'), mx = M.getContext('2d');
-    let W, H, D, fs, vivo = false, last = null, auto = -1;
-    const RID = .25;
-    const dim = () => {
-      D = Math.min(devicePixelRatio || 1, 1.5); W = cc.clientWidth; H = cc.clientHeight;
-      tv.width = W * D; tv.height = H * D; M.width = W * RID; M.height = H * RID;
-      x.font = `900 100px 'Sofia Sans Extra Condensed'`;
-      const lungo = W <= 760 ? 'Ancora calda.' : 'Ancora calda.';
-      fs = Math.min(W * .94 / (x.measureText(lungo.toUpperCase()).width / 100), H * .36);
-    };
-    const timbro = (px, py, r) => {
-      const n = 7;
-      for (let i = 0; i < n; i++) {
-        const a = Math.random() * 6.28, d = Math.random() * r * .7;
-        const g = mx.createRadialGradient(0, 0, 0, 0, 0, 1); g.addColorStop(0, 'rgba(0,0,0,.95)'); g.addColorStop(.72, 'rgba(0,0,0,.72)'); g.addColorStop(1, 'rgba(0,0,0,0)');
-        mx.save(); mx.translate((px + Math.cos(a) * d) * RID, (py + Math.sin(a) * d) * RID); mx.scale(r * RID * (.5 + Math.random() * .5), r * RID * (.5 + Math.random() * .5)); mx.fillStyle = g; mx.beginPath(); mx.arc(0, 0, 1, 0, 6.3); mx.fill(); mx.restore();
-      }
-    };
-    cc.addEventListener('pointermove', e => {
-      const r = cc.getBoundingClientRect(), px = e.clientX - r.left, py = e.clientY - r.top;
-      const v = last ? Math.hypot(px - last[0], py - last[1]) : 0;
-      const b = Math.min(W, H) * .1 + Math.min(v, 60) * 1.5;
-      if (last) { const st = Math.max(1, Math.floor(v / 20)); for (let i = 1; i <= st; i++) timbro(last[0] + (px - last[0]) * i / st, last[1] + (py - last[1]) * i / st, b); } else timbro(px, py, b);
-      last = [px, py];
+  let suCoperchio = false;
+  if (cc && !fermo) {
+    const co = $('.coperchio', cc), ft = $('.carta-foto', cc), om = $('.carta-ombra', cc), inf = $('.carta-info', cc);
+    ogni(() => {
+      const r = cc.getBoundingClientRect(); if (r.bottom < -80 || r.top > innerHeight + 80) return;
+      const p = clamp(-r.top / (cc.offsetHeight - innerHeight)), k = io(seg(p, .06, .7));
+      co.style.transform = `rotateX(${k * 112}deg)`;
+      co.style.visibility = k >= 1 ? 'hidden' : 'visible';
+      ft.style.transform = `scale(${1.16 - k * .16})`;
+      om.style.opacity = 1 - seg(p, .35, .8);
+      const a = seg(p, .68, .86); inf.style.opacity = a; inf.style.transform = `translateY(${(1 - a) * 34}px)`; inf.style.visibility = a > .02 ? 'visible' : 'hidden';
+      suCoperchio = p < .34 && r.top < 40;
     });
-    cc.addEventListener('pointerleave', () => last = null);
-    const T = document.createElement('canvas'), tx = T.getContext('2d');
-    const disegna = now => {
-      if (!vivo) return;
-      if (auto > 0) { const k = (now - auto) / 2600; if (k < 1) timbro(W * (-.05 + k * 1.1), H * (.46 + Math.sin(k * 6) * .16), Math.min(W, H) * .12); else auto = -2; }
-      // la carta si richiude piano
-      mx.globalCompositeOperation = 'destination-out'; mx.fillStyle = 'rgba(0,0,0,.014)'; mx.fillRect(0, 0, M.width, M.height); mx.globalCompositeOperation = 'source-over';
-      const P = W * D, Q = H * D;
-      x.globalCompositeOperation = 'source-over'; x.clearRect(0, 0, P, Q);
-      x.fillStyle = '#f4ead9'; x.fillRect(0, 0, P, Q);
-      x.fillStyle = '#120b08'; x.textBaseline = 'top'; x.textAlign = 'center';
-      x.font = `900 ${fs * D}px 'Sofia Sans Extra Condensed'`;
-      const y0 = (W <= 760 ? H * .14 : H * .1) * D, lh = fs * D * .84;
-      x.fillText('A CASA.', P / 2, y0); x.fillText('ANCORA CALDA.', P / 2, y0 + lh);
-      // alone bruciato attorno al buco
-      if (T.width !== P) { T.width = P; T.height = Q; }
-      tx.clearRect(0, 0, P, Q); tx.globalCompositeOperation = 'source-over'; tx.filter = 'none';
-      tx.imageSmoothingEnabled = true; tx.drawImage(M, -P * .006, -Q * .006, P * 1.012, Q * 1.012);
-      tx.globalCompositeOperation = 'source-in'; tx.fillStyle = '#3a1a08'; tx.fillRect(0, 0, P, Q);
-      x.globalCompositeOperation = 'source-atop'; x.globalAlpha = .9; x.drawImage(T, 0, 0); x.globalAlpha = 1;
-      x.globalCompositeOperation = 'destination-out';
-      x.imageSmoothingEnabled = true; x.drawImage(M, 0, 0, P, Q); x.drawImage(M, 0, 0, P, Q);
-      x.globalCompositeOperation = 'source-over';
-    };
-    ogni(disegna);
-    const ini = () => { dim(); };
-    (document.fonts ? document.fonts.ready : Promise.resolve()).then(ini); ini(); addEventListener('resize', dim);
-    new IntersectionObserver(([e]) => { vivo = e.isIntersecting; if (vivo && auto === -1 && !matchMedia('(pointer:fine)').matches) auto = performance.now(); }, { threshold: .15 }).observe(cc);
   }
 
   /* roba buona: le parole si mettono a fuoco; i fornitori scorrono solo se scorri */
@@ -155,10 +115,9 @@
   if (fi) { const im2 = $('img', fi); ogni(() => { const r = fi.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return; im2.style.transform = `translate3d(0,${r.top * -.09}px,0)`; }); }
 
   /* testata: colore sulle sezioni chiare, sparisce scendendo */
-  const te = $('[data-testa]'), chiare = $$('[data-tono=chiaro]');
   let yP = 0;
   ogni(() => {
-    te.classList.toggle('su-chiaro', chiare.some(s => { const r = s.getBoundingClientRect(); return r.top < 40 && r.bottom > 40; }));
+    te.classList.toggle('su-chiaro', suCoperchio || chiare.some(s => { const r = s.getBoundingClientRect(); return r.top < 40 && r.bottom > 40; }));
     const y = scrollY, eroe = $('[data-eroe]'), fin = eroe ? eroe.offsetHeight - innerHeight : 0;
     if (y > fin + 200 && y > yP + 3) te.classList.add('via'); else if (y < yP - 3 || y <= fin + 200) te.classList.remove('via');
     yP = y;
@@ -188,6 +147,29 @@
     addEventListener('keydown', e => { if (e.key === 'Escape' && ma.classList.contains('su')) chiudi(); });
     li.forEach(a => a.addEventListener('mouseenter', () => { pi.src = `img/cut/${a.dataset.cut}.webp`; gsap.fromTo(pi, { rotate: -40 }, { rotate: 0, duration: .9, ease: 'expo.out' }); }));
   }
+
+  /* tra una pagina e l'altra: sipario rosso con la pizza che rotola */
+  if (window.gsap && !fermo) {
+    const si = document.createElement('div'); si.className = 'sipario'; si.setAttribute('aria-hidden', 'true'); si.innerHTML = '<img src="img/cut/margherita.webp" alt="">'; document.body.appendChild(si);
+    const pz = $('img', si);
+    if (document.documentElement.classList.contains('arrivo')) {
+      gsap.set(si, { clipPath: 'inset(0 0 0 0)' }); document.documentElement.classList.remove('arrivo'); sessionStorage.removeItem('pr-via');
+      gsap.timeline().to(pz, { x: '120vw', rotate: 420, duration: .85, ease: 'power3.in' }, 0).to(si, { clipPath: 'inset(0 0 100% 0)', duration: .8, ease: 'expo.inOut' }, .1);
+    }
+    document.addEventListener('click', e => {
+      const a = e.target.closest('a[href]'); if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || a.target) return;
+      const u = new URL(a.href, location.href);
+      if (u.origin !== location.origin || !u.pathname.endsWith('.html') && u.pathname !== new URL('.', location.href).pathname) return;
+      if (u.pathname === location.pathname) return;
+      e.preventDefault();
+      gsap.killTweensOf([si, pz]);
+      gsap.set(pz, { x: '-120vw', rotate: -420 });
+      gsap.timeline({ onComplete: () => { try { sessionStorage.setItem('pr-via', '1'); } catch (er) {} location.href = a.href; } })
+        .fromTo(si, { clipPath: 'inset(100% 0 0 0)' }, { clipPath: 'inset(0% 0 0 0)', duration: .6, ease: 'expo.inOut' }, 0)
+        .to(pz, { x: 0, rotate: 0, duration: .7, ease: 'power3.out' }, .05);
+    });
+    addEventListener('pageshow', e => { if (e.persisted) { gsap.killTweensOf([si, pz]); gsap.set(si, { clipPath: 'inset(0 0 100% 0)' }); } });
+  } else document.documentElement.classList.remove('arrivo');
 
   const giro = now => { passi.forEach(f => f(now)); requestAnimationFrame(giro); };
   requestAnimationFrame(giro);

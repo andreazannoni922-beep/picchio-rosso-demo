@@ -16,11 +16,33 @@ function disegna() {
   const cats = PR.menu.categories.map(c => ({ ...c, items: c.items.filter(i => !q || (i.name + ' ' + i.descr).toLowerCase().includes(q)) })).filter(c => c.items.length);
   catBox.innerHTML = cats.map(c => `<a href="#c-${slug(c.name)}" data-cat="${slug(c.name)}">${c.name}<small>${c.items.length}</small></a>`).join('');
   if (!cats.length) { lista.innerHTML = `<p class="nessuno">Qui niente. Prova con un altro ingrediente o chiamaci: <a href="tel:+393493838146">${PR.tel}</a>.</p>`; return; }
-  lista.innerHTML = cats.map(c => `<section class="m-sez" id="c-${slug(c.name)}">
-    <h2 class="display">${c.name}</h2>${c.descr ? `<p>${c.descr}</p>` : ''}
+  lista.innerHTML = cats.map((c, k) => { const cut = TAGLI[c.name]; return `<section class="m-sez" id="c-${slug(c.name)}">
+    <div class="m-banda" data-t="${k % 4}"><h2 class="display m-nome">${c.name}</h2>${c.descr ? `<p>${c.descr}</p>` : ''}${cut ? `<img src="img/cut/${cut}.webp" alt="" loading="lazy">` : ''}</div>
     ${c.items.map(voce).join('')}
-  </section>`).join('');
-  spia();
+  </section>`; }).join('');
+  spia(); entrate();
+}
+// righe e bande entrano una volta sola: gli aggiornamenti dalla cucina non le rifanno
+const TAGLI = { 'Pizze Classiche': 'margherita', 'Pizze Speciali': 'rossa', 'Pizze Gourmet': 'burrata', 'Le 2.0': 'rossa-nero', 'Le Sfiziose': 'radicchio', 'Ruote di Carro': 'bianca', 'Fritti e Fritture': 'crocche', 'Dolci': 'fritta-nutella' };
+const visti = new Set();
+let oss = null, ruote = [];
+function entrate() {
+  if (oss) oss.disconnect();
+  oss = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; e.target.classList.add('vista'); visti.add(e.target.id || e.target.parentElement.id); oss.unobserve(e.target); }), { rootMargin: '0px 0px -6% 0px' });
+  lista.querySelectorAll('.voce, .m-banda').forEach(el => { const k = el.id || el.parentElement.id; if (filtro || visti.has(k)) el.classList.add('vista'); else oss.observe(el); });
+  ruote = [...lista.querySelectorAll('.v-foto, .m-banda img')];
+}
+if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const gira = () => { const h = innerHeight; for (const f of ruote) { const r = f.getBoundingClientRect(); if (r.bottom > 0 && r.top < h) f.style.transform = `rotate(${(r.top + r.height / 2 - h / 2) * .28}deg)`; } requestAnimationFrame(gira); };
+  requestAnimationFrame(gira);
+  // apertura: le pizze rotolano davanti al titolo
+  const pl = document.querySelector('.m-palco'), pi = [...pl.querySelectorAll('.m-pi')], ti = pl.querySelector('h1');
+  PR.palco(pl, p => {
+    const W = innerWidth, H = innerHeight, mob = W <= 760, d = pi[0].offsetWidth, cy = mob ? H * .58 : H * .52;
+    const base = mob ? (W - d) / 2 : W - d - W * .02, passo = d * 1.02, viaggio = p * (base + d * 2 + passo * 2 + W * .1);
+    pi.forEach((im, i) => { const x = base + i * passo - viaggio; im.style.transform = `translate3d(${x}px,${cy - d / 2}px,0) rotate(${x / (d / 2) * 57.3}deg)`; });
+    ti.style.transform = `translate3d(${-p * 12}vw,${-p * 8}svh,0)`; ti.style.opacity = 1 - Math.min(1, Math.max(0, (p - .5) / .4));
+  });
 }
 function voce(i) {
   const finita = !i.available || i.blocked_by.length;
@@ -155,8 +177,6 @@ async function carica(forza) {
 carica().then(() => {
   segnaModo();
   const h = location.hash.match(/^#p(\d+)/); if (h) setTimeout(() => { document.getElementById('p' + h[1])?.scrollIntoView({ block: 'center' }); apriScheda(+h[1]); }, 200);
-  gsap.from('.m-testa h1', { yPercent: 30, opacity: 0, duration: 1.2, ease: 'expo.out' });
-  gsap.from('.m-testa-foto img', { x: 200, opacity: 0, rotate: -90, duration: 1.6, stagger: .12, ease: 'expo.out' });
 });
 // quando la cucina cambia un prezzo o finisce un ingrediente, il menù si aggiorna da solo
 PR.ascolta('picchio-menu', 'menu', () => carica(true).then(() => PR.toast('Il menù è appena stato aggiornato dalla cucina')));
