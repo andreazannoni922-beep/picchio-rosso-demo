@@ -237,3 +237,7 @@
 .abbina small{font-size:13px;color:var(--ink-2)}
 .abbina .messo{background:var(--notte);color:var(--farina);border-color:var(--notte)}
 .abbina .messo small{color:var(--farina)}
+
+/* scheda: piede coerente col resto */
+.s-piede .qta{border-radius:3px}
+.s-piede .btn{font-size:23px;white-space:nowrap}
