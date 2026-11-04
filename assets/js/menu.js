@@ -11,7 +11,15 @@ const segnaModo = () => { modoEl.dataset.v = PR.modo; modoEl.querySelectorAll('b
 modoEl.addEventListener('click', e => { const b = e.target.closest('[data-modo]'); if (!b) return; PR.modo = b.dataset.modo; localStorage.setItem('pr-modo', PR.modo); segnaModo(); });
 
 /* ---------- lista ---------- */
+function segnaPausa() {
+  const f = PR.menu && PR.menu.pausa_fino; let el = document.querySelector('.m-pausa');
+  if (!f) { if (el) el.remove(); return; }
+  if (!el) { el = document.createElement('div'); el.className = 'm-pausa'; document.querySelector('.m-griglia').before(el); }
+  const d = new Date(f), oggi = d.toDateString() === new Date().toDateString();
+  el.innerHTML = `<b>Il forno è al massimo.</b><span>Gli ordini online riprendono ${oggi ? 'alle ' + d.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' }) : 'domani'}. Per telefono ci siamo: <a href="tel:+3905361753948">0536 175 3948</a>.</span>`;
+}
 function disegna() {
+  segnaPausa();
   const q = filtro.trim().toLowerCase();
   const cats = PR.menu.categories.map(c => ({ ...c, items: c.items.filter(i => !q || (i.name + ' ' + i.descr).toLowerCase().includes(q)) })).filter(c => c.items.length);
   catBox.innerHTML = cats.map(c => `<a href="#c-${slug(c.name)}" data-cat="${slug(c.name)}">${c.name}<small>${c.items.length}</small></a>`).join('');
@@ -113,6 +121,7 @@ function apriScheda(id) {
       ${ingr.length > 1 ? `<div class="titoletto">Qualcosa da togliere?</div><div class="scelte togli">${ingr.map(g => `<button class="scelta" data-via="${g}" aria-pressed="true">${g}</button>`).join('')}</div>` : ''}
       <div class="titoletto">Una nota per la cucina</div>
       <div class="campo"><input id="s-nota" maxlength="80" placeholder="Ben cotta, tagliata a spicchi…"></div>
+      ${abbinamenti(i)}
     </div>
     <div class="s-piede">
       <div class="qta"><button data-sq="-1" aria-label="Meno">−</button><span class="s-q">1</span><button data-sq="1" aria-label="Più">+</button></div>
@@ -122,6 +131,12 @@ function apriScheda(id) {
   scheda.classList.add('aperta'); scheda.setAttribute('aria-hidden', 'false'); sp.scrollTop = 0;
   PR.lenis && PR.lenis.stop();
   history.replaceState(null, '', '#p' + id);
+}
+function abbinamenti(i) {
+  if (!CON_IMPASTO.has(i.cat)) return '';
+  const l = [161, 167, 179].map(id => PR.indice[id]).filter(x => x && x.available && !x.blocked_by.length);
+  if (!l.length) return '';
+  return `<div class="titoletto">Ci sta bene anche</div><div class="abbina">${l.map(x => `<button type="button" data-abb="${x.id}"><img src="${PR.fotoDi(x.id)}" alt="" loading="lazy"><b>${x.name}</b><small>${PR.euro(x.prices[0].c)}</small></button>`).join('')}</div>`;
 }
 function chiudiScheda() { scheda.classList.remove('aperta'); scheda.setAttribute('aria-hidden', 'true'); PR.lenis && PR.lenis.start(); history.replaceState(null, '', location.pathname); }
 function totale() {
@@ -139,6 +154,8 @@ scheda.addEventListener('click', e => {
   const m = e.target.closest('[data-imp]'); if (m) { sel.imp = m.dataset.imp; sp.querySelectorAll('[data-imp]').forEach(b => b.setAttribute('aria-pressed', b === m)); return; }
   const v = e.target.closest('[data-via]'); if (v) { const g = v.dataset.via; sel.via.has(g) ? sel.via.delete(g) : sel.via.add(g); v.setAttribute('aria-pressed', !sel.via.has(g)); return; }
   const q = e.target.closest('[data-sq]'); if (q) { sel.qty = Math.max(1, Math.min(20, sel.qty + +q.dataset.sq)); return totale(); }
+  const ab = e.target.closest('[data-abb]');
+  if (ab) { const x = PR.indice[+ab.dataset.abb]; PR.aggiungi({ id: x.id, name: x.name, size: x.prices[0].l, unit: x.prices[0].c, dough: '' }, ab.querySelector('img')); ab.classList.add('messo'); ab.querySelector('small').textContent = 'Aggiunto'; return; }
   const b = e.target.closest('[data-metti]');
   if (b) {
     const p = sel.i.prices[sel.f];

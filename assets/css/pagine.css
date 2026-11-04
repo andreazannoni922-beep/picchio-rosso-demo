@@ -221,3 +221,19 @@
   .s-eroe,.anni,.tre,.a-eroe,.passaggi,.dove,.m-palco{height:auto}
   .m-banda{clip-path:none;transition:none}.voce{opacity:1;transform:none;transition:none}
 }
+
+/* pausa ordini decisa dalla cucina */
+.m-pausa{position:relative;z-index:5;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 18px;padding:18px var(--g);background:var(--brace);color:var(--notte);font-size:17px}
+.m-pausa b{font-family:var(--titoli);font-weight:900;text-transform:uppercase;font-size:clamp(30px,3.4vw,52px);line-height:1}
+.m-pausa a{text-decoration:underline;font-weight:600}
+
+/* scheda del piatto: abbinamenti */
+.abbina{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.abbina button{display:grid;justify-items:center;gap:4px;padding:10px 6px;border:1px solid var(--linea-ink);border-radius:3px;text-align:center;transition:border-color .25s,background .25s}
+.abbina button:hover{border-color:currentColor}
+.abbina img{width:72px;height:72px;object-fit:contain;transition:transform .7s var(--ease)}
+.abbina button:hover img{transform:rotate(30deg)}
+.abbina b{font-family:var(--titoli);font-weight:800;text-transform:uppercase;font-size:18px;line-height:1}
+.abbina small{font-size:13px;color:var(--ink-2)}
+.abbina .messo{background:var(--notte);color:var(--farina);border-color:var(--notte)}
+.abbina .messo small{color:var(--farina)}

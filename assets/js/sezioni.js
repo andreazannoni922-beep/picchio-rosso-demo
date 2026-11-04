@@ -171,6 +171,8 @@
     addEventListener('pageshow', e => { if (e.persisted) { gsap.killTweensOf([si, pz]); gsap.set(si, { clipPath: 'inset(0 0 100% 0)' }); } });
   } else document.documentElement.classList.remove('arrivo');
 
+  $$('.piede-nome').forEach(n => vista(n, e => e.classList.add('su'), { threshold: .2 }));
+
   const giro = now => { passi.forEach(f => f(now)); requestAnimationFrame(giro); };
   requestAnimationFrame(giro);
 })();

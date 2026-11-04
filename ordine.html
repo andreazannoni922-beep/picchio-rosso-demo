@@ -42,6 +42,8 @@
 .vivo i{width:7px;height:7px;border-radius:50%;background:#58d68d;box-shadow:0 0 10px #58d68d;animation:pulsa2 2s infinite}
 @keyframes pulsa2{50%{opacity:.3}}
 @media(max-width:860px){.o-scena{grid-template-columns:minmax(0,1fr)}.o-sx{min-height:78svh;padding-top:100px}.o-dx{padding-top:0}}
+.o-mancano{display:flex;align-items:baseline;gap:10px;margin:14px 0 2px;color:var(--brace);font-size:20px}
+.o-mancano b{font-family:var(--titoli);font-weight:900;font-size:clamp(56px,7vw,96px);line-height:.9}
 </style>
 </head>
 <body data-pagina="ordine">
@@ -58,9 +60,9 @@
 <main class="o-scena">
   <video class="o-fuoco" poster="media/forno.jpg" autoplay muted loop playsinline aria-hidden="true"></video><script>document.querySelector('.o-fuoco').src=innerWidth<=720?'media/forno-m.mp4':'media/forno.mp4'</script>
   <section class="o-sx">
-    <span class="vivo"><i></i>In diretta dalla cucina</span>
-    <p class="o-codice">Ordine <b class="o-cod">····</b></p>
+        <p class="o-codice">Ordine <b class="o-cod">····</b></p>
     <h1 class="o-titolo display">Un attimo…</h1>
+    <p class="o-mancano" hidden></p>
     <p class="o-sotto"></p>
   </section>
   <section class="o-dx">
@@ -100,7 +102,7 @@ function testi(o) {
   switch (o.status) {
     case 'ricevuto': return ['Ricevuto.', 'Lo stiamo guardando adesso. Appena lo accettiamo ti diciamo l\'orario, qui e via email.', null];
     case 'accettato': return [casa ? `Arriva verso le ${t}.` : `Pronta alle ${t}.`, 'Confermato dalla cucina. Tra poco entra nel forno.', t];
-    case 'in_preparazione': return ['È nel forno a legna.', `450 gradi, novanta secondi. ${t ? (casa ? 'Arrivo previsto alle ' : 'Pronta alle ') + t + '.' : ''}`, t];
+    case 'in_preparazione': return ['È nel forno a legna.', `Sulla legna di faggio. ${t ? (casa ? 'Arrivo previsto alle ' : 'Pronta alle ') + t + '.' : ''}`, t];
     case 'in_consegna': return ['È partita.', `Il forno in macchina è acceso. Arriva verso le ${t || 'a breve'}.`, t];
     case 'pronto': return ['È pronta.', 'Ti aspettiamo in Via Machiavelli 2, dentro il centro commerciale.', '✓'];
     case 'consegnato': return ['Buon appetito.', 'Grazie di averci scelto. Alla prossima infornata.', '✓'];
@@ -122,12 +124,16 @@ function disegna(o) {
   document.querySelector('.o-cod').textContent = o.code;
   const [titolo, sotto, forma] = testi(o);
   const h = document.querySelector('.o-titolo');
-  if (!ultimo || ultimo.status !== o.status) {
+  if (ultimo && ultimo.status === o.status && ultimo.eta_minutes !== o.eta_minutes && forma && arrivo(o)) PR.toast('Nuovo orario: ' + arrivo(o));
+  if (!ultimo || ultimo.status !== o.status || ultimo.eta_minutes !== o.eta_minutes) {
     h.textContent = titolo;
     gsap.fromTo(PR.parole(h), { yPercent: 110 }, { yPercent: 0, duration: 1.1, stagger: .05, ease: 'expo.out' });
     if (ultimo) PR.toast('Aggiornamento: ' + titolo);
   }
   document.querySelector('.o-sotto').textContent = sotto;
+  const man = document.querySelector('.o-mancano'), prom = o.accepted_at && o.eta_minutes ? new Date(o.accepted_at).getTime() + o.eta_minutes * 60000 : 0, restano = Math.ceil((prom - Date.now()) / 60000);
+  man.hidden = !prom || !['accettato', 'in_preparazione', 'in_consegna'].includes(o.status);
+  if (!man.hidden) man.innerHTML = restano > 0 ? `<b>${restano}′</b><span>${restano === 1 ? 'manca' : 'mancano'}</span>` : `<span>Ci siamo quasi. Se serve, chiamaci.</span>`;
   document.querySelector('.o-passi').innerHTML = passi(o);
   document.querySelector('.o-righe').innerHTML = o.items.map(r => `<div><span><b>${r.qty}×</b> ${r.name}${r.size && r.size !== 'Prezzo' ? ' · ' + r.size : ''}${r.note ? `<br><small>${r.note}</small>` : ''}</span><span>${PR.euro(r.unit_cents * r.qty)}</span></div>`).join('')
     + (o.mode === 'consegna' ? `<div><span>Consegna</span><span>${PR.euro(200)}</span></div>` : '')

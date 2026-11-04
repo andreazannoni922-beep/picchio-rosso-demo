@@ -79,7 +79,12 @@ async function entra() {
   setInterval(() => document.visibilityState === 'visible' && caricaM(), 30000);
   setInterval(tempoCampanello, 1000);
   try { const sb = window.supabase.createClient(DB, KEY); sb.channel('picchio-cucina').on('broadcast', { event: 'nuovo_ordine' }, () => caricaO()).subscribe(); } catch (e) {}
-  sveglia(); disImp();
+  sveglia(); disImp(); controllaAudio();
+}
+function controllaAudio() {
+  const f = $('#f-audio'), blocc = pref.suono && !(navigator.userActivation && navigator.userActivation.hasBeenActive) && !(audio && audio.state === 'running');
+  f.hidden = !blocc; if (!blocc) return;
+  addEventListener('pointerdown', () => { try { ctx(); } catch (e) {} f.hidden = true; }, { once: true, capture: true });
 }
 async function sveglia() { if (!pref.sveglio || !('wakeLock' in navigator)) return; try { wake = await navigator.wakeLock.request('screen'); } catch (e) {} }
 document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') { sveglia(); caricaO(); } });
@@ -149,6 +154,9 @@ function vociHTML(o, max = 4) {
   const piu = o.items.length - max;
   return v + (piu > 0 ? `<p class="altre">+ altre ${piu} voci</p>` : '');
 }
+// se il cliente ha chiesto un orario, il primo tasto è quell'orario
+function minutiSlot(o) { const m = /^(\d{2}):(\d{2})$/.exec(o.slot || ''); if (!m) return null; const d = new Date(); d.setHours(+m[1], +m[2], 0, 0); if (d < Date.now() - 3600000) d.setDate(d.getDate() + 1); return Math.max(1, Math.round((d - Date.now()) / 60000)); }
+function tempiHTML(o, pr) { const ms = minutiSlot(o); return `${ms ? `<button class="alle" data-acc="${o.id}" data-m="${ms}">Alle ${esc(o.slot)}</button>` : ''}<div class="tempi">${[20, 30, 40, 60].map(m => `<button data-acc="${o.id}" data-m="${m}" class="${m === pr && !ms ? 'prop' : ''}">${m}</button>`).join('')}</div>`; }
 function propTempo() { const aperti = visibili().filter(o => ['accettato', 'in_preparazione'].includes(o.status)).length; return aperti <= 2 ? 20 : aperti <= 5 ? 30 : aperti <= 9 ? 40 : 60; }
 function biglietto(o, col, arriva) {
   const u = urgenza(o, col), n = noteOrd(o), a = attesa.get(o.id), er = errori.get(o.id);
@@ -160,7 +168,7 @@ function biglietto(o, col, arriva) {
       <div class="testa" data-ap="${o.id}"><div class="r1"><span>${esc(o.code)}</span><span class="tempo">${tempoTxt(o, col)}</span></div><div class="r2">${tipo(o)}<span>${o.slot && o.slot !== 'Prima possibile' ? 'Per le ' + esc(o.slot) : 'Prima possibile'}</span></div></div>
       <div class="voci" data-ap="${o.id}">${vociHTML(o)}</div>${nota}
       <p class="etic">Accetta · ${casa ? 'arriva' : 'pronta'} tra minuti</p>
-      <div class="tempi">${[20, 30, 40, 60].map(m => `<button data-acc="${o.id}" data-m="${m}" class="${m === pr ? 'prop' : ''}">${m}</button>`).join('')}</div>
+      ${tempiHTML(o, pr)}
       <button class="rif" data-rif="${o.id}">Rifiuta</button>
     </article>`;
   }
@@ -189,7 +197,7 @@ function disBanco(solTempi, nuoviId = []) {
   const conti = {}; [...per.dafare, ...per.forno].forEach(o => o.items.forEach(r => { conti[r.name] = (conti[r.name] || 0) + r.qty; }));
   const righeC = Object.entries(conti).sort((a, b) => b[1] - a[1]);
   const pane = {
-    nuovi: per.nuovi.map(o => biglietto(o, 'nuovi', nuoviId.includes(o.id))).join('') + (righeC.length ? `<div class="conti"><h3>Da fare stasera</h3>${righeC.map(([n, q]) => `<p><b>${q}</b><span>${esc(n)}</span></p>`).join('')}</div>` : (per.nuovi.length ? '' : `<div class="vuoto">Nessun ordine. Il campanello suona appena ne arriva uno.<div style="margin-top:12px"><button class="t h56" data-prova>Prova il campanello</button></div></div>`)),
+    nuovi: per.nuovi.map(o => biglietto(o, 'nuovi', nuoviId.includes(o.id))).join('') + (righeC.length ? `<div class="conti"><h3>Da fare stasera</h3>${righeC.map(([n, q]) => `<p><b>${q}</b><span>${esc(n)}</span></p>`).join('')}</div>` : (per.nuovi.length ? '' : `<div class="vuoto">Nessun ordine. Il campanello suona appena ne arriva uno.<div style="margin-top:12px"><div class="due"><button class="t h56" data-prova>Prova il campanello</button><button class="t h56" data-demo>Ordine di prova</button></div></div></div>`)),
     dafare: per.dafare.map(o => biglietto(o, 'dafare')).join(''),
     forno: per.forno.map(o => biglietto(o, 'forno')).join(''),
     fuori: per.fuori.map(o => biglietto(o, 'fuori')).join('') + (chiusi.length ? `<button class="chiusi" data-chiusi><b>Chiusi oggi · ${chiusi.length}</b>${euro(chiusi.filter(o => o.status === 'consegnato').reduce((s, o) => s + o.total_cents, 0))}</button>` : ''),
@@ -203,6 +211,7 @@ function disBanco(solTempi, nuoviId = []) {
   document.title = n ? `(${n}) Ordini · Cucina` : 'Cucina · Picchio Rosso';
   const fb = $$('#fasi button b'); fb[0].textContent = n; fb[1].textContent = per.dafare.length + per.forno.length; fb[2].textContent = per.fuori.length;
   window.__chiusi = chiusi;
+  disAllarme(per.nuovi);
 }
 
 /* ---------- azioni: lo schermo cambia subito, la richiesta parte dopo 5 secondi ---------- */
@@ -223,7 +232,7 @@ function azione(id, status, extra = {}) {
   a.timer = setTimeout(() => invia(id), 5000);
   attesa.set(id, a); disBanco();
   bloccoInput = Date.now() + 350;
-  avviso(FRASI[status](o, a), () => { clearTimeout(a.timer); attesa.delete(id); disBanco(); });
+  avviso(extra.frase || FRASI[status](o, a), () => { clearTimeout(a.timer); attesa.delete(id); disBanco(); });
 }
 addEventListener('pagehide', () => attesa.forEach((a, id) => fetch(`${DB}/rest/v1/rpc/pr_staff_set_status`, { method: 'POST', keepalive: true, headers: { apikey: KEY, Authorization: `Bearer ${KEY}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ p_pin: PIN, p_id: id, p_status: a.status, p_eta: a.eta || null, p_reason: a.reason || null }) })));
 
@@ -234,6 +243,7 @@ $('#banco').addEventListener('click', e => {
   const st = t.closest('[data-st]'); if (st) return azione(st.dataset.o, st.dataset.st);
   const rf = t.closest('[data-rif]'); if (rf) return apriRifiuto(rf.dataset.rif);
   if (t.closest('[data-prova]')) return campanello();
+  if (t.closest('[data-demo]')) return ordineProva();
   if (t.closest('[data-chiusi]')) return apriChiusi();
   const ap = t.closest('[data-ap]'); if (ap) apriDettaglio(ap.dataset.ap);
 });
@@ -264,7 +274,79 @@ function apriDettaglio(id) {
     <div class="blocco"><p style="font-size:18px;line-height:24px;font-weight:600">${esc(o.customer_name)}</p>
       <a class="t" style="margin-top:8px" href="tel:${esc(o.phone.replace(/\s/g, ''))}"><i class="ph-bold ph-phone"></i>Chiama ${esc(o.phone)}</a>
       ${casa ? `<p style="margin-top:12px;font-size:18px;line-height:24px">${esc(o.address)}</p><a class="t h56" style="margin-top:8px" target="_blank" rel="noopener" href="https://maps.google.com/?q=${encodeURIComponent(o.address)}"><i class="ph-bold ph-map-pin"></i>Apri in Mappe</a>` : ''}</div>
-    <div class="blocco cron">${cron.map(c => `<div>${ora(c[0])} · ${esc(c[1])}</div>`).join('')}</div>`);
+    <div class="blocco cron">${cron.map(c => `<div>${ora(c[0])} · ${esc(c[1])}</div>`).join('')}</div>
+    <div class="blocco altre-az">
+      ${p && ['accettato', 'in_preparazione', 'in_consegna', 'pronto'].includes(o.status) ? `<p class="p-s">Sposta l'orario: il cliente lo vede subito</p><div class="sposta">${[5, 10, 15, 20].map(m => `<button data-sp="${id}" data-min="${m}">+${m}′</button>`).join('')}</div>` : ''}
+      <button class="t h56" data-print="${id}"><i class="ph-bold ph-printer"></i>Stampa la comanda</button>
+      ${INDIETRO(o) ? `<button class="t h56" data-ind="${id}">${INDIETRO(o)[1]}</button>` : ''}
+      ${['accettato', 'in_preparazione'].includes(o.status) ? `<button class="t h56 solo d" data-rif2="${id}">Annulla l'ordine</button>` : ''}
+    </div>`);
+}
+// un passo indietro, per l'errore di un tocco: Toast lo chiama Recall
+const INDIETRO = o => ({ accettato: ['ricevuto', 'Rimetti tra i nuovi'], in_preparazione: ['accettato', 'Rimetti in Da fare'], in_consegna: ['in_preparazione', 'Rimetti in forno'], pronto: ['in_preparazione', 'Rimetti in forno'], consegnato: [o.mode === 'consegna' ? 'in_consegna' : 'pronto', 'Riapri l\'ordine'], rifiutato: ['ricevuto', 'Riapri l\'ordine'] }[o.status]);
+async function sposta(id, min) {
+  const manda = m => rpc('pr_staff_sposta', { p_pin: PIN, p_id: id, p_min: m }).then(o => { const i = ordini.findIndex(x => x.id === id); if (i > -1) ordini[i] = o; disBanco(); return o; });
+  try { const o = await manda(min); avviso(`${o.code}: nuovo orario ${ora(promesso(o))}.`, () => manda(-min)); } catch (e) { avviso('Non salvato. Riprova.'); }
+}
+function stampa(id) {
+  const o = ordini.find(x => x.id === id); if (!o) return; const casa = o.mode === 'consegna', p = promesso(o), n = noteOrd(o);
+  $('#stampa').innerHTML = `<h1>${esc(o.code)}</h1><p><b>${casa ? 'Consegna' : 'Ritiro'}</b>${p ? ' · ' + ora(p) : o.slot ? ' · ' + esc(o.slot) : ''}</p>
+    ${o.items.map(r => `<div class="s-r"><b>${r.qty} ${esc(r.name)}</b>${[r.size !== 'Prezzo' ? r.size : '', r.dough].filter(Boolean).map(esc).join(' · ')}${r.note ? `<br><b>${esc(r.note)}</b>` : ''}</div>`).join('')}
+    ${n ? `<p class="s-n">${esc(n)}</p>` : ''}<p>${esc(o.customer_name)} · ${esc(o.phone)}</p>${casa ? `<p>${esc(o.address)}</p>` : ''}<p><b>${euro(o.total_cents)}</b> ${esc((o.notes || '').split(' · ').find(x => x.startsWith('Pagamento:')) || '')}</p><p>${ora(o.created_at)}</p>`;
+  window.print();
+}
+
+/* ---------- allarme a tutto schermo: fuori dal banco o sul telefono l'ordine nuovo copre tutto ---------- */
+const dopo = new Set(); let allarmeId = null;
+const vistaOrdini = () => $('.vista[data-vista=ordini]').classList.contains('su');
+function disAllarme(nuovi) {
+  const el = $('#allarme'), serve = !vistaOrdini() || innerWidth < 1080;
+  const o = serve ? nuovi.find(x => !dopo.has(x.id)) : null;
+  if (!o) { el.hidden = true; allarmeId = null; return; }
+  const casa = o.mode === 'consegna', firma = o.id + o.items.length + nuovi.length;
+  if (allarmeId === firma) { $('.al-attesa', el).textContent = 'Aspetta da ' + Math.max(0, minDa(new Date(o.created_at))) + '′'; return; }
+  allarmeId = firma;
+  el.innerHTML = `<div class="al-testa"><div><p class="al-nuovo">Nuovo ordine${nuovi.length > 1 ? ` · altri ${nuovi.length - 1}` : ''}</p><p class="al-cod">${esc(o.code)}</p></div><div class="al-dx"><p class="al-attesa">Aspetta da ${Math.max(0, minDa(new Date(o.created_at)))}′</p>${tipo(o)}<p>${o.slot && o.slot !== 'Prima possibile' ? 'Per le ' + esc(o.slot) : 'Prima possibile'}</p></div></div>
+    <div class="al-voci">${vociHTML(o, 8)}${noteOrd(o) ? `<div class="nota">${allerg.test(noteOrd(o)) ? '<i class="ph-fill ph-warning"></i>' : ''}<span>${esc(noteOrd(o))}</span></div>` : ''}</div>
+    <div class="al-piede"><p class="etic">Accetta · ${casa ? 'arriva' : 'pronta'} tra minuti</p>${tempiHTML(o, propTempo())}<div class="al-sotto"><button data-rif="${o.id}">Rifiuta</button><button data-dopo="${o.id}">Dopo</button></div></div>`;
+  el.hidden = false;
+}
+$('#allarme').addEventListener('click', e => {
+  if (Date.now() < bloccoInput) return;
+  const acc = e.target.closest('[data-acc]'); if (acc) { ultimoCamp = Date.now(); allarmeId = null; return azione(acc.dataset.acc, 'accettato', { eta: +acc.dataset.m }); }
+  const rf = e.target.closest('[data-rif]'); if (rf) { $('#allarme').hidden = true; allarmeId = null; dopo.add(rf.dataset.rif); return apriRifiuto(rf.dataset.rif); }
+  const d = e.target.closest('[data-dopo]'); if (d) { dopo.add(d.dataset.dopo); allarmeId = null; disBanco(); }
+});
+addEventListener('resize', () => disBanco(true));
+
+/* ---------- pausa: come Uber Eats, il sito smette di accettare ordini ---------- */
+let pausaFino = null;
+function disPausa() {
+  const f = $('#f-pausa'), b = $('#b-pausa'), attiva = pausaFino && new Date(pausaFino) > Date.now();
+  f.hidden = !attiva; b.classList.toggle('att', !!attiva); $('span', b).textContent = attiva ? 'In pausa' : 'Pausa';
+  if (attiva) { const d = new Date(pausaFino), domani = d.toDateString() !== new Date().toDateString(); f.innerHTML = `<span>Ordini dal sito in pausa fino ${domani ? 'a domani' : 'alle ' + ora(d)}. Il sito lo dice ai clienti.</span><button data-riprendi>Riprendi</button>`; }
+}
+async function pausa(min) {
+  const v = pausaFino;
+  try { pausaFino = await rpc('pr_staff_pausa', { p_pin: PIN, p_minuti: min }); disPausa(); avviso(min ? 'Ordini in pausa. Il sito lo mostra subito.' : 'Ordini ripartiti.'); }
+  catch (e) { pausaFino = v; avviso('Non salvato. Riprova.'); }
+}
+function apriPausa() {
+  apri(`<p class="p-t">Pausa ordini</p><p class="p-s">Il sito smette di accettare ordini e lo dice ai clienti. Il telefono resta com'è.</p>
+    <div class="scelte">${[[15, '15 minuti'], [30, '30 minuti'], [60, '1 ora'], [-1, 'Fino a domani']].map(([m, t]) => `<button data-pa="${m}">${t}</button>`).join('')}</div>
+    ${pausaFino && new Date(pausaFino) > Date.now() ? '<button class="t h72 forte" data-pa="0">Riprendi adesso</button>' : ''}<button class="t h56 solo" data-x style="margin-top:8px">Lascia aperto</button>`, true);
+}
+document.addEventListener('click', e => {
+  if (e.target.closest('[data-pausa]')) return apriPausa();
+  if (e.target.closest('[data-riprendi]')) return pausa(0);
+  if (e.target.closest('#banco [data-demo], #imp [data-demo]')) return;
+});
+
+/* ---------- prove per chi guarda la demo ---------- */
+async function ordineProva() { try { await rpc('pr_staff_demo_ordine', { p_pin: PIN }); await caricaO(); } catch (e) { avviso(/sospesi/.test(e.message) ? 'Gli ordini sono in pausa: togli prima la pausa.' : 'Ordine di prova non riuscito.'); } }
+function apriAzzera() {
+  apri(`<p class="p-t">Riporta tutto com'era</p><p class="p-s">Cancella tutti gli ordini e rimette prezzi, piatti e ingredienti come all'inizio. Toglie anche la pausa.</p><div class="due"><button class="t h72" data-x>Lascia così</button><button class="t h72 peric" id="az-ok">Riporta tutto</button></div>`, true);
+  $('#az-ok').onclick = async () => { chiudi(); try { await rpc('pr_staff_demo_azzera', { p_pin: PIN }); dopo.clear(); pausaFino = null; disPausa(); await Promise.all([caricaO(), caricaM()]); avviso('Fatto: è tutto come all\'inizio.'); } catch (e) { avviso('Non riuscito. Riprova.'); } };
 }
 function apriRifiuto(id) {
   const o = ordini.find(x => x.id === id); if (!o) return; let mot = null;
@@ -279,18 +361,27 @@ function apriRifiuto(id) {
 function apriChiusi() {
   const l = (window.__chiusi || []).slice().sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
   const tot = l.filter(o => o.status === 'consegnato').reduce((s, o) => s + o.total_cents, 0);
-  apri(`<button class="p-x" data-x>Chiudi</button><p class="p-t">${euro(tot)}</p><p class="p-s">${l.length} ordini chiusi oggi</p>
-    ${l.map(o => `<div class="d-v" style="padding:12px 0;border-top:1px solid var(--line)"><span>${esc(o.code)}<small>${ora(o.created_at)} · ${o.status === 'rifiutato' ? 'Rifiutato' : esc(o.customer_name)}</small></span><span>${o.status === 'rifiutato' ? '' : euro(o.total_cents)}</span></div>`).join('')}`);
+  const ok = l.filter(o => o.status === 'consegnato'), puntuali = ok.filter(o => promesso(o) && new Date(o.delivered_at) <= promesso(o) + 300000).length, conti = {};
+  ok.forEach(o => o.items.forEach(r => { conti[r.name] = (conti[r.name] || 0) + r.qty; }));
+  const top = Object.entries(conti).sort((a, b) => b[1] - a[1]).slice(0, 3);
+  apri(`<button class="p-x" data-x>Chiudi</button><p class="importo sx">${euro(tot)}</p><p class="p-s">Incasso di oggi · ${ok.length} consegnati${l.length - ok.length ? ` · ${l.length - ok.length} rifiutati` : ''}</p>
+    ${ok.length ? `<div class="blocco"><div class="d-v"><span>Scontrino medio</span><span>${euro(Math.round(tot / ok.length))}</span></div><div class="d-v"><span>A casa · ritiro</span><span>${ok.filter(o => o.mode === 'consegna').length} · ${ok.filter(o => o.mode !== 'consegna').length}</span></div><div class="d-v"><span>In orario, entro 5′</span><span>${puntuali} su ${ok.length}</span></div>${top.length ? `<div class="d-v"><span>I più chiesti<small>${top.map(([n, q]) => `${q} ${esc(n)}`).join(' · ')}</small></span></div>` : ''}</div>` : ''}
+    ${l.map(o => `<div class="d-v riap" data-ap="${o.id}" style="padding:12px 0;border-top:1px solid var(--line)"><span>${esc(o.code)}<small>${ora(o.created_at)} · ${o.status === 'rifiutato' ? 'Rifiutato' : esc(o.customer_name)}</small></span><span>${o.status === 'rifiutato' ? '' : euro(o.total_cents)}</span></div>`).join('')}`);
 }
 pann.addEventListener('click', e => {
   if (e.target.closest('[data-x]')) return chiudi();
   const s = e.target.closest('[data-st2]'); if (s) { chiudi(); return azione(s.dataset.o, s.dataset.st2); }
   const r = e.target.closest('[data-rif2]'); if (r) return apriRifiuto(r.dataset.rif2);
+  const sp = e.target.closest('[data-sp]'); if (sp) { chiudi(); return sposta(sp.dataset.sp, +sp.dataset.min); }
+  const pr = e.target.closest('[data-print]'); if (pr) return stampa(pr.dataset.print);
+  const ind = e.target.closest('[data-ind]'); if (ind) { const o = visibili().find(x => x.id === ind.dataset.ind), b = INDIETRO(o); chiudi(); dopo.add(o.id); return azione(o.id, b[0], { frase: `${o.code}: tornato indietro.` }); }
+  const pa = e.target.closest('[data-pa]'); if (pa) { chiudi(); return pausa(+pa.dataset.pa); }
+  const ap = e.target.closest('.riap[data-ap]'); if (ap) return apriDettaglio(ap.dataset.ap);
 });
 
 /* ---------- menù ---------- */
 let filtroM = 'tutti', catSu = null;
-async function caricaM() { try { menu = await rpc('pr_menu'); indiceUsi(); disMenu(); disIng(); } catch (e) {} }
+async function caricaM() { try { menu = await rpc('pr_menu'); pausaFino = menu.pausa_fino; disPausa(); indiceUsi(); disMenu(); disIng(); } catch (e) {} }
 const trova = id => { for (const c of menu.categories) { const i = c.items.find(x => x.id === id); if (i) return i; } };
 function disMenu() {
   if (!menu) return;
@@ -306,7 +397,7 @@ function disMenu() {
       const off = !i.available, man = i.blocked_by.length;
       return `<div class="riga${off || man ? ' off' : ''}"><div style="min-width:0"><b>${esc(i.name)}</b><small>${esc(i.descr || '')}</small></div>
         <div class="celle">${i.prices.map((p, k) => `<button class="cella" data-pr="${i.id}" data-k="${k}"><span>${(p.c / 100).toFixed(2).replace('.', ',')}</span>${p.l !== 'Prezzo' ? `<small>${esc(p.l)}</small>` : ''}</button>`).join('')}</div>
-        <button class="stato${off ? ' off' : man ? ' manca' : ''}" data-di="${i.id}">${off ? 'Spento' : man ? 'Manca: ' + esc(i.blocked_by[0]) : 'Attivo'}</button></div>`;
+        <button class="stato${off ? ' off' : man ? ' manca' : ''}" data-di="${i.id}">${off ? (i.torna_il ? 'Spento fino a domani' : 'Spento') : man ? 'Manca: ' + esc(i.blocked_by[0]) : 'Attivo'}</button></div>`;
     }).join('');
   });
   $('#righe').innerHTML = html || `<div class="vuoto">${q ? `Nessun piatto con "${esc(q)}".` : 'Tutti i piatti sono attivi.'}</div>`;
@@ -318,13 +409,21 @@ $('#righe').addEventListener('click', async e => {
   const d = e.target.closest('[data-di]');
   if (d) {
     const i = trova(+d.dataset.di); if (i.blocked_by.length && i.available) { vai('ingredienti'); return; }
-    const nuovo = !i.available; i.available = nuovo; disMenu();
+    if (i.available) return apriSpegni(i);
     const manda = v => rpc('pr_staff_set_item', { p_pin: PIN, p_item: i.id, p_available: v, p_prices: null });
-    try { await manda(nuovo); avviso(`${i.name}: ${nuovo ? 'di nuovo attiva' : 'spenta sul sito'}.`, async () => { i.available = !nuovo; disMenu(); await manda(!nuovo); }); } catch (er) { i.available = !nuovo; disMenu(); avviso('Non salvato. Riprova.'); }
+    i.available = true; i.torna_il = null; disMenu();
+    try { await manda(true); avviso(`${i.name}: di nuovo attiva.`, async () => { i.available = false; disMenu(); await manda(false); }); } catch (er) { i.available = false; disMenu(); avviso('Non salvato. Riprova.'); }
     return;
   }
   const c = e.target.closest('[data-pr]'); if (c) apriPrezzo(+c.dataset.pr, +c.dataset.k);
 });
+function apriSpegni(i) {
+  apri(`<p class="p-t">Spegni ${esc(i.name)}</p><p class="p-s">Sul sito compare come non disponibile e non si può ordinare.</p>
+    <div class="scelte"><button id="sp-sera">Solo stasera<small>Torna da sola domani</small></button><button id="sp-sempre">Finché non la riaccendo</button></div><button class="t h56 solo" data-x>Lascia attiva</button>`, true);
+  const fatto = async (via, testo) => { chiudi(); i.available = false; disMenu(); try { await via(); await caricaM(); avviso(testo, async () => { await rpc('pr_staff_set_item', { p_pin: PIN, p_item: i.id, p_available: true, p_prices: null }); caricaM(); }); } catch (e) { i.available = true; disMenu(); avviso('Non salvato. Riprova.'); } };
+  $('#sp-sera').onclick = () => fatto(() => rpc('pr_staff_stasera', { p_pin: PIN, p_item: i.id }), `${i.name}: spenta fino a domani.`);
+  $('#sp-sempre').onclick = () => fatto(() => rpc('pr_staff_set_item', { p_pin: PIN, p_item: i.id, p_available: false, p_prices: null }), `${i.name}: spenta sul sito.`);
+}
 function apriPrezzo(id, k) {
   const i = trova(id), p = i.prices[k], ini = p.c; let v = 0;
   apri(`<button class="p-x" data-x>Chiudi</button><p class="p-t">${esc(i.name)}${p.l !== 'Prezzo' ? ' · ' + esc(p.l) : ''}</p><p class="p-s">Ora ${euro(ini)}</p>
@@ -354,7 +453,7 @@ function apriPrezzo(id, k) {
 /* ---------- ingredienti ---------- */
 const usi = {};
 function indiceUsi() { menu.ingredients.forEach(g => { const n = g.name.toLowerCase(); usi[g.id] = menu.categories.reduce((s, c) => s + c.items.filter(i => (i.descr || '').toLowerCase().includes(n)).length, 0); }); }
-function tessera(g) { const b = menu.categories.reduce((s, c) => s + c.items.filter(i => i.blocked_by.includes(g.name)).length, 0); const nm = g.name[0].toUpperCase() + g.name.slice(1); return `<button class="tes${g.available ? '' : ' fin'}" data-ing="${g.id}"><b>${esc(nm)}</b><small>${g.available ? `${usi[g.id] || 0} piatti` : `Finito · ${b} piatti spenti`}</small></button>`; }
+function tessera(g) { const b = menu.categories.reduce((s, c) => s + c.items.filter(i => i.blocked_by.includes(g.name)).length, 0); const nm = g.name[0].toUpperCase() + g.name.slice(1); return `<button class="tes${g.available ? '' : ' fin'}" data-ing="${g.id}"><b>${esc(nm)}</b><small>${g.available ? `${usi[g.id] || 0} piatti` : `Finito fino a domani · ${b} piatti`}</small></button>`; }
 function disIng() {
   if (!menu) return;
   const q = $('#q-ing').value.trim().toLowerCase(), gs = menu.ingredients;
@@ -376,7 +475,7 @@ $('#tessere').addEventListener('click', e => {
 });
 
 /* ---------- navigazione ---------- */
-function vai(v) { $$('.nav button').forEach(b => { const on = b.dataset.v === v; b.toggleAttribute('aria-current', on); if (on) b.setAttribute('aria-current', 'true'); const i = $('i', b); i.className = (on ? 'ph-fill ' : 'ph-bold ') + i.className.split(' ').find(c => c.startsWith('ph-') && c !== 'ph-fill' && c !== 'ph-bold'); }); $$('.vista').forEach(s => s.classList.toggle('su', s.dataset.vista === v)); if (v !== 'ordini') caricaM(); if (v === 'impostazioni') disImp(); }
+function vai(v) { $$('.nav button').forEach(b => { const on = b.dataset.v === v; b.toggleAttribute('aria-current', on); if (on) b.setAttribute('aria-current', 'true'); const i = $('i', b); i.className = (on ? 'ph-fill ' : 'ph-bold ') + i.className.split(' ').find(c => c.startsWith('ph-') && c !== 'ph-fill' && c !== 'ph-bold'); }); $$('.vista').forEach(s => s.classList.toggle('su', s.dataset.vista === v)); if (v !== 'ordini') caricaM(); if (v === 'impostazioni') disImp(); disBanco(true); }
 $('.nav').addEventListener('click', e => { const b = e.target.closest('[data-v]'); if (b) vai(b.dataset.v); });
 
 /* ---------- impostazioni ---------- */
@@ -395,6 +494,9 @@ async function disImp() {
     <h3>Clienti</h3>
     <div class="ir"><div><b>Email</b><small>${mail}</small></div></div>
     <div class="ir"><div><b>Il sito</b></div><div class="az"><a href="../menu.html" target="_blank">Apri il sito</a></div></div>
+    <h3>Prova</h3>
+    <div class="ir"><div><b>Ordine di prova</b><small>Arriva come un ordine vero, con il campanello. Non scrive a nessuno.</small></div><div class="az"><button data-demo>Manda</button></div></div>
+    <div class="ir"><div><b>Riporta tutto com'era</b><small>Cancella gli ordini e rimette prezzi e disponibilità di partenza.</small></div><div class="az"><button data-azzera>Riporta</button></div></div>
     <div style="height:48px"></div>
     <button class="t solo d" data-esci>Esci</button>`;
 }
@@ -404,6 +506,8 @@ $('#imp').addEventListener('click', async e => {
   if (e.target.closest('[data-prova]')) { campanello(); notifica({ id: 'prova', code: 'Prova', items: [{ qty: 1, name: 'Margherita' }] }); }
   if (e.target.closest('[data-notif]') && 'Notification' in window) { await Notification.requestPermission(); disImp(); }
   if (e.target.closest('[data-esci]')) esci('');
+  if (e.target.closest('[data-demo]')) { ordineProva(); avviso('Ordine di prova in arrivo.'); }
+  if (e.target.closest('[data-azzera]')) apriAzzera();
 });
 document.addEventListener('click', e => { if (e.target.closest('#banco [data-prova]')) return; });
 

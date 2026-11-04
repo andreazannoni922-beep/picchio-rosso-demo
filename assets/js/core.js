@@ -208,7 +208,7 @@ cas.addEventListener('click', async e => {
       location.href = `ordine.html#${r.id}`;
     } catch (err) {
       b.disabled = false; b.innerHTML = `Conferma l'ordine ${freccia}`;
-      PR.toast(err.message.includes('disponibile') ? err.message : 'Non siamo riusciti a inviarlo. Riprova o chiamaci.');
+      PR.toast(err.message.includes('sospesi') ? 'Il forno è al massimo: gli ordini online sono in pausa. Chiamaci allo 0536 175 3948.' : err.message.includes('disponibile') ? err.message : 'Non siamo riusciti a inviarlo. Riprova o chiamaci.');
     }
   }
 });

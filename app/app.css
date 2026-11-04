@@ -39,7 +39,8 @@ a{color:inherit;text-decoration:none}
 
 /* struttura */
 .app{height:100%;display:grid;grid-template-columns:84px 1fr;grid-template-rows:auto 1fr}
-.fascia{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:56px;padding:0 16px;background:var(--warn);color:var(--n1000);font-weight:600}
+.strisce{grid-column:1/-1;grid-row:1}
+.fascia{width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:56px;padding:0 16px;background:var(--warn);color:var(--n1000);font-weight:600}
 .fascia.d{background:var(--danger);color:#fff}
 .fascia button{height:40px;padding:0 16px;border-radius:6px;background:rgb(9 8 7/.14);font-weight:600}
 .nav{grid-row:2;display:flex;flex-direction:column;border-right:1px solid var(--line);padding-top:env(safe-area-inset-top)}
@@ -120,7 +121,6 @@ main{grid-row:2;position:relative;min-height:0;min-width:0}
   .nav{grid-row:3;flex-direction:row;border-right:0;border-top:1px solid var(--line);padding:0 0 env(safe-area-inset-bottom)}
   .nav button{flex:1;height:72px}
   .nav-ora{display:none}
-  .fascia{grid-row:1}
   main{grid-row:2}
   .fasi{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:calc(8px + env(safe-area-inset-top)) 12px 8px;flex:none}
   .fasi button{height:56px;border-radius:6px;background:var(--surf);color:var(--t2)}
@@ -219,4 +219,49 @@ main{grid-row:2;position:relative;min-height:0;min-width:0}
 .avv button{height:64px;width:120px;font-weight:600}
 .avv u{position:absolute;left:0;bottom:0;height:2px;background:var(--t2);width:100%;transform-origin:left}
 @media(max-width:1079px){.avv{bottom:calc(84px + env(safe-area-inset-bottom))}}
+
+/* ordine con orario chiesto dal cliente */
+.alle{display:block;width:calc(100% - 16px);margin:0 8px 6px;height:64px;border-radius:6px;background:var(--inv1);color:var(--inv);font-size:22px;font-weight:700}
+/* pausa */
+#f-audio{justify-content:center;cursor:pointer}
+.nav button.att[data-pausa]{background:var(--warn);color:var(--n1000)}
+.scelte button small{display:block;font-size:15px;line-height:20px;font-weight:500;color:var(--t2)}
+/* altre azioni nel dettaglio */
+.sposta{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:16px}
+.sposta button{height:64px;border-radius:6px;background:var(--ctrl);font-size:20px;font-weight:700}
+.sposta button:active{background:var(--press)}
+.altre-az{display:grid;gap:6px}
+.altre-az .p-s{margin:0 0 2px}
+.importo.sx{text-align:left;margin:8px 0 4px;clear:both}
+.riap{cursor:pointer}
+/* allarme a tutto schermo */
+.allarme{position:fixed;inset:0;z-index:35;background:var(--inv);color:var(--inv1);display:grid;grid-template-rows:auto minmax(0,1fr) auto;padding:calc(16px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom));animation:entra .16s var(--eo) both}
+.al-testa{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding-bottom:12px;border-bottom:1px solid var(--inv2)}
+.al-nuovo{font-size:18px;line-height:24px;font-weight:600}
+.al-cod{font-size:clamp(64px,14vw,104px);line-height:1;font-weight:700;letter-spacing:-.02em}
+.al-dx{text-align:right;color:var(--inv2);font-size:15px;line-height:22px;display:grid;justify-items:end}
+.al-dx span{display:flex;align-items:center;gap:6px}
+.al-attesa{font-size:18px;font-weight:600;color:var(--inv1)}
+.al-voci{overflow:auto;padding:16px 0;display:grid;gap:12px;align-content:start}
+.al-voci .voce{font-size:clamp(24px,3.4vw,32px);line-height:1.2;grid-template-columns:40px 1fr}
+.al-voci .voce small{color:var(--inv2);font-size:18px;line-height:24px}
+.al-voci .nota{background:var(--nibg);color:var(--nit);margin:0}
+.al-piede .etic{padding:8px 0;color:var(--inv2)}
+.al-piede .tempi{padding:0}.al-piede .alle{width:100%;margin:0 0 6px}
+.al-piede .tempi button{height:88px;font-size:32px}
+.al-sotto{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.al-sotto button{height:56px;font-weight:600;color:var(--inv2)}
+@media(min-width:1080px){.allarme{padding-left:calc(84px + 32px);padding-right:32px}}
+/* comanda stampata */
+.stampa{display:none}
+@media print{
+  @page{size:80mm auto;margin:3mm}
+  body{overflow:visible;background:#fff;height:auto}
+  body>*:not(.stampa){display:none!important}
+  .stampa{display:block;color:#000;font:12pt/1.3 'IBM Plex Sans',sans-serif}
+  .stampa h1{font-size:34pt;line-height:1}
+  .stampa .s-r{padding:6px 0;border-top:1px solid #000}
+  .stampa .s-r b{font-size:14pt}
+  .stampa .s-n{border:2px solid #000;padding:4px;font-weight:700}
+}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:0s!important}}

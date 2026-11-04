@@ -33,12 +33,13 @@
 </section>
 
 <div class="app" id="app" hidden>
-  <div class="fascia" id="fascia" hidden></div>
+  <div class="strisce"><div class="fascia" id="fascia" hidden></div><div class="fascia" id="f-pausa" hidden></div><button class="fascia" id="f-audio" hidden><span>Tocca qui per attivare il campanello</span></button></div>
   <nav class="nav" aria-label="Sezioni">
     <button data-v="ordini" aria-current="true"><i class="ph-fill ph-receipt"></i><span>Ordini</span><em hidden></em></button>
     <button data-v="menu"><i class="ph-bold ph-pizza"></i><span>Menù</span></button>
     <button data-v="ingredienti"><i class="ph-bold ph-carrot"></i><span>Ingredienti</span></button>
     <button data-v="impostazioni"><i class="ph-bold ph-gear-six"></i><span>Impostazioni</span></button>
+    <button data-pausa id="b-pausa"><i class="ph-bold ph-pause-circle"></i><span>Pausa</span></button>
     <div class="nav-ora"><b id="ora">--:--</b><span id="rete">online</span></div>
   </nav>
   <main>
@@ -65,6 +66,8 @@
 
 <div class="velo" id="velo" hidden></div>
 <aside class="pann" id="pann" role="dialog" aria-modal="true" hidden></aside>
+<section class="allarme" id="allarme" role="alertdialog" aria-label="Nuovo ordine" hidden></section>
+<div class="stampa" id="stampa" aria-hidden="true"></div>
 <div class="avv" id="avv" role="status"><span></span><button>Annulla</button><u></u></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>

@@ -229,3 +229,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .sipario img{width:min(46vmin,420px);filter:drop-shadow(0 30px 36px rgba(60,6,2,.55))}
 html.arrivo:before{content:"";position:fixed;inset:0;z-index:199;background:var(--rosso);animation:arrivo 0s 2.5s forwards}
 @keyframes arrivo{to{visibility:hidden}}
+
+/* il nome in fondo a ogni pagina */
+.piede-nome{grid-column:1/-1;overflow:hidden;font-family:var(--titoli);font-weight:900;text-transform:uppercase;font-size:21.4vw;line-height:.8;white-space:nowrap;margin-top:clamp(20px,5svh,50px);padding-bottom:.03em;color:var(--farina)}
+.piede-nome span{display:block;transform:translateY(102%);transition:transform 1.3s var(--ease)}
+.piede-nome.su span{transform:none}
+@media(prefers-reduced-motion:reduce){.piede-nome span{transform:none}}
