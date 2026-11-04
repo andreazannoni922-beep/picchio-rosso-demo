@@ -29,9 +29,8 @@
 <main>
   <section class="m-palco">
     <div class="fisso">
-      <video class="m-fuoco" poster="media/forno.jpg" src="media/forno.mp4" autoplay muted loop playsinline aria-hidden="true"></video>
+      <canvas class="seq" id="seq-ingr" aria-hidden="true"></canvas>
       <h1 class="display" data-sale><span class="riga"><span>Stasera</span></span><span class="riga"><span>cosa</span></span><span class="riga"><span>inforniamo?</span></span></h1>
-      <img class="m-pi" src="img/cut/margherita.webp" alt="" aria-hidden="true"><img class="m-pi" src="img/cut/radicchio.webp" alt="" aria-hidden="true"><img class="m-pi" src="img/cut/burrata.webp" alt="" aria-hidden="true">
       <div class="m-giu">
         <p>Tutto il menù, prezzi veri, aggiornato dalla cucina in tempo reale. Ordini qui, paghi alla consegna.</p>
         <div class="interruttore" id="modo"><i></i>
@@ -81,6 +80,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
 <script src="assets/js/core.js"></script>
+<script src="assets/js/sequenza.js"></script>
 <script src="assets/js/pagine.js"></script>
 <script src="assets/js/menu.js"></script>
 <script src="assets/js/sezioni.js"></script>

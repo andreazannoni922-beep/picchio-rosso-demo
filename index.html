@@ -13,7 +13,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Extra+Condensed:wght@700;800;900&family=Sofia+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="img/cut/margherita.webp">
 <link rel="stylesheet" href="assets/css/site.css">
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
+<link rel="preload" as="image" href="media/seq/hero-t/001.webp" media="(max-aspect-ratio:1/1)">
+<link rel="preload" as="image" href="media/seq/hero-o/001.webp" media="(min-aspect-ratio:1/1)">
 </head>
 <body>
 <div class="grana" aria-hidden="true"></div>
@@ -30,18 +31,10 @@
 <main>
   <section class="eroe" data-eroe>
     <div class="eroe-fisso">
-      <video class="fuoco" poster="media/forno.jpg" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
-      <script>document.querySelector('.fuoco').src=innerWidth<=720?'media/forno-m.mp4':'media/forno.mp4'</script>
+      <canvas class="seq" id="seq-eroe" aria-hidden="true"></canvas>
       <div class="velo"></div>
-      <div class="alone" aria-hidden="true"></div>
       <h1 class="titolo t-cotta" aria-label="Cotta a legna"><span data-riga>Cotta a legna</span></h1>
       <p class="titolo t-dal" aria-label="Dal 2014"><span data-riga>Dal 2014</span></p>
-      <canvas id="pizza" aria-hidden="true"></canvas>
-      <img class="pizza-riserva" src="img/cut/margherita.webp" alt="La margherita del Picchio Rosso">
-      <p class="frase sx" data-f="0">Cotta a legna, dal 2014<i></i></p>
-      <p class="frase dx" data-f="1">Pizze anche per celiaci<i></i></p>
-      <p class="frase sx" data-f="2">In sala e da asporto<i></i></p>
-      <p class="frase dx" data-f="3">Consegna a domicilio<i></i></p>
       <img class="foto-arrivo" src="img/pizze/margherita-tavolo.jpg" alt="" aria-hidden="true">
     </div>
   </section>
@@ -76,8 +69,9 @@
   <section class="impasti" data-impasti aria-labelledby="i-t">
     <div class="impasti-fisso">
       <h2 id="i-t" class="vh">Tre impasti. Un solo fuoco.</h2>
+      <canvas class="seq" id="seq-pasta" aria-hidden="true"></canvas>
+      <div class="impasti-velo" aria-hidden="true"></div>
       <div class="strati" aria-hidden="true"><span>Impasti</span><span>Impasti</span><span>Impasti</span><span>Impasti</span></div>
-      <img class="impasti-pizza" src="img/cut/bianca.webp" alt="Pizza bianca del Picchio Rosso" width="751" height="740" loading="lazy">
       <ul class="col-l" aria-hidden="true"><li>Tradizionale</li><li>Integrale</li><li>Ai cereali</li></ul>
       <ul class="col-r" aria-hidden="true"><li>24 ore</li><li>Al 100%</li><li>A pietra</li></ul>
       <div class="impasti-d">
@@ -105,14 +99,13 @@
 
   <section class="carta" data-carta aria-labelledby="c-t">
     <div class="fisso">
-      <picture><source media="(max-width:760px)" srcset="img/pizze/margherita.jpg"><img class="carta-foto" src="img/pizze/tavola.jpg" alt="Pizze appena consegnate sul tavolo" width="1600" height="1200" loading="lazy"></picture>
-      <div class="carta-ombra" aria-hidden="true"></div>
+      <canvas class="seq" id="seq-cartone" aria-hidden="true"></canvas>
+      <h2 id="c-t" class="carta-t"><span class="c1">A casa.</span> <span class="c2">Ancora calda.</span></h2>
       <div class="carta-info">
         <p>Nelle nostre vetture il forno resta caldo fino alla tua porta. Così la pizza che ricevi è quella che mangeresti seduto da noi.</p>
         <div class="prezzi"><span><b>2 €</b> in paese</span><span><b>da 3 €</b> fuori comune</span></div>
         <a class="bott crema" href="menu.html">Scegli il tuo orario</a>
       </div>
-      <div class="coperchio"><h2 id="c-t">A casa.<br>Ancora<br class="solo-t"> calda.</h2></div>
     </div>
   </section>
 
@@ -175,6 +168,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="assets/js/sequenza.js"></script>
 <script type="module" src="assets/js/eroe.js"></script>
 <script src="assets/js/sezioni.js"></script>
 </body>

@@ -39,7 +39,8 @@
   /* impasti: gli strati si aprono, la pizza gira, le colonne convergono, tre stazioni */
   const im = $('[data-impasti]');
   if (im) {
-    const st = $$('.strati span', im), pz = $('.impasti-pizza', im), cl = $('.col-l', im), cr = $('.col-r', im), dd = $$('.impasti-d p', im);
+    let sqP = null; new IntersectionObserver(([e], o) => { if (e.isIntersecting && window.Sequenza) { sqP = new Sequenza($('#seq-pasta', im), { telefono: { cartella: 'media/seq/pasta-t', n: 96 }, schermo: { cartella: 'media/seq/pasta-o', n: 96 } }); o.disconnect(); } }, { rootMargin: '150% 0px' }).observe(im);
+    const st = $$('.strati span', im), cl = $('.col-l', im), cr = $('.col-r', im), dd = $$('.impasti-d p', im);
     const li = [...$$('li', cl).map((x, i) => [x, $$('li', cr)[i]])];
     let q = 0;
     ogni(() => {
@@ -47,7 +48,7 @@
       q += (av(im) - q) * (fermo ? 1 : .1);
       const a = out(seg(q, 0, .22)), H = innerHeight;
       st.forEach((s, i) => { const k = (st.length - 1 - i); s.style.transform = `translate3d(${k * a * 1.1}vmin,${k * a * 1.1}vmin,0)`; });
-      pz.style.transform = `rotate(${q * 220}deg) scale(${.9 + a * .1})`;
+      if (sqP) sqP.vai(fermo ? .6 : seg(q, .02, .98));
       cl.style.transform = `translate3d(${(1 - a) * -24}vw,-50%,0)`.replace('-50%', innerWidth > 760 ? '-50%' : '0');
       cr.style.transform = `translate3d(${(1 - a) * 24}vw,-50%,0)`.replace('-50%', innerWidth > 760 ? '-50%' : '0');
       const k = Math.min(2, Math.floor(seg(q, .12, .98) * 3));
@@ -73,9 +74,9 @@
       if (d < 1) ri.style.clipPath = `polygon(100% 0,${Math.max(100 - a, 0)}% 0,${a > 100 ? 0 : 100 - a}% ${a > 100 ? a - 100 : 0}%,${a > 100 ? a - 100 : 100}% ${a > 100 ? 100 : a}%,100% ${Math.min(a, 100)}%)`;
       const st = io(seg(q, .5, .68));
       if (d >= 1) {
-        ri.style.clipPath = mob ? `inset(${st * 7}% ${st * 6}% ${st * 56}% ${st * 6}%)` : `inset(${st * 9}% ${st * 4}% ${st * 9}% ${st * 54}%)`;
+        ri.style.clipPath = mob ? `inset(${st * 11}% ${st * 6}% ${st * (89 - 88 * innerWidth / 1.5 / innerHeight)}% ${st * 6}%)` : `inset(${st * 9}% ${st * 4}% ${st * 9}% ${st * 54}%)`;
       }
-      ii.style.transform = mob ? `translate3d(${st * -2}%,${st * -7}%,0) scale(${1.14 - seg(q, .26, 1) * .14})` : `translateX(${st * 27}%) scale(${1.14 - seg(q, .26, 1) * .14})`;
+      ii.style.transform = mob ? `translate3d(0,${st * (innerHeight * .11 + .88 * innerWidth / 3 - innerHeight / 2)}px,0) scale(${1.14 + st * (.88 * innerWidth / (1.5 * innerHeight) - 1.14)})` : `translateX(${st * 27}%) scale(${1.14 - seg(q, .26, 1) * .14})`;
       po.style.opacity = st > .02 ? 0 : 1;
       te.style.opacity = seg(q, .56, .64);
       te.style.pointerEvents = st > .8 ? 'auto' : 'none';
@@ -84,20 +85,20 @@
     });
   }
 
-  /* carta: il coperchio del cartone si apre con lo scroll e scopre la tavola */
+  /* carta: il cartone vero che si apre con lo scroll */
   const cc = $('[data-carta]');
-  let suCoperchio = false;
-  if (cc && !fermo) {
-    const co = $('.coperchio', cc), ft = $('.carta-foto', cc), om = $('.carta-ombra', cc), inf = $('.carta-info', cc);
+  if (cc) {
+    let sq = null, q = 0;
+    const c1 = $('.c1', cc), c2 = $('.c2', cc), inf = $('.carta-info', cc);
+    new IntersectionObserver(([e], o) => { if (e.isIntersecting && window.Sequenza) { sq = new Sequenza($('#seq-cartone'), { telefono: { cartella: 'media/seq/box-t', n: 96 }, schermo: { cartella: 'media/seq/box-o', n: 96 } }); o.disconnect(); } }, { rootMargin: '150% 0px' }).observe(cc);
     ogni(() => {
       const r = cc.getBoundingClientRect(); if (r.bottom < -80 || r.top > innerHeight + 80) return;
-      const p = clamp(-r.top / (cc.offsetHeight - innerHeight)), k = io(seg(p, .06, .7));
-      co.style.transform = `rotateX(${k * 112}deg)`;
-      co.style.visibility = k >= 1 ? 'hidden' : 'visible';
-      ft.style.transform = `scale(${1.16 - k * .16})`;
-      om.style.opacity = 1 - seg(p, .35, .8);
-      const a = seg(p, .68, .86); inf.style.opacity = a; inf.style.transform = `translateY(${(1 - a) * 34}px)`; inf.style.visibility = a > .02 ? 'visible' : 'hidden';
-      suCoperchio = p < .34 && r.top < 40;
+      q += (clamp(-r.top / (cc.offsetHeight - innerHeight)) - q) * (fermo ? 1 : .12);
+      if (sq) sq.vai(fermo ? 1 : seg(q, .08, .82));
+      const v = io(seg(q, .06, .3)), oriz = innerWidth > innerHeight;
+      c1.style.transform = oriz ? `translate3d(${-v * 40}vw,-50%,0)` : `translate3d(0,${-v * 40}svh,0)`;
+      c2.style.transform = oriz ? `translate3d(${v * 40}vw,-50%,0)` : `translate3d(0,${v * 40}svh,0)`;
+      const a = seg(q, .76, .92); inf.style.opacity = a; inf.style.transform = `translateY(${(1 - a) * 34}px)`; inf.style.visibility = a > .02 ? 'visible' : 'hidden';
     });
   }
 
@@ -117,7 +118,7 @@
   /* testata: colore sulle sezioni chiare, sparisce scendendo */
   let yP = 0;
   ogni(() => {
-    te.classList.toggle('su-chiaro', suCoperchio || chiare.some(s => { const r = s.getBoundingClientRect(); return r.top < 40 && r.bottom > 40; }));
+    te.classList.toggle('su-chiaro', chiare.some(s => { const r = s.getBoundingClientRect(); return r.top < 40 && r.bottom > 40; }));
     const y = scrollY, eroe = $('[data-eroe]'), fin = eroe ? eroe.offsetHeight - innerHeight : 0;
     if (y > fin + 200 && y > yP + 3) te.classList.add('via'); else if (y < yP - 3 || y <= fin + 200) te.classList.remove('via');
     yP = y;
@@ -171,6 +172,8 @@
     addEventListener('pageshow', e => { if (e.persisted) { gsap.killTweensOf([si, pz]); gsap.set(si, { clipPath: 'inset(0 0 100% 0)' }); } });
   } else document.documentElement.classList.remove('arrivo');
 
+  const adattaNome = () => $$('.piede-nome').forEach(n => { const s = $('span', n); s.style.display = 'inline-block'; n.style.fontSize = '100px'; const w = s.getBoundingClientRect().width; n.style.fontSize = 100 * n.clientWidth / w * .995 + 'px'; s.style.display = 'block'; });
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(adattaNome); adattaNome(); addEventListener('resize', adattaNome);
   $$('.piede-nome').forEach(n => vista(n, e => e.classList.add('su'), { threshold: .2 }));
 
   const giro = now => { passi.forEach(f => f(now)); requestAnimationFrame(giro); };

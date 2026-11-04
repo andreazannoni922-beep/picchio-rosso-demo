@@ -31,11 +31,12 @@
     /* storia · apertura: il video si stringe, le righe si separano */
     const se = $('.s-eroe');
     if (se) {
-      const fo = $('.fondo', se), rr = $$('h1 .riga', se), so = $('.sotto', se);
+      const fo = $('.fondo', se), rr = $$('h1 .riga', se), so = $('.sotto', se), sq = new Sequenza($('#seq-pala'), { telefono: { cartella: 'media/seq/pala-t', n: 96 }, schermo: { cartella: 'media/seq/pala-o', n: 96 } });
       palco(se, p => {
-        const k = io(seg(p, .1, 1));
-        fo.style.clipPath = `inset(${k * 18}% ${k * 24}% ${k * 18}% ${k * 24}% round ${k * 4}px)`;
-        rr.forEach((r, i) => { r.style.transform = `translate3d(${(i % 2 ? 1 : -1) * k * 26}vw,0,0)`; r.style.opacity = 1 - seg(p, .8, 1); });
+        sq.vai(seg(p, .02, .8));
+        const k = io(seg(p, .72, 1));
+        fo.style.transform = `scale(${1 + k * .06})`;
+        rr.forEach((r, i) => { const t = io(seg(p, .04, .4)); r.style.transform = `translate3d(${(i % 2 ? 1 : -1) * t * 110}vw,0,0)`; });
         so.style.opacity = 1 - seg(p, .05, .3);
       });
     }
@@ -77,16 +78,14 @@
     /* aziende · apertura: la foto si allarga fino a riempire lo schermo */
     const ae = $('.a-eroe');
     if (ae) {
-      const fo = $('.a-foto', ae), im = $('img', fo), rr = $$('h1 .riga', ae), so = $('.a-sotto', ae);
+      const fo = $('.a-foto', ae), rr = $$('h1 .riga', ae), so = $('.a-sotto', ae), sq = new Sequenza($('#seq-casse'), { telefono: { cartella: 'media/seq/casse-t', n: 96 }, schermo: { cartella: 'media/seq/casse-o', n: 96 } });
       palco(ae, p => {
-        const k = io(seg(p, 0, .62));
-        const mob = innerWidth <= 760, yy = (mob ? 34 : 27) * (1 - k) + (mob ? 0 : 0), xx = (mob ? 8 : 29) * (1 - k);
-        fo.style.clipPath = `inset(${yy}% ${xx}% ${yy}% ${xx}% round ${(1 - k) * 4}px)`;
-        im.style.transform = `scale(${1.3 - k * .3})`;
-        fo.style.setProperty('--scuro', (seg(p, .55, .8) * (mob ? .2 : .62)).toFixed(3));
+        sq.vai(seg(p, .02, .76));
+        const k = io(seg(p, .03, .3)), mob = innerWidth <= 760;
+        fo.style.setProperty('--scuro', (seg(p, .72, .88) * .6).toFixed(3));
         rr[0].style.transform = `translate3d(0,${-k * 40}svh,0)`;
         rr[1].style.transform = `translate3d(0,${k * 40}svh,0)`;
-        const a = seg(p, .66, .84); so.style.opacity = a; so.style.visibility = a > .02 ? 'visible' : 'hidden';
+        const a = seg(p, .76, .9); so.style.opacity = a; so.style.visibility = a > .02 ? 'visible' : 'hidden';
         so.style.transform = mob ? `translateY(${(1 - a) * 40}px)` : `translateY(calc(-50% + ${(1 - a) * 40}px))`;
       });
     }
