@@ -2,7 +2,6 @@
 <html lang="it">
 <head>
 <meta charset="utf-8">
-<script>try{if(sessionStorage.getItem('pr-via'))document.documentElement.classList.add('arrivo')}catch(e){}</script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Picchio Rosso · Pizzeria con forno a legna a Fiorano Modenese</title>
 <meta name="description" content="Picchio Rosso, pizzeria con forno a legna a Fiorano Modenese dal 2014. In sala, da asporto o con consegna a domicilio.">
@@ -14,10 +13,16 @@
 <link rel="preload" as="image" href="img/cut/margherita.webp">
 <link rel="stylesheet" href="assets/css/site.css">
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
-<link rel="preload" as="image" href="media/seq/hero-t/001.webp" media="(max-aspect-ratio:1/1)">
-<link rel="preload" as="image" href="media/seq/hero-o/001.webp" media="(min-aspect-ratio:1/1)">
 </head>
 <body>
+<div class="carico" aria-hidden="true"><svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+  <path pathLength="1" style="--a:0;--b:.34" stroke-width="3.4" d="M100 12c20-1 37 5 52 17 14 11 25 26 30 44 4 17 5 35-2 52-7 18-19 32-35 42-15 10-33 15-51 13-18-1-35-8-49-20-14-11-25-27-29-45-4-17-3-35 4-51 7-17 19-30 34-39 14-9 30-13 46-13z"/>
+  <path pathLength="1" style="--a:.2;--b:.28" stroke-width="2.2" d="M100 28c16-1 31 4 43 14 12 9 20 22 24 37 3 14 3 29-3 43-6 15-16 26-29 34-13 8-28 12-43 10-15-1-29-7-40-17-11-9-19-23-22-37-3-15-1-30 5-43 6-14 17-25 30-32 11-6 23-9 35-9z"/>
+  <path pathLength="1" style="--a:.42;--b:.14" stroke-width="1.8" d="M100 28 100 172"/><path pathLength="1" style="--a:.48;--b:.14" stroke-width="1.8" d="M38 64 162 136"/><path pathLength="1" style="--a:.54;--b:.14" stroke-width="1.8" d="M162 64 38 136"/>
+  <circle pathLength="1" style="--a:.62;--b:.1" stroke-width="2" cx="74" cy="66" r="11"/><circle pathLength="1" style="--a:.66;--b:.1" stroke-width="2" cx="130" cy="72" r="9"/><circle pathLength="1" style="--a:.7;--b:.1" stroke-width="2" cx="66" cy="124" r="9"/><circle pathLength="1" style="--a:.74;--b:.1" stroke-width="2" cx="128" cy="134" r="12"/>
+  <path pathLength="1" style="--a:.8;--b:.1" stroke-width="2" d="M96 92c8-8 18-6 22 2-8 6-18 6-22-2zM96 92c-2 8 2 16 12 18"/><path pathLength="1" style="--a:.84;--b:.1" stroke-width="2" d="M84 104c-7-3-14 0-16 7 7 3 14 0 16-7z"/>
+</svg></div>
+<script src="assets/js/carico.js"></script>
 <div class="grana" aria-hidden="true"></div>
 <header class="testa" data-testa>
   <a class="logo" href="index.html" aria-label="Pizzeria Picchio Rosso, home"><img src="img/brand/logo-badge.png" alt="Pizzeria Picchio Rosso, forno a legna dal 2014" width="640" height="640"></a>
@@ -32,10 +37,10 @@
 <main>
   <section class="eroe" data-eroe>
     <div class="eroe-fisso">
-      <canvas class="seq" id="seq-eroe" aria-hidden="true"></canvas>
+      <video class="fuoco" poster="media/forno.jpg" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
+      <script>document.querySelector('.fuoco').src=innerWidth<innerHeight?'media/forno-v.mp4':'media/forno-hd.mp4'</script>
       <div class="velo"></div>
       <h1 class="titolo t-cotta" aria-label="Cotta a legna"><span data-riga>Cotta a legna</span></h1>
-      <p class="titolo t-dal" aria-label="Dal 2014"><span data-riga>Dal 2014</span></p>
       <img class="foto-arrivo" src="img/pizze/margherita-tavolo.jpg" alt="" aria-hidden="true">
     </div>
   </section>
@@ -63,7 +68,7 @@
       <div class="mettici" role="group" aria-label="Metti gli ingredienti sulla pizza"><button data-ingr="basilico">Basilico</button><button data-ingr="pomodoro">Pomodorini</button><button data-ingr="mozzarella">Fior di latte</button><button data-ingr="via">Via tutto</button></div>
       <a class="bott crema" href="menu.html">Crea la tua pizza</a>
     </div>
-    <canvas class="scena rosso-pizza" data-scena="pizza" data-nome="burrata" data-inclina=".95" data-ingredienti="1" aria-label="Pizza 3D: trascinala per girarla"></canvas>
+    <div class="rosso-pizza"><i class="pz-ombra"></i><img src="img/cut/burrata.webp" alt="Pizza del Picchio Rosso con burrata e prosciutto" width="900" height="900"><canvas data-scena="ingredienti" aria-label="Trascina per girare la pizza"></canvas></div>
     <div class="scintille" aria-hidden="true"></div>
   </section>
 
@@ -71,7 +76,7 @@
     <div class="impasti-fisso">
       <h2 id="i-t" class="vh">Tre impasti. Un solo fuoco.</h2>
       <div class="strati" aria-hidden="true"><span>Impasti</span><span>Impasti</span><span>Impasti</span><span>Impasti</span></div>
-      <canvas class="scena impasti-3d" data-scena="pizza" data-nome="bianca" data-inclina="1.05" aria-hidden="true"></canvas>
+      <img class="impasti-pizza" src="img/cut/bianca.webp" alt="Pizza bianca del Picchio Rosso" width="751" height="747" loading="lazy">
       <ul class="col-l" aria-hidden="true"><li>Tradizionale</li><li>Integrale</li><li>Ai cereali</li></ul>
       <ul class="col-r" aria-hidden="true"><li>24 ore</li><li>Al 100%</li><li>A pietra</li></ul>
       <div class="impasti-d">
@@ -97,14 +102,14 @@
     </div>
   </section>
 
-  <section class="carta" data-carta data-tono="chiaro" aria-labelledby="c-t">
+  <section class="carta" data-carta aria-labelledby="c-t">
     <div class="fisso">
-      <h2 id="c-t" class="carta-t"><span class="c1">A casa.</span> <span class="c2">Ancora calda.</span></h2>
-      <canvas class="scena" data-scena="cartoni" data-quanti="3" aria-hidden="true"></canvas>
+      <h2 id="c-t" class="carta-t" data-urto><span data-lettere>A casa.</span> <span data-lettere>Ancora calda.</span></h2>
+      <canvas class="scena" data-scena="cartoni" data-quanti="4" aria-hidden="true"></canvas>
       <div class="carta-info">
         <p>Nelle nostre vetture il forno resta caldo fino alla tua porta. Così la pizza che ricevi è quella che mangeresti seduto da noi.</p>
         <div class="prezzi"><span><b>2 €</b> in paese</span><span><b>da 3 €</b> fuori comune</span></div>
-        <a class="bott nero" href="menu.html">Scegli il tuo orario</a>
+        <a class="bott crema" href="menu.html">Scegli il tuo orario</a>
       </div>
     </div>
   </section>
@@ -147,7 +152,7 @@
 </main>
 
 <footer class="piede">
-  <video class="piede-fuoco" poster="media/forno.jpg" data-src="media/forno.mp4" muted loop playsinline aria-hidden="true"></video>
+  <video class="piede-fuoco" poster="media/forno.jpg" data-src="media/forno-hd.mp4" muted loop playsinline aria-hidden="true"></video>
   <div class="piede-su">
     <p class="piede-stato" data-stato></p>
     <a class="piede-tel" href="tel:+3905361753948">0536 175 3948</a>
@@ -174,7 +179,6 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
-<script src="assets/js/sequenza.js"></script>
 <script type="module" src="assets/js/eroe.js"></script>
 <script type="module" src="assets/js/scene-pagina.js"></script>
 <script src="assets/js/sezioni.js"></script>

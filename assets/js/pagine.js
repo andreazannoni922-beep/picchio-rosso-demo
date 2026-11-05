@@ -102,16 +102,15 @@
       });
     });
 
-    /* aziende · la telefonata: il titolo si accende, poi la pizza fa la strada */
-    const pa = $('.passaggi');
-    if (pa) {
-      const w = PR.parole($('h2', pa)), pi = $('.pista', pa), li = $('i', pi), ru = $('img', pi), st = $$('.passaggio', pa);
-      palco(pa, p => {
-        w.forEach((s, i) => s.classList.toggle('su', seg(p, 0, .34) * (w.length + .5) > i));
-        const k = seg(p, .36, .96), L = pi.offsetWidth, d = ru.offsetWidth, x = k * (L - d);
-        li.style.transform = `scaleX(${k})`;
-        ru.style.transform = `translate3d(${x}px,0,0) rotate(${x / (d / 2) * 57.3}deg)`;
-        st.forEach((s, i) => s.classList.toggle('su', k > .03 + i * .32));
+    /* aziende · la telefonata: il numero si compone cifra per cifra, poi le foto si aprono a cerchio */
+    const ch = $('[data-chiama]');
+    if (ch) {
+      const num = $('.ch-num', ch), v = num.textContent; num.innerHTML = [...v].map(c => `<i>${c === ' ' ? '&nbsp;' : c}</i>`).join(''); const cc = $$('i', num), tit = PR.parole($('h2', ch)), c2 = $('.ch2', ch), c3 = $('.ch3', ch), t1 = $('.ch1 p', ch);
+      palco(ch, p => {
+        tit.forEach((s, i) => { s.style.transform = `translateY(${(1 - out(seg(p, i * .012, .05 + i * .012))) * 110}%)`; });
+        const d = seg(p, .08, .3) * cc.length; cc.forEach((s, i) => { const a = clamp(d - i); s.style.opacity = a; s.style.transform = `translateY(${(1 - a) * 40}%) scale(${1 + (1 - a) * .5})`; });
+        t1.style.opacity = seg(p, .28, .34);
+        [[c2, .38, .58], [c3, .68, .88]].forEach(([e, a, b]) => { const k = io(seg(p, a, b)); e.style.clipPath = `circle(${k * 125}vmax at 50% 50%)`; e.style.visibility = k > 0 ? 'visible' : 'hidden'; $('img', e).style.transform = `scale(${1.2 - k * .2})`; const t = out(seg(p, b - .06, b + .04)); $('div', e).style.opacity = t; $('div', e).style.transform = `translateY(${(1 - t) * 40}px)`; });
       });
     }
 

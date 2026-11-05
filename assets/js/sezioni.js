@@ -26,13 +26,14 @@
   /* impasti: gli strati si aprono, la pizza gira, le colonne convergono, tre stazioni */
   const im = $('[data-impasti]');
   if (im) {
-    const st = $$('.strati span', im), cl = $('.col-l', im), cr = $('.col-r', im), dd = $$('.impasti-d p', im);
+    const st = $$('.strati span', im), pz = $('.impasti-pizza', im), cl = $('.col-l', im), cr = $('.col-r', im), dd = $$('.impasti-d p', im);
     const li = [...$$('li', cl).map((x, i) => [x, $$('li', cr)[i]])];
     let q = 0;
     ogni(() => {
       const r = im.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return;
       q += (av(im) - q) * (fermo ? 1 : .1);
       const a = out(seg(q, 0, .22)), H = innerHeight;
+      pz.style.transform = `rotate(${q * 260}deg) scale(${.88 + a * .12})`;
       st.forEach((s, i) => { const k = (st.length - 1 - i); s.style.transform = `translate3d(${k * a * 1.1}vmin,${k * a * 1.1}vmin,0)`; });
       cl.style.transform = `translate3d(${(1 - a) * -24}vw,-50%,0)`.replace('-50%', innerWidth > 760 ? '-50%' : '0');
       cr.style.transform = `translate3d(${(1 - a) * 24}vw,-50%,0)`.replace('-50%', innerWidth > 760 ? '-50%' : '0');
@@ -71,15 +72,14 @@
     });
   }
 
-  /* carta: il titolo sta dietro i cartoni 3D, poi lascia posto ai dati */
+  /* carta: dopo l'ultimo cartone arrivano i dati */
   const cc = $('[data-carta]');
   if (cc) {
-    const tit = $('.carta-t', cc), inf = $('.carta-info', cc);
+    const inf = $('.carta-info', cc);
     ogni(() => {
       const r = cc.getBoundingClientRect(); if (r.bottom < -80 || r.top > innerHeight + 80) return;
-      const q = fermo ? 1 : clamp(-r.top / (cc.offsetHeight - innerHeight));
-      tit.style.opacity = 1 - seg(q, .62, .76); tit.style.transform = `translateY(${-seg(q, .5, .8) * 14}svh)`;
-      const a = seg(q, .8, .93); inf.style.opacity = a; inf.style.transform = `translateY(${(1 - a) * 34}px)`; inf.style.visibility = a > .02 ? 'visible' : 'hidden';
+      const q = fermo ? 1 : clamp(-r.top / (cc.offsetHeight - innerHeight)), a = seg(q, .88, .97);
+      inf.style.opacity = a; inf.style.transform = `translateY(${(1 - a) * 34}px)`; inf.style.visibility = a > .02 ? 'visible' : 'hidden';
     });
   }
 
@@ -130,29 +130,8 @@
     li.forEach(a => a.addEventListener('mouseenter', () => { pi.src = `img/cut/${a.dataset.cut}.webp`; gsap.fromTo(pi, { rotate: -40 }, { rotate: 0, duration: .9, ease: 'expo.out' }); }));
   }
 
-  /* tra una pagina e l'altra: sipario rosso con la pizza che rotola */
-  if (window.gsap && !fermo) {
-    const si = document.createElement('div'); si.className = 'sipario'; si.setAttribute('aria-hidden', 'true'); si.innerHTML = '<img src="img/cut/margherita.webp" alt="">'; document.body.appendChild(si);
-    const pz = $('img', si);
-    if (document.documentElement.classList.contains('arrivo')) {
-      gsap.set(si, { clipPath: 'inset(0 0 0 0)' }); document.documentElement.classList.remove('arrivo'); sessionStorage.removeItem('pr-via');
-      gsap.timeline().to(pz, { x: '120vw', rotate: 420, duration: .85, ease: 'power3.in' }, 0).to(si, { clipPath: 'inset(0 0 100% 0)', duration: .8, ease: 'expo.inOut' }, .1);
-    }
-    document.addEventListener('click', e => {
-      const a = e.target.closest('a[href]'); if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || a.target) return;
-      const u = new URL(a.href, location.href);
-      if (u.origin !== location.origin || !u.pathname.endsWith('.html') && u.pathname !== new URL('.', location.href).pathname) return;
-      if (u.pathname === location.pathname) return;
-      e.preventDefault();
-      gsap.killTweensOf([si, pz]);
-      gsap.set(pz, { x: '-120vw', rotate: -420 });
-      gsap.timeline({ onComplete: () => { try { sessionStorage.setItem('pr-via', '1'); } catch (er) {} location.href = a.href; } })
-        .fromTo(si, { clipPath: 'inset(100% 0 0 0)' }, { clipPath: 'inset(0% 0 0 0)', duration: .6, ease: 'expo.inOut' }, 0)
-        .to(pz, { x: 0, rotate: 0, duration: .7, ease: 'power3.out' }, .05);
-    });
-    addEventListener('pageshow', e => { if (e.persisted) { gsap.killTweensOf([si, pz]); gsap.set(si, { clipPath: 'inset(0 0 100% 0)' }); } });
-  } else document.documentElement.classList.remove('arrivo');
-
+  /* piede: le cifre del telefono salgono una a una */
+  $$('.piede-tel').forEach(t => { const v = t.textContent; t.setAttribute('aria-label', v); t.innerHTML = [...v].map((c, i) => c === ' ' ? '<i class="sp"> </i>' : `<i style="--i:${i}">${c}</i>`).join(''); vista(t, e => e.classList.add('su')); });
   /* piede: fuoco solo quando si vede, forno aperto o chiuso adesso */
   $$('.piede-fuoco').forEach(v => new IntersectionObserver(([e]) => { if (e.isIntersecting) { if (!v.src) v.src = v.dataset.src; v.play().catch(() => {}); } else v.pause(); }).observe(v));
   const FEST = ['1/1', '6/1', '25/4', '1/5', '2/6', '15/8', '1/11', '8/12', '25/12', '26/12'];

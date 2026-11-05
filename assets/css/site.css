@@ -39,11 +39,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 @media(max-width:720px){.testa .tel{display:none}.testa nav{font-size:19px}}
 
 /* hero */
-.eroe{position:relative;height:380svh;background:#120b08}
+.eroe{position:relative;height:260svh;background:#120b08}
 .eroe-fisso{position:sticky;top:0;height:100svh;overflow:hidden;perspective:900px;background:#120b08}
-.seq{position:absolute;inset:0;width:100%;height:100%;display:block}
 .fuoco,.foto-arrivo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.fuoco{transform-origin:50% 62%;will-change:transform,filter}
+.fuoco{transform-origin:38% 62%;will-change:transform}
 .velo{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,4,2,.3) 0,transparent 22%,transparent 62%,rgba(8,4,2,.82) 100%);pointer-events:none}
 .titolo{position:absolute;left:0;right:0;text-align:center;font-family:var(--titoli);font-weight:900;text-transform:uppercase;line-height:.8;letter-spacing:-.012em;white-space:nowrap;transform-style:preserve-3d;pointer-events:none}
 .titolo .l{display:inline-block;will-change:transform,opacity;background:linear-gradient(180deg,#fff8ec 22%,#ffe2bb 62%,#ffa766 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding:.04em 0}
@@ -57,7 +56,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .eroe-cta:hover{background:var(--rosso-2)}
 @media(max-width:720px){.suggerisci{bottom:20px;font-size:14px;gap:0}.eroe-cta{bottom:16px;font-size:22px}}
 /* storie */
-.storie{position:relative;height:400svh;background:#000}
+.storie{position:relative;height:400svh}
 .storie-fisso{position:sticky;top:0;height:100svh;overflow:hidden}
 .storia{position:absolute;inset:0;clip-path:circle(0 at 50% 50%);will-change:clip-path}
 .storia:first-of-type{clip-path:inset(0)}
@@ -122,11 +121,11 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 @media(max-aspect-ratio:1/1){.storia-t h2{font-size:15.2vw}.storia-testo{width:auto;right:var(--g);top:52svh;bottom:3svh;justify-content:flex-end;gap:clamp(10px,1.6svh,20px)}.storia-testo h2{font-size:min(15vw,8svh)}.note{grid-template-columns:1fr;gap:8px;font-size:15px}.storia-testo .bott{align-self:flex-start}}
 
 /* carta */
-.carta{position:relative;height:420svh;background:var(--farina)}
-.carta .fisso{position:sticky;top:0;height:100svh;min-height:560px;overflow:hidden;background:radial-gradient(90% 80% at 50% 44%,#fbf4e8,#e8dac4)}
-.carta-t{position:absolute;inset:0;margin:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--titoli);font-weight:900;text-transform:uppercase;line-height:.84;color:var(--notte);text-align:center;font-size:min(16.6vw,30svh);pointer-events:none;will-change:transform,opacity}
-.carta-t span{display:block}
-.carta-info{position:absolute;z-index:3;left:var(--g);right:var(--g);bottom:clamp(20px,4svh,40px);display:grid;grid-template-columns:1fr auto auto;gap:clamp(18px,4vw,60px);align-items:end;color:var(--notte);opacity:0;visibility:hidden}
+.carta{position:relative;height:560svh;background:#120b08}
+.carta .fisso{position:sticky;top:0;height:100svh;min-height:560px;overflow:hidden;background:radial-gradient(70% 60% at 50% 52%,#4a2b18,#120b08)}
+.carta-t{position:absolute;inset:0;margin:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--titoli);font-weight:900;text-transform:uppercase;line-height:.84;color:var(--farina);text-align:center;font-size:min(16.2vw,30svh);pointer-events:none;will-change:transform,opacity}
+.carta-t>span{display:block}
+.carta-info{position:absolute;z-index:3;left:var(--g);right:var(--g);bottom:clamp(20px,4svh,40px);display:grid;grid-template-columns:1fr auto auto;gap:clamp(18px,4vw,60px);align-items:end;color:var(--farina);opacity:0;visibility:hidden}
 .carta-info p{max-width:430px;font-size:clamp(17px,1.4vw,20px)}
 .prezzi{display:flex;gap:26px;font-size:16px}
 .prezzi b{font-family:var(--titoli);font-weight:900;font-size:clamp(38px,3.6vw,56px);line-height:1;margin-right:4px}
@@ -191,11 +190,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .marea-l:hover a{color:rgba(255,255,255,.42)}.marea-l a:hover{color:#fff;transform:translateX(16px)}
 .marea-b{position:absolute;left:var(--g);right:var(--g);bottom:24px;display:flex;gap:28px;flex-wrap:wrap;font-size:16px;opacity:0;z-index:2}
 
-/* sipario tra le pagine */
-.sipario{position:fixed;inset:0;z-index:200;background:var(--rosso);display:grid;place-items:center;clip-path:inset(100% 0 0 0);pointer-events:none}
-.sipario img{width:min(46vmin,420px);filter:drop-shadow(0 30px 36px rgba(60,6,2,.55))}
-html.arrivo:before{content:"";position:fixed;inset:0;z-index:199;background:var(--rosso);animation:arrivo 0s 2.5s forwards}
-@keyframes arrivo{to{visibility:hidden}}
 
 /* il nome in fondo a ogni pagina */
 
@@ -215,10 +209,7 @@ html.arrivo:before{content:"";position:fixed;inset:0;z-index:199;background:var(
 
 /* scene 3D */
 .scena{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y;z-index:1}
-.scena.impasti-3d{top:20svh;height:62svh}
-.scena.rosso-pizza{inset:0 0 0 auto;width:52%;height:100%}
-@media(max-aspect-ratio:1/1){.scena.rosso-pizza{inset:auto 0 0 0;width:100%;height:min(106vw,52svh)}.scena.impasti-3d{top:15svh;height:48svh}.carta-t{font-size:25vw}}
-.col-l,.col-r,.impasti-d,.carta-info,.rosso-t{z-index:2}
+@media(max-aspect-ratio:1/1){.carta-t{font-size:25vw}}
 .carta-info{pointer-events:none}.carta-info a{pointer-events:auto}
 .mettici{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 clamp(16px,2.6svh,26px)}
 .mettici button{font-family:var(--titoli);font-weight:800;font-size:clamp(20px,1.7vw,26px);text-transform:uppercase;line-height:1;padding:11px 14px 10px;border:1.5px solid var(--farina);border-radius:3px;color:var(--farina);transition:background .25s,color .25s}
@@ -242,3 +233,36 @@ html.arrivo:before{content:"";position:fixed;inset:0;z-index:199;background:var(
 .piede-giu a:hover{color:var(--brace)}
 
 @media(max-aspect-ratio:1/1){.piede-tel{font-size:14.6vw}.storia-t h2{font-size:14vw}}
+
+/* preloader: la pizza si disegna */
+.carico{position:fixed;inset:0;z-index:300;display:grid;place-items:center;background:var(--rosso);color:var(--farina);--c:0;transition:clip-path .9s cubic-bezier(.76,0,.24,1);clip-path:inset(0)}
+.carico svg{width:min(52vmin,380px);overflow:visible;transition:transform .9s cubic-bezier(.76,0,.24,1)}
+.carico [pathLength]{stroke-dasharray:1;stroke-dashoffset:calc(1 - min(1,max(0,(var(--c) - var(--a))/var(--b))))}
+.carico.via{clip-path:inset(0 0 100% 0)}.carico.via svg{transform:translateY(-22vh) rotate(-40deg)}
+.carico.sale{animation:cala .6s cubic-bezier(.76,0,.24,1) both}
+@keyframes cala{from{clip-path:inset(100% 0 0 0)}to{clip-path:inset(0)}}
+@media(prefers-reduced-motion:reduce){.carico{display:none}}
+
+/* pizza vera con gli ingredienti che cadono */
+.rosso-pizza{position:absolute;right:calc(var(--g)*.6);top:50%;width:min(45vw,76svh);aspect-ratio:1;margin-top:calc(min(45vw,76svh)/-2);z-index:1;touch-action:pan-y;cursor:grab}
+.rosso-pizza img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;will-change:transform}
+.pz-ombra{position:absolute;inset:6% 2% -5% 8%;border-radius:50%;background:radial-gradient(closest-side,rgba(50,4,0,.62),rgba(50,4,0,.38) 72%,transparent)}
+.rosso-pizza canvas{position:absolute;left:-30%;top:-30%;width:160%;height:160%;touch-action:pan-y}
+@media(max-aspect-ratio:1/1){.rosso-pizza{top:auto;bottom:3svh;left:50%;right:auto;width:min(82vw,46svh);margin:0 0 0 calc(min(82vw,46svh)/-2)}}
+.impasti-pizza{position:absolute;left:50%;top:58%;width:min(56svh,42vw);margin:calc(min(56svh,42vw)/-2) 0 0 calc(min(56svh,42vw)/-2);will-change:transform;filter:drop-shadow(0 34px 44px rgba(0,0,0,.65))}
+@media(max-aspect-ratio:1/1){.impasti-pizza{width:78vw;margin:-39vw 0 0 -39vw;top:44%}}
+
+/* lettere che saltano e volano via */
+.parola{display:inline-block;white-space:nowrap}
+.let{display:inline-block;transition:transform 1.2s cubic-bezier(.2,.7,.2,1),opacity .9s}
+.spazzato .let{transform:translate(var(--x),var(--y)) rotate(var(--r));opacity:0}
+
+/* il piede si scopre da sotto la pagina */
+main{position:relative;z-index:2;background:var(--notte)}
+.piede{position:sticky;bottom:0;z-index:1}
+.piede-tel i{display:inline-block;font-style:normal;transform:translateY(105%);transition:transform 1s var(--ease);transition-delay:calc(var(--i)*38ms)}
+.piede-tel{overflow:hidden}.piede-tel.su i{transform:none}.piede-tel i.sp{width:.2em}
+.piede-tel:hover i{color:var(--brace)}
+
+/* scrim per i dati sopra la foto finale */
+.carta .fisso:after{z-index:2;inset:62% 0 0;background:linear-gradient(transparent,rgba(18,11,8,.92))}

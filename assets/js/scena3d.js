@@ -94,10 +94,10 @@ export async function scenaCartoni(canvas, sezione, { quanti = 3, titolo = null,
     scossa *= Math.pow(.88, dt);
     // la camera parte bassa, gira attorno alla pila e finisce sopra la pizza
     const av = io(seg(p, inizioAp - .08, inizioAp + .2)), caduta = io(seg(p, .02, inizioAp));
-    const dist = mix(v ? 10.5 : 7.4, v ? 3.5 : 2.5, av), az = pal.yaw + pal.mx * .2 + mix(-.75, .35, caduta) * (1 - av), el = mix(mix(.28, .62, caduta), 1.34, av) - pal.my * .05;
+    const dist = mix(v ? 10.5 : 7.4, v ? 4.2 : 3.2, av), az = pal.yaw + pal.mx * .2 + mix(-.75, .35, caduta) * (1 - av), el = mix(mix(.28, .62, caduta), 1.34, av) - pal.my * .05;
     const sh = scossa * .05, sx = Math.sin(now * .09) * sh, sy = Math.cos(now * .11) * sh;
     pal.cam.position.set(Math.sin(az) * Math.cos(el) * dist + sx, .3 + Math.sin(el) * dist + sy, Math.cos(az) * Math.cos(el) * dist);
-    pal.cam.lookAt(sx * .4, mix(.42, cima.position.y + .02, av), av * -.02);
+    pal.cam.lookAt(sx * .4, mix(.42, cima.position.y + .02, av), av * .16);
     canvas.style.cursor = pal.tiene ? 'grabbing' : 'grab';
   });
   return pal;

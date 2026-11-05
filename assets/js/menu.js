@@ -43,9 +43,13 @@ function entrate() {
 if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
   const gira = () => { const h = innerHeight; for (const f of ruote) { const r = f.getBoundingClientRect(); if (r.bottom > 0 && r.top < h) f.style.transform = `rotate(${(r.top + r.height / 2 - h / 2) * .28}deg)`; } requestAnimationFrame(gira); };
   requestAnimationFrame(gira);
-  // apertura: il titolo si alza mentre la ruota di pizze gira
-  const pl = document.querySelector('.m-palco'), ti = pl.querySelector('h1');
-  PR.palco(pl, p => { ti.style.transform = `translate3d(0,${-p * 22}svh,0)`; ti.style.opacity = 1 - Math.min(1, Math.max(0, (p - .55) / .3)); });
+  // apertura: le pizze vere rotolano davanti al titolo
+  const pl = document.querySelector('.m-palco'), pi = [...pl.querySelectorAll('.m-pi')], ti = pl.querySelector('h1');
+  PR.palco(pl, p => {
+    const W = innerWidth, H = innerHeight, v = W < H, d = pi[0].offsetWidth, cy = v ? H * .58 : H * .54, base = v ? (W - d) / 2 : W - d - W * .05, passo = d * 1.03, viaggio = p * (base + d * 2 + passo * 2 + W * .1);
+    pi.forEach((im, i) => { const x = base + i * passo - viaggio; im.style.transform = `translate3d(${x}px,${cy - d / 2}px,0) rotate(${x / (d / 2) * 57.3}deg)`; });
+    ti.style.transform = `translate3d(0,${-p * 18}svh,0)`; ti.style.opacity = 1 - Math.min(1, Math.max(0, (p - .55) / .3));
+  });
 }
 function voce(i) {
   const finita = !i.available || i.blocked_by.length;

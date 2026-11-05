@@ -2,7 +2,6 @@
 <html lang="it">
 <head>
 <meta charset="utf-8">
-<script>try{if(sessionStorage.getItem('pr-via'))document.documentElement.classList.add('arrivo')}catch(e){}</script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Il tuo ordine · Picchio Rosso</title>
 <meta name="description" content="Segui il tuo ordine in diretta.">
@@ -47,6 +46,14 @@
 </style>
 </head>
 <body data-pagina="ordine">
+<div class="carico" aria-hidden="true"><svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+  <path pathLength="1" style="--a:0;--b:.34" stroke-width="3.4" d="M100 12c20-1 37 5 52 17 14 11 25 26 30 44 4 17 5 35-2 52-7 18-19 32-35 42-15 10-33 15-51 13-18-1-35-8-49-20-14-11-25-27-29-45-4-17-3-35 4-51 7-17 19-30 34-39 14-9 30-13 46-13z"/>
+  <path pathLength="1" style="--a:.2;--b:.28" stroke-width="2.2" d="M100 28c16-1 31 4 43 14 12 9 20 22 24 37 3 14 3 29-3 43-6 15-16 26-29 34-13 8-28 12-43 10-15-1-29-7-40-17-11-9-19-23-22-37-3-15-1-30 5-43 6-14 17-25 30-32 11-6 23-9 35-9z"/>
+  <path pathLength="1" style="--a:.42;--b:.14" stroke-width="1.8" d="M100 28 100 172"/><path pathLength="1" style="--a:.48;--b:.14" stroke-width="1.8" d="M38 64 162 136"/><path pathLength="1" style="--a:.54;--b:.14" stroke-width="1.8" d="M162 64 38 136"/>
+  <circle pathLength="1" style="--a:.62;--b:.1" stroke-width="2" cx="74" cy="66" r="11"/><circle pathLength="1" style="--a:.66;--b:.1" stroke-width="2" cx="130" cy="72" r="9"/><circle pathLength="1" style="--a:.7;--b:.1" stroke-width="2" cx="66" cy="124" r="9"/><circle pathLength="1" style="--a:.74;--b:.1" stroke-width="2" cx="128" cy="134" r="12"/>
+  <path pathLength="1" style="--a:.8;--b:.1" stroke-width="2" d="M96 92c8-8 18-6 22 2-8 6-18 6-22-2zM96 92c-2 8 2 16 12 18"/><path pathLength="1" style="--a:.84;--b:.1" stroke-width="2" d="M84 104c-7-3-14 0-16 7 7 3 14 0 16-7z"/>
+</svg></div>
+<script src="assets/js/carico.js"></script>
 <div class="grana" aria-hidden="true"></div>
 <header class="testa" data-testa>
   <a class="logo" href="index.html" aria-label="Pizzeria Picchio Rosso, home"><img src="img/brand/logo-badge.png" alt="Pizzeria Picchio Rosso, forno a legna dal 2014" width="640" height="640"></a>
@@ -58,7 +65,7 @@
   </nav>
 </header>
 <main class="o-scena">
-  <video class="o-fuoco" poster="media/forno.jpg" autoplay muted loop playsinline aria-hidden="true"></video><script>document.querySelector('.o-fuoco').src=innerWidth<=720?'media/forno-m.mp4':'media/forno.mp4'</script>
+  <video class="o-fuoco" poster="media/forno.jpg" autoplay muted loop playsinline aria-hidden="true"></video><script>document.querySelector('.o-fuoco').src=innerWidth<=720?'media/forno-v.mp4':'media/forno-hd.mp4'</script>
   <section class="o-sx">
         <p class="o-codice">Ordine <b class="o-cod">····</b></p>
     <h1 class="o-titolo display">Un attimo…</h1>
