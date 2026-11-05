@@ -65,7 +65,7 @@ function fotogramma(now) {
     s.style.opacity = seg(p, .62 + i * .008, .68 + i * .008) * (1 - b);
   });
   // la foto dopo si apre a cerchio dalla pizza: arriva identica alla prima scena, nessuno stacco
-  const k = io(seg(p, .84, 1));
+  const k = io(seg(p, .82, .97));
   arrivo.style.clipPath = `circle(${k * 125}vmax at 50% 46%)`;
   arrivo.style.visibility = k > 0 ? 'visible' : 'hidden';
 }
@@ -78,7 +78,7 @@ misuraScroll(); requestAnimationFrame(now => { t0 = now; fotogramma(now); });
 /* ---------- storie bloccate ---------- */
 const st = $('[data-storie]');
 if (st) {
-  const slides = $$('.storia', st), bott = $$('.progressi button', st), n = slides.length;
+  const slides = $$('.storia', st), n = slides.length;
   const righe = slides.map(s => $$('.r>span', s)), extra = slides.map(s => [$('p', s), $('a', s)]);
   let q = 0;
   const giroS = () => {
@@ -96,11 +96,7 @@ if (st) {
       const usc = i === n - 1 ? 0 : io(seg(q, b - .1, b - .03));
       righe[i].forEach((l, k) => { l.style.transform = `translateY(${(1 - out(clamp(ing * 1.5 - k * .22))) * 112 - usc * 40}%)`; });
       extra[i].forEach(e => { if (e) e.style.opacity = clamp(ing * 2 - .6) * (1 - usc); });
-      bott[i].classList.toggle('su', q >= a - .02 && q < b - .02 || (i === n - 1 && q >= b - .02));
-      $('i', bott[i]).style.transform = `scaleX(${seg(q, a, b)})`;
     });
-    $('.progressi', st).style.opacity = out(seg(q, .012, .1));
   };
   giroS();
-  bott.forEach((b, i) => b.addEventListener('click', () => { const y = st.offsetTop + (st.offsetHeight - innerHeight) * ((i + .25) / n); lenis ? lenis.scrollTo(y, { duration: 1.6 }) : scrollTo(0, y); }));
 }

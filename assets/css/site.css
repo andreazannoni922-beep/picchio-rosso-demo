@@ -63,17 +63,12 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .storia:first-of-type{clip-path:inset(0)}
 .storia img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:transform}
 .storia:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(12,6,3,.72) 0,rgba(12,6,3,.18) 62%,transparent),linear-gradient(0deg,rgba(12,6,3,.6),transparent 42%)}
-.storia-t{position:absolute;left:var(--g);bottom:clamp(90px,14vh,150px);z-index:2}
+.storia-t{position:absolute;left:var(--g);bottom:clamp(30px,7vh,70px);z-index:2}
 .storia-t p{font-size:clamp(18px,1.5vw,22px);margin-bottom:.7em}
 .storia-t h2{font-family:var(--titoli);font-weight:900;font-size:clamp(84px,17vw,300px);line-height:.8;letter-spacing:-.012em;text-transform:uppercase}
 .storia-t h2 .r{display:block;overflow:hidden;padding-top:.06em}
 .storia-t h2 .r>span{display:block;will-change:transform}
-.storia-t a{display:inline-block;margin-top:.9em;font-size:clamp(18px,1.5vw,22px);border-bottom:1.5px solid currentColor;padding-bottom:3px}
-.progressi{position:absolute;right:var(--g);left:var(--g);bottom:26px;z-index:3;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;font-size:14px}
-.progressi button{text-align:left;padding-top:10px;position:relative;color:var(--farina-2);transition:color .3s}
-.progressi button:before,.progressi button i{content:"";position:absolute;left:0;top:0;height:2px;width:100%;background:var(--linea)}
-.progressi button i{background:var(--farina);transform:scaleX(0);transform-origin:left}
-.progressi button.su{color:var(--farina)}
+.storia-t .bott{margin-top:clamp(16px,2.6svh,26px)}
 
 /* comuni */
 .grande{font-family:var(--titoli);font-weight:900;text-transform:uppercase;line-height:.84;letter-spacing:-.008em}
@@ -84,7 +79,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .bott.crema{background:var(--farina);color:var(--notte)}
 .bott.nero{background:var(--notte);color:var(--farina)}
 .bott.rosso-b{background:var(--rosso);color:#fff}
-.sott{display:inline-block;border-bottom:1.5px solid currentColor;padding-bottom:3px}
 .testa.su-chiaro{color:var(--notte)}
 .testa{transition:transform .7s var(--ease),color .3s}
 .testa.su-chiaro .ordina{background:var(--notte);color:var(--farina)}
@@ -93,12 +87,12 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .rosso{position:relative;min-height:112svh;overflow:hidden;display:grid;align-items:center;padding:14vh var(--g);background:radial-gradient(120% 90% at 66% 46%,#e22f22 0,#c11a11 46%,#7f0b06 100%)}
 .rosso-t{position:relative;z-index:2}
 .rosso h2{font-size:clamp(84px,13.2vw,250px);white-space:nowrap;text-shadow:0 6px 40px rgba(80,6,0,.35)}
-.rosso-t p{max-width:430px;margin:1.3em 0 1.4em;font-size:clamp(18px,1.5vw,22px)}
-.rosso-pizza{position:absolute;right:-5vw;top:50%;width:min(62vw,96vh);aspect-ratio:1;margin-top:calc(min(62vw,96vh) / -2);will-change:transform}
+.rosso-t p{max-width:min(430px,40vw);margin:1.3em 0 1.4em;font-size:clamp(18px,1.5vw,22px)}
+.rosso-pizza{position:absolute;right:var(--g);top:60%;width:min(44vw,70svh);aspect-ratio:1;margin-top:calc(min(44vw,70svh) / -2);will-change:transform}
 .rosso-pizza img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(calc(var(--sx,-14px)) calc(var(--sy,34px)) 34px rgba(50,4,0,.6));will-change:transform}
 .scintille i{position:absolute;border-radius:50%;background:#ffe6c4;animation:guizzo var(--d) ease-in-out infinite;animation-delay:var(--r)}
 @keyframes guizzo{50%{opacity:.2;transform:scale(.55)}}
-@media(max-width:760px){.rosso{align-items:start;padding:16vh var(--g) 58vw}.rosso-t{max-width:none}.rosso h2{font-size:19.6vw}.rosso-pizza{top:auto;bottom:-16vw;right:-14vw;width:96vw;margin:0}}
+@media(max-aspect-ratio:1/1){.rosso{align-items:start;padding:clamp(96px,14svh,150px) var(--g) calc(min(84vw,46svh) + 7svh)}.rosso-t{max-width:none}.rosso-t p{max-width:none}.rosso h2{font-size:19.6vw}.rosso-pizza{top:auto;bottom:3svh;left:50%;right:auto;width:min(84vw,46svh);margin:0 0 0 calc(min(84vw,46svh) / -2)}}
 
 /* impasti */
 .impasti{position:relative;height:340svh;background:var(--notte)}
@@ -120,13 +114,13 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .porta{position:absolute;inset:0;background:var(--rosso);clip-path:inset(0 calc(50% - 2px));display:grid;place-items:center;z-index:2;will-change:clip-path}
 .porta-anno{font-family:var(--titoli);font-weight:900;font-size:min(56vw,88vh);line-height:.8;letter-spacing:-.02em;color:#7f0b06;will-change:transform}
 .ritratto{position:absolute;inset:0;overflow:hidden;z-index:3;clip-path:polygon(100% 0,100% 0,100% 0,100% 0);will-change:clip-path}
-.ritratto img{width:100%;height:100%;object-fit:cover;object-position:50% 40%;filter:contrast(1.05) saturate(.92) sepia(.14) brightness(.96);will-change:transform}
+.ritratto img{position:absolute;left:50%;top:50%;height:auto;max-width:none;filter:contrast(1.05) saturate(.92) sepia(.14) brightness(.96);will-change:transform}
 .storia-testo{position:absolute;z-index:4;left:var(--g);top:0;bottom:0;width:min(50vw,820px);display:flex;flex-direction:column;justify-content:center;gap:clamp(18px,3vh,34px);opacity:0}
 .storia-testo h2{font-size:clamp(66px,8.8vw,168px)}
 .storia-testo .p{opacity:.14;transition:opacity .45s}
 .storia-testo .p.acc{opacity:1}
 .note{display:grid;grid-template-columns:1fr 1fr;gap:26px;max-width:640px;color:var(--farina-2)}
-@media(max-width:760px){.storia-testo{width:auto;right:var(--g);top:auto;bottom:5vh;justify-content:flex-end}.storia-testo h2{font-size:16.5vw}.note{grid-template-columns:1fr;gap:10px;font-size:15px}}
+@media(max-aspect-ratio:1/1){.storia-t h2{font-size:15.2vw}.storia-testo{width:auto;right:var(--g);top:52svh;bottom:3svh;justify-content:flex-end;gap:clamp(10px,1.6svh,20px)}.storia-testo h2{font-size:min(15vw,8svh)}.note{grid-template-columns:1fr;gap:8px;font-size:15px}.storia-testo .bott{align-self:flex-start}}
 
 /* carta */
 .carta{position:relative;height:300svh;background:#2a1a10}
@@ -231,3 +225,8 @@ html.arrivo:before{content:"";position:fixed;inset:0;z-index:199;background:var(
 }
 
 .impasti-velo{position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,11,8,.72),rgba(18,11,8,.1) 42%,rgba(18,11,8,.25) 62%,rgba(18,11,8,.88));pointer-events:none}
+
+/* la prima scena si sovrappone alla fine dell'hero: è la stessa foto, ne resta una sola */
+.storie{position:relative;z-index:1;margin-top:-100svh}
+
+.storia-testo .bott{align-self:flex-start}

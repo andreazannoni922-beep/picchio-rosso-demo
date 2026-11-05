@@ -65,7 +65,7 @@
     ogni(() => {
       const r = ca.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return;
       q += (av(ca) - q) * (fermo ? 1 : .1);
-      const ap = io(seg(q, 0, .24)), mob = innerWidth <= 760;
+      const ap = io(seg(q, 0, .24)), W = innerWidth, H = innerHeight, mob = W < H, bw = mob ? Math.min(.88 * W, .38 * 1.5 * H) : Math.min(.44 * W, .78 * 1.5 * H), bh = bw / 1.5, x0 = mob ? (W - bw) / 2 : W - bw - W * .04, y0 = mob ? H * .11 : (H - bh) / 2, cw = Math.max(W, 1.5 * H);
       po.style.clipPath = `inset(0 calc(${50 * (1 - ap)}% - ${(1 - ap) * 2}px))`;
       an.style.transform = `scale(${1.5 - ap * .5})`;
       const d = io(seg(q, .26, .46));
@@ -74,9 +74,10 @@
       if (d < 1) ri.style.clipPath = `polygon(100% 0,${Math.max(100 - a, 0)}% 0,${a > 100 ? 0 : 100 - a}% ${a > 100 ? a - 100 : 0}%,${a > 100 ? a - 100 : 100}% ${a > 100 ? 100 : a}%,100% ${Math.min(a, 100)}%)`;
       const st = io(seg(q, .5, .68));
       if (d >= 1) {
-        ri.style.clipPath = mob ? `inset(${st * 11}% ${st * 6}% ${st * (89 - 88 * innerWidth / 1.5 / innerHeight)}% ${st * 6}%)` : `inset(${st * 9}% ${st * 4}% ${st * 9}% ${st * 54}%)`;
+        ri.style.clipPath = `inset(${st * y0 / H * 100}% ${st * (W - x0 - bw) / W * 100}% ${st * (H - y0 - bh) / H * 100}% ${st * x0 / W * 100}%)`;
       }
-      ii.style.transform = mob ? `translate3d(0,${st * (innerHeight * .11 + .88 * innerWidth / 3 - innerHeight / 2)}px,0) scale(${1.14 + st * (.88 * innerWidth / (1.5 * innerHeight) - 1.14)})` : `translateX(${st * 27}%) scale(${1.14 - seg(q, .26, 1) * .14})`;
+      ii.style.width = cw + 'px';
+      ii.style.transform = `translate3d(calc(-50% + ${st * (x0 + bw / 2 - W / 2)}px),calc(-50% + ${st * (y0 + bh / 2 - H / 2)}px),0) scale(${1.14 + st * (bw / cw - 1.14)})`;
       po.style.opacity = st > .02 ? 0 : 1;
       te.style.opacity = seg(q, .56, .64);
       te.style.pointerEvents = st > .8 ? 'auto' : 'none';
