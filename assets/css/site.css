@@ -5,7 +5,7 @@
   --titoli:'Sofia Sans Extra Condensed',Impact,sans-serif;
   --testo:'Sofia Sans',system-ui,sans-serif;
   --ease:cubic-bezier(.22,1,.36,1);
-  --g:clamp(18px,2.6vw,40px);
+  --g:clamp(24px,4.6vw,76px);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%;overflow-x:clip;background:var(--notte)}
@@ -88,11 +88,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .rosso-t{position:relative;z-index:2}
 .rosso h2{font-size:clamp(84px,13.2vw,250px);white-space:nowrap;text-shadow:0 6px 40px rgba(80,6,0,.35)}
 .rosso-t p{max-width:min(430px,40vw);margin:1.3em 0 1.4em;font-size:clamp(18px,1.5vw,22px)}
-.rosso-pizza{position:absolute;right:var(--g);top:60%;width:min(44vw,70svh);aspect-ratio:1;margin-top:calc(min(44vw,70svh) / -2);will-change:transform}
-.rosso-pizza img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(calc(var(--sx,-14px)) calc(var(--sy,34px)) 34px rgba(50,4,0,.6));will-change:transform}
+
 .scintille i{position:absolute;border-radius:50%;background:#ffe6c4;animation:guizzo var(--d) ease-in-out infinite;animation-delay:var(--r)}
 @keyframes guizzo{50%{opacity:.2;transform:scale(.55)}}
-@media(max-aspect-ratio:1/1){.rosso{align-items:start;padding:clamp(96px,14svh,150px) var(--g) calc(min(84vw,46svh) + 7svh)}.rosso-t{max-width:none}.rosso-t p{max-width:none}.rosso h2{font-size:19.6vw}.rosso-pizza{top:auto;bottom:3svh;left:50%;right:auto;width:min(84vw,46svh);margin:0 0 0 calc(min(84vw,46svh) / -2)}}
+@media(max-aspect-ratio:1/1){.rosso{align-items:start;padding:clamp(96px,14svh,150px) var(--g) min(106vw,54svh)}.rosso-t{max-width:none}.rosso-t p{max-width:none}.rosso h2{font-size:17.2vw}}
 
 /* impasti */
 .impasti{position:relative;height:340svh;background:var(--notte)}
@@ -107,7 +106,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .impasti-d{position:absolute;left:50%;bottom:3.4vh;width:min(560px,88vw);transform:translateX(-50%);text-align:center;height:3em;z-index:2}
 .impasti-d p{position:absolute;inset:0;opacity:0;transition:opacity .5s,transform .7s var(--ease);transform:translateY(10px);text-shadow:0 1px 16px rgba(0,0,0,.9)}
 .impasti-d p.su{opacity:1;transform:none}
-@media(max-width:760px){.strati{font-size:34vw;top:13vh}.col-l,.col-r{top:auto;bottom:15vh;font-size:9vw}.col-l{right:auto;left:var(--g);text-align:left}.col-r{left:auto;right:var(--g);text-align:right}}
+@media(max-width:760px){.strati{font-size:27vw;top:13vh}.col-l,.col-r{top:auto;bottom:15vh;font-size:9vw}.col-l{right:auto;left:var(--g);text-align:left}.col-r{left:auto;right:var(--g);text-align:right}}
 /* cancello e storia */
 .cancello{position:relative;height:420svh;background:var(--notte)}
 .cancello-fisso{position:sticky;top:0;height:100svh;overflow:hidden}
@@ -123,14 +122,11 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 @media(max-aspect-ratio:1/1){.storia-t h2{font-size:15.2vw}.storia-testo{width:auto;right:var(--g);top:52svh;bottom:3svh;justify-content:flex-end;gap:clamp(10px,1.6svh,20px)}.storia-testo h2{font-size:min(15vw,8svh)}.note{grid-template-columns:1fr;gap:8px;font-size:15px}.storia-testo .bott{align-self:flex-start}}
 
 /* carta */
-.carta{position:relative;height:300svh;background:#2a1a10}
-.carta .fisso{position:sticky;top:0;height:100svh;min-height:560px;overflow:hidden;background:#2a1a10}
-.carta .fisso:after{content:"";position:absolute;inset:55% 0 0;background:linear-gradient(transparent,rgba(18,11,8,.9));pointer-events:none}
-.carta-t{position:absolute;inset:0;z-index:2;margin:0;font-family:var(--titoli);font-weight:900;text-transform:uppercase;line-height:.84;color:var(--farina);text-shadow:0 6px 30px rgba(18,8,3,.55);pointer-events:none}
-.carta-t span{position:absolute;will-change:transform;white-space:nowrap}
-.c1{left:var(--g);top:50%;font-size:min(13vw,26svh);transform:translateY(-50%)}
-.c2{right:var(--g);top:50%;font-size:min(13vw,26svh);text-align:right;white-space:normal!important;width:4em;transform:translateY(-50%)}
-.carta-info{position:absolute;z-index:3;left:var(--g);right:var(--g);bottom:26px;display:grid;grid-template-columns:1fr auto auto;gap:clamp(18px,4vw,60px);align-items:end;color:var(--farina);opacity:0;visibility:hidden}
+.carta{position:relative;height:420svh;background:var(--farina)}
+.carta .fisso{position:sticky;top:0;height:100svh;min-height:560px;overflow:hidden;background:radial-gradient(90% 80% at 50% 44%,#fbf4e8,#e8dac4)}
+.carta-t{position:absolute;inset:0;margin:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--titoli);font-weight:900;text-transform:uppercase;line-height:.84;color:var(--notte);text-align:center;font-size:min(16.6vw,30svh);pointer-events:none;will-change:transform,opacity}
+.carta-t span{display:block}
+.carta-info{position:absolute;z-index:3;left:var(--g);right:var(--g);bottom:clamp(20px,4svh,40px);display:grid;grid-template-columns:1fr auto auto;gap:clamp(18px,4vw,60px);align-items:end;color:var(--notte);opacity:0;visibility:hidden}
 .carta-info p{max-width:430px;font-size:clamp(17px,1.4vw,20px)}
 .prezzi{display:flex;gap:26px;font-size:16px}
 .prezzi b{font-family:var(--titoli);font-weight:900;font-size:clamp(38px,3.6vw,56px);line-height:1;margin-right:4px}
@@ -182,13 +178,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 @media(max-width:760px){.finale-b p{text-align:left}}
 
 /* piede */
-.piede{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--g);padding:60px var(--g) 26px;border-top:1px solid var(--linea);font-size:16px}
-.piede>img{display:none}
-.piede b{display:block;font-family:var(--titoli);font-weight:800;text-transform:uppercase;font-size:22px;margin-bottom:10px}
-.piede a{display:block;color:var(--farina-2);transition:color .25s}.piede a:hover{color:var(--farina)}
-.piede p{color:var(--farina-2);margin-bottom:6px}
-.piede-b{grid-column:1/-1;font-size:13px;padding-top:24px;border-top:1px solid var(--linea);margin:20px 0 0!important}
-@media(max-width:760px){.piede{grid-template-columns:1fr 1fr}.piede>img{grid-column:1/-1}}
 
 /* menu: marea rossa */
 .marea{position:fixed;inset:0;z-index:80;visibility:hidden;color:#fff;overflow:hidden}
@@ -209,10 +198,6 @@ html.arrivo:before{content:"";position:fixed;inset:0;z-index:199;background:var(
 @keyframes arrivo{to{visibility:hidden}}
 
 /* il nome in fondo a ogni pagina */
-.piede-nome{grid-column:1/-1;overflow:hidden;font-family:var(--titoli);font-weight:900;text-transform:uppercase;font-size:21.4vw;line-height:.8;white-space:nowrap;margin-top:clamp(20px,5svh,50px);padding-bottom:.03em;color:var(--farina)}
-.piede-nome span{display:block;transform:translateY(102%);transition:transform 1.3s var(--ease)}
-.piede-nome.su span{transform:none}
-@media(prefers-reduced-motion:reduce){.piede-nome span{transform:none}}
 
 /* la testata si legge su qualsiasi foto */
 .testa:before{content:"";position:absolute;inset:0 0 -40px;background:linear-gradient(180deg,rgba(18,11,8,.62),rgba(18,11,8,0));pointer-events:none;z-index:-1;transition:opacity .4s}
@@ -220,13 +205,40 @@ html.arrivo:before{content:"";position:fixed;inset:0;z-index:199;background:var(
 
 /* sul telefono il cartone sta al centro: i titoli sopra e sotto */
 @media(max-aspect-ratio:1/1){
-  .c1{left:0;right:0;top:clamp(84px,11svh,110px);text-align:center;font-size:19vw;transform:none}
-  .c2{left:0;right:0;top:auto;bottom:4svh;width:auto;text-align:center;font-size:18.6vw;white-space:nowrap!important;transform:none}
-}
+    }
 
-.impasti-velo{position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,11,8,.72),rgba(18,11,8,.1) 42%,rgba(18,11,8,.25) 62%,rgba(18,11,8,.88));pointer-events:none}
 
 /* la prima scena si sovrappone alla fine dell'hero: è la stessa foto, ne resta una sola */
 .storie{position:relative;z-index:1;margin-top:-100svh}
 
 .storia-testo .bott{align-self:flex-start}
+
+/* scene 3D */
+.scena{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y;z-index:1}
+.scena.impasti-3d{top:20svh;height:62svh}
+.scena.rosso-pizza{inset:0 0 0 auto;width:52%;height:100%}
+@media(max-aspect-ratio:1/1){.scena.rosso-pizza{inset:auto 0 0 0;width:100%;height:min(106vw,52svh)}.scena.impasti-3d{top:15svh;height:48svh}.carta-t{font-size:25vw}}
+.col-l,.col-r,.impasti-d,.carta-info,.rosso-t{z-index:2}
+.carta-info{pointer-events:none}.carta-info a{pointer-events:auto}
+.mettici{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 clamp(16px,2.6svh,26px)}
+.mettici button{font-family:var(--titoli);font-weight:800;font-size:clamp(20px,1.7vw,26px);text-transform:uppercase;line-height:1;padding:11px 14px 10px;border:1.5px solid var(--farina);border-radius:3px;color:var(--farina);transition:background .25s,color .25s}
+.mettici button:hover,.mettici button:active{background:var(--farina);color:var(--rosso-2)}
+
+/* piede: il telefono è la cosa più grande, sul fuoco in bianco e nero */
+.piede{position:relative;overflow:hidden;background:var(--notte);color:var(--farina);padding:clamp(70px,14svh,150px) var(--g) clamp(20px,3svh,30px);min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;gap:clamp(30px,7svh,80px)}
+.piede-fuoco{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:30% 50%;filter:grayscale(1) contrast(1.12) brightness(.62)}
+.piede:before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,var(--notte),rgba(18,11,8,.25) 34%,rgba(18,11,8,.8))}
+.piede>*:not(video){position:relative;z-index:2}
+.piede-stato{font-family:var(--titoli);font-weight:800;text-transform:uppercase;font-size:clamp(26px,3vw,48px);line-height:1;margin-bottom:.35em}
+.piede-tel{display:block;font-family:var(--titoli);font-weight:900;font-size:min(15vw,34svh);line-height:.86;white-space:nowrap;transition:color .35s}
+.piede-tel:hover{color:var(--brace)}
+.piede-dove{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 30px;margin-top:clamp(14px,2.4svh,24px);font-size:clamp(16px,1.3vw,20px)}
+.piede-dove a{text-decoration:underline;text-underline-offset:3px}
+.piede-vai{display:flex;flex-wrap:wrap;gap:0 clamp(18px,3vw,50px);font-family:var(--titoli);font-weight:800;text-transform:uppercase;font-size:clamp(36px,5.4vw,92px);line-height:1.04}
+.piede-vai a{transition:color .3s,transform .5s var(--ease)}
+.piede-vai a:hover{color:var(--brace);transform:translateY(-4px)}
+.piede-giu{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;font-size:14px}
+.piede-giu span{display:flex;flex-wrap:wrap;gap:18px}
+.piede-giu a:hover{color:var(--brace)}
+
+@media(max-aspect-ratio:1/1){.piede-tel{font-size:14.6vw}.storia-t h2{font-size:14vw}}

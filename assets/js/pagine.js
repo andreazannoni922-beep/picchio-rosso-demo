@@ -31,10 +31,9 @@
     /* storia · apertura: il video si stringe, le righe si separano */
     const se = $('.s-eroe');
     if (se) {
-      const fo = $('.fondo', se), rr = $$('h1 .riga', se), so = $('.sotto', se), sq = new Sequenza($('#seq-pala'), { telefono: { cartella: 'media/seq/pala-t', n: 96 }, schermo: { cartella: 'media/seq/pala-o', n: 96 } });
+      const fo = $('.fondo', se), rr = $$('h1 .riga', se), so = $('.sotto', se);
       palco(se, p => {
-        sq.vai(seg(p, .02, .8));
-        const k = io(seg(p, .72, 1));
+        const k = io(seg(p, .7, 1));
         fo.style.transform = `scale(${1 + k * .06})`;
         rr.forEach((r, i) => { const t = io(seg(p, .04, .4)); r.style.transform = `translate3d(${(i % 2 ? 1 : -1) * t * 110}vw,0,0)`; });
         so.style.opacity = 1 - seg(p, .05, .3);
@@ -75,18 +74,15 @@
       });
     }
 
-    /* aziende · apertura: la foto si allarga fino a riempire lo schermo */
+    /* aziende · apertura: gli scatoloni cadono, il titolo si fa da parte, poi la frase */
     const ae = $('.a-eroe');
     if (ae) {
-      const fo = $('.a-foto', ae), rr = $$('h1 .riga', ae), so = $('.a-sotto', ae), sq = new Sequenza($('#seq-casse'), { telefono: { cartella: 'media/seq/casse-t', n: 96 }, schermo: { cartella: 'media/seq/casse-o', n: 96 } });
+      const rr = $$('h1 .riga', ae), so = $('.a-sotto', ae);
       palco(ae, p => {
-        sq.vai(seg(p, .02, .76));
-        const k = io(seg(p, .03, .3)), mob = innerWidth <= 760;
-        fo.style.setProperty('--scuro', (seg(p, .72, .88) * .6).toFixed(3));
-        rr[0].style.transform = `translate3d(0,${-k * 40}svh,0)`;
-        rr[1].style.transform = `translate3d(0,${k * 40}svh,0)`;
-        const a = seg(p, .76, .9); so.style.opacity = a; so.style.visibility = a > .02 ? 'visible' : 'hidden';
-        so.style.transform = mob ? `translateY(${(1 - a) * 40}px)` : `translateY(calc(-50% + ${(1 - a) * 40}px))`;
+        const k = seg(p, .55, .72), mob = innerWidth < innerHeight;
+        rr.forEach((r, i) => { r.style.opacity = 1 - k; r.style.transform = `translate3d(0,${(i ? 1 : -1) * k * 12}svh,0)`; });
+        const a = seg(p, .78, .92); so.style.opacity = a; so.style.visibility = a > .02 ? 'visible' : 'hidden';
+        so.style.transform = `translateY(${(1 - a) * 40}px)`;
       });
     }
 
@@ -136,21 +132,6 @@
     /* continua con: la pizza attraversa lo schermo */
     const pr = $('.prossima');
     if (pr) { const im = $('img', pr); palco(pr, (p, r) => { const k = clamp(1 - r.top / innerHeight), d = im.offsetWidth, W = pr.offsetWidth, x = Math.min(W - d * 1.04, -d + k * (W + d) * 1.1); im.style.transform = `translate3d(${x}px,0,0) rotate(${x / (d / 2) * 57.3}deg)`; }); }
-  }
-
-  /* contatti: aperti o chiusi, adesso */
-  const st = $('[data-stato]');
-  if (st) {
-    const FEST = ['1/1', '6/1', '25/4', '1/5', '2/6', '15/8', '1/11', '8/12', '25/12', '26/12'];
-    const fasce = d => d.getDay() === 0 || FEST.includes(`${d.getDate()}/${d.getMonth() + 1}`) ? [[18, 24]] : [[12, 14], [18, 24]];
-    const scrivi = () => {
-      const a = new Date(), h = a.getHours() + a.getMinutes() / 60, ff = fasce(a), ora = ff.find(([x, y]) => h >= x && h < y), poi = ff.find(([x]) => h < x);
-      const dom = new Date(a); dom.setDate(a.getDate() + 1);
-      st.textContent = ora ? `Forno acceso. Aperti fino alle ${ora[1]}.` : poi ? `Il forno riapre alle ${poi[0]}.` : `Il forno riapre domani alle ${fasce(dom)[0][0]}.`;
-      const oggi = $('[data-oggi]'); if (oggi) oggi.classList.toggle('oggi', ff.length === 2);
-      const fe = $('[data-festa]'); if (fe) fe.classList.toggle('oggi', ff.length === 1);
-    };
-    scrivi(); setInterval(scrivi, 60000);
   }
 
   requestAnimationFrame(giro);

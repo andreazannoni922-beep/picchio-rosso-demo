@@ -43,12 +43,9 @@ function entrate() {
 if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
   const gira = () => { const h = innerHeight; for (const f of ruote) { const r = f.getBoundingClientRect(); if (r.bottom > 0 && r.top < h) f.style.transform = `rotate(${(r.top + r.height / 2 - h / 2) * .28}deg)`; } requestAnimationFrame(gira); };
   requestAnimationFrame(gira);
-  // apertura: gli ingredienti cadono e la pizza si cuoce
-  const pl = document.querySelector('.m-palco'), ti = pl.querySelector('h1'), sq = new Sequenza(document.getElementById('seq-ingr'), { telefono: { cartella: 'media/seq/ingr-t', n: 96 }, schermo: { cartella: 'media/seq/ingr-o', n: 96 } });
-  PR.palco(pl, p => {
-    sq.vai(Math.min(1, p / .92));
-    ti.style.transform = `translate3d(0,${-p * 22}svh,0)`; ti.style.opacity = 1 - Math.min(1, Math.max(0, (p - .35) / .3));
-  });
+  // apertura: il titolo si alza mentre la ruota di pizze gira
+  const pl = document.querySelector('.m-palco'), ti = pl.querySelector('h1');
+  PR.palco(pl, p => { ti.style.transform = `translate3d(0,${-p * 22}svh,0)`; ti.style.opacity = 1 - Math.min(1, Math.max(0, (p - .55) / .3)); });
 }
 function voce(i) {
   const finita = !i.available || i.blocked_by.length;

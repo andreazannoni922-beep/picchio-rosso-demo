@@ -13,6 +13,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Extra+Condensed:wght@700;800;900&family=Sofia+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="img/cut/margherita.webp">
 <link rel="stylesheet" href="assets/css/site.css">
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 <link rel="preload" as="image" href="media/seq/hero-t/001.webp" media="(max-aspect-ratio:1/1)">
 <link rel="preload" as="image" href="media/seq/hero-o/001.webp" media="(min-aspect-ratio:1/1)">
 </head>
@@ -59,18 +60,18 @@
     <div class="rosso-t">
       <h2 id="r-t" class="grande"><span class="r"><span>Buona idea.</span></span><span class="r"><span>Buona pizza.</span></span></h2>
       <p>Una base, il tuo impasto, gli ingredienti che ami. La pizza la immagini tu, al forno pensiamo noi.</p>
+      <div class="mettici" role="group" aria-label="Metti gli ingredienti sulla pizza"><button data-ingr="basilico">Basilico</button><button data-ingr="pomodoro">Pomodorini</button><button data-ingr="mozzarella">Fior di latte</button><button data-ingr="via">Via tutto</button></div>
       <a class="bott crema" href="menu.html">Crea la tua pizza</a>
     </div>
-    <div class="rosso-pizza" data-attira><img src="img/cut/burrata.webp" alt="Pizza del Picchio Rosso con burrata e prosciutto" width="900" height="887" loading="lazy"></div>
+    <canvas class="scena rosso-pizza" data-scena="pizza" data-nome="burrata" data-inclina=".95" data-ingredienti="1" aria-label="Pizza 3D: trascinala per girarla"></canvas>
     <div class="scintille" aria-hidden="true"></div>
   </section>
 
   <section class="impasti" data-impasti aria-labelledby="i-t">
     <div class="impasti-fisso">
       <h2 id="i-t" class="vh">Tre impasti. Un solo fuoco.</h2>
-      <canvas class="seq" id="seq-pasta" aria-hidden="true"></canvas>
-      <div class="impasti-velo" aria-hidden="true"></div>
       <div class="strati" aria-hidden="true"><span>Impasti</span><span>Impasti</span><span>Impasti</span><span>Impasti</span></div>
+      <canvas class="scena impasti-3d" data-scena="pizza" data-nome="bianca" data-inclina="1.05" aria-hidden="true"></canvas>
       <ul class="col-l" aria-hidden="true"><li>Tradizionale</li><li>Integrale</li><li>Ai cereali</li></ul>
       <ul class="col-r" aria-hidden="true"><li>24 ore</li><li>Al 100%</li><li>A pietra</li></ul>
       <div class="impasti-d">
@@ -96,14 +97,14 @@
     </div>
   </section>
 
-  <section class="carta" data-carta aria-labelledby="c-t">
+  <section class="carta" data-carta data-tono="chiaro" aria-labelledby="c-t">
     <div class="fisso">
-      <canvas class="seq" id="seq-cartone" aria-hidden="true"></canvas>
       <h2 id="c-t" class="carta-t"><span class="c1">A casa.</span> <span class="c2">Ancora calda.</span></h2>
+      <canvas class="scena" data-scena="cartoni" data-quanti="3" aria-hidden="true"></canvas>
       <div class="carta-info">
         <p>Nelle nostre vetture il forno resta caldo fino alla tua porta. Così la pizza che ricevi è quella che mangeresti seduto da noi.</p>
         <div class="prezzi"><span><b>2 €</b> in paese</span><span><b>da 3 €</b> fuori comune</span></div>
-        <a class="bott crema" href="menu.html">Scegli il tuo orario</a>
+        <a class="bott nero" href="menu.html">Scegli il tuo orario</a>
       </div>
     </div>
   </section>
@@ -146,13 +147,19 @@
 </main>
 
 <footer class="piede">
-  <img src="img/brand/logo-badge.png" alt="Pizzeria Picchio Rosso" width="640" height="640" loading="lazy">
-  <div><b>Dove</b><p>Via Machiavelli 2<br>41042 Fiorano Modenese (MO)</p><a href="https://www.google.com/maps/search/?api=1&query=Picchio+Rosso+Via+Machiavelli+2+Fiorano+Modenese">Indicazioni</a></div>
-  <div><b>Orari</b><p>Pranzo 12–14 · Cena 18–24<br>Domenica e festivi solo cena</p><a href="contatti.html">Tutti i contatti</a></div>
-  <div><b>Pagine</b><a href="menu.html">Il menù</a><a href="storia.html">La storia</a><a href="aziende.html">Aziende</a><a href="contatti.html">Contatti</a></div>
-  <div><b>Seguici</b><a href="https://www.instagram.com/picchio__rosso_di_fiorano/">Instagram</a><a href="https://www.facebook.com/people/Pizzeria-Picchio-Rosso-di-Fiorano-Modenese/100093708481729/">Facebook</a><a href="https://wa.me/393493838146">WhatsApp</a></div>
-  <div class="piede-nome" aria-hidden="true"><span>Picchio Rosso</span></div>
-  <p class="piede-b">© 2026 Picchio Rosso · P.IVA 03436440360</p>
+  <video class="piede-fuoco" poster="media/forno.jpg" data-src="media/forno.mp4" muted loop playsinline aria-hidden="true"></video>
+  <div class="piede-su">
+    <p class="piede-stato" data-stato></p>
+    <a class="piede-tel" href="tel:+3905361753948">0536 175 3948</a>
+    <p class="piede-dove"><a href="https://www.google.com/maps/search/?api=1&query=Picchio+Rosso+Via+Machiavelli+2+Fiorano+Modenese">Via Machiavelli 2, Fiorano Modenese</a><span>Pranzo 12–14 · Cena 18–24 · Domenica e festivi solo cena</span></p>
+  </div>
+  <nav class="piede-vai" aria-label="Pagine">
+    <a href="menu.html">Il menù</a><a href="storia.html">La storia</a><a href="aziende.html">Aziende</a><a href="contatti.html">Contatti</a>
+  </nav>
+  <div class="piede-giu">
+    <span><a href="https://www.instagram.com/picchio__rosso_di_fiorano/">Instagram</a><a href="https://www.facebook.com/people/Pizzeria-Picchio-Rosso-di-Fiorano-Modenese/100093708481729/">Facebook</a><a href="https://wa.me/393493838146">WhatsApp</a></span>
+    <span>© 2026 Picchio Rosso · P.IVA 03436440360</span>
+  </div>
 </footer>
 
 <div class="marea" data-marea inert>
@@ -169,6 +176,7 @@
 <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
 <script src="assets/js/sequenza.js"></script>
 <script type="module" src="assets/js/eroe.js"></script>
+<script type="module" src="assets/js/scene-pagina.js"></script>
 <script src="assets/js/sezioni.js"></script>
 </body>
 </html>

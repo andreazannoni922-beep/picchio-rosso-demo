@@ -14,6 +14,8 @@
 <link rel="stylesheet" href="assets/css/site.css">
 <link rel="stylesheet" href="assets/css/ordine-ui.css">
 <link rel="stylesheet" href="assets/css/pagine.css">
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script type="module" src="assets/js/scene-pagina.js"></script>
 </head>
 <body data-pagina="aziende">
 <div class="grana" aria-hidden="true"></div>
@@ -29,15 +31,15 @@
 <main class="tema-notte">
   <section class="a-eroe">
     <div class="fisso">
-      <div class="a-foto"><canvas class="seq" id="seq-casse" aria-hidden="true"></canvas></div>
-      <h1 class="display" data-sale><span class="riga"><span>La pausa pranzo</span></span><span class="riga"><span>è una cosa seria.</span></span></h1>
+            <h1 class="display" data-sale><span class="riga"><span>La pausa pranzo</span></span><span class="riga"><span>è una cosa seria.</span></span></h1>
+      <canvas class="scena" data-scena="cartoni" data-quanti="5" aria-hidden="true"></canvas>
       <div class="a-sotto"><p>Non solo pizza: primi, secondi e contorni della tradizione. Prezzi riservati e consegna calda in ufficio, dal lunedì al sabato tra mezzogiorno e le due.</p><a class="bott crema" href="#richiesta">Richiedi la convenzione</a></div>
     </div>
   </section>
 
   <section class="vantaggi">
     <div class="foglio f1"><div class="foglio-d"><h3>Prezzi riservati</h3><p>Condizioni dedicate ai dipendenti dell'azienda convenzionata. Un accordo stabile che vale tutto l'anno.</p><img src="img/cut/margherita.webp" alt="" aria-hidden="true" loading="lazy"></div></div>
-    <div class="foglio f2"><div class="foglio-d"><h3>Pizza e cucina</h3><p>A pranzo c'è anche chi vuole cambiare: primi, secondi e contorni della cucina di tradizione.</p><img src="img/cut/calzone-fritto.webp" alt="" aria-hidden="true" loading="lazy"></div></div>
+    <div class="foglio f2"><div class="foglio-d"><h3>Pizza e cucina</h3><p>A pranzo c'è anche chi vuole cambiare: primi, secondi e contorni della cucina di tradizione.</p><img class="fermo" src="img/cut/calzone-fritto.webp" alt="" aria-hidden="true" loading="lazy"></div></div>
     <div class="foglio f3"><div class="foglio-d"><video poster="media/forno.jpg" src="media/forno.mp4" autoplay muted loop playsinline aria-hidden="true"></video><h3>Arriva caldo, all'ora giusta</h3><p>Il forno viaggia a bordo delle nostre auto. In paese 2 €, fuori comune da 3 €.</p></div></div>
     <div class="foglio f4"><div class="foglio-d"><h3>Buoni pasto</h3><p>I principali circuiti, cartacei ed elettronici.</p><div class="circuiti"><span>Edenred</span><span>Pellegrini</span><span>Day</span><span>Sodexo</span><span>Repas</span><span>Ticket Restaurant</span></div></div></div>
   </section>
@@ -72,13 +74,19 @@
   <a class="prossima" href="contatti.html"><small>Continua con</small><b>Contatti</b><img src="img/cut/bianca.webp" alt="" aria-hidden="true" loading="lazy"></a>
 </main>
 <footer class="piede">
-  <img src="img/brand/logo-badge.png" alt="Pizzeria Picchio Rosso" width="640" height="640" loading="lazy">
-  <div><b>Dove</b><p>Via Machiavelli 2<br>41042 Fiorano Modenese (MO)</p><a href="https://www.google.com/maps/search/?api=1&query=Picchio+Rosso+Via+Machiavelli+2+Fiorano+Modenese">Indicazioni</a></div>
-  <div><b>Orari</b><p>Pranzo 12–14 · Cena 18–24<br>Domenica e festivi solo cena</p><a href="contatti.html">Tutti i contatti</a></div>
-  <div><b>Pagine</b><a href="menu.html">Il menù</a><a href="storia.html">La storia</a><a href="aziende.html">Aziende</a><a href="contatti.html">Contatti</a></div>
-  <div><b>Seguici</b><a href="https://www.instagram.com/picchio__rosso_di_fiorano/">Instagram</a><a href="https://www.facebook.com/people/Pizzeria-Picchio-Rosso-di-Fiorano-Modenese/100093708481729/">Facebook</a><a href="https://wa.me/393493838146">WhatsApp</a></div>
-  <div class="piede-nome" aria-hidden="true"><span>Picchio Rosso</span></div>
-  <p class="piede-b">© 2026 Picchio Rosso · P.IVA 03436440360</p>
+  <video class="piede-fuoco" poster="media/forno.jpg" data-src="media/forno.mp4" muted loop playsinline aria-hidden="true"></video>
+  <div class="piede-su">
+    <p class="piede-stato" data-stato></p>
+    <a class="piede-tel" href="tel:+3905361753948">0536 175 3948</a>
+    <p class="piede-dove"><a href="https://www.google.com/maps/search/?api=1&query=Picchio+Rosso+Via+Machiavelli+2+Fiorano+Modenese">Via Machiavelli 2, Fiorano Modenese</a><span>Pranzo 12–14 · Cena 18–24 · Domenica e festivi solo cena</span></p>
+  </div>
+  <nav class="piede-vai" aria-label="Pagine">
+    <a href="menu.html">Il menù</a><a href="storia.html">La storia</a><a href="aziende.html">Aziende</a><a href="contatti.html">Contatti</a>
+  </nav>
+  <div class="piede-giu">
+    <span><a href="https://www.instagram.com/picchio__rosso_di_fiorano/">Instagram</a><a href="https://www.facebook.com/people/Pizzeria-Picchio-Rosso-di-Fiorano-Modenese/100093708481729/">Facebook</a><a href="https://wa.me/393493838146">WhatsApp</a></span>
+    <span>© 2026 Picchio Rosso · P.IVA 03436440360</span>
+  </div>
 </footer>
 <div class="marea" data-marea inert>
   <div class="marea-f"></div>
@@ -95,7 +103,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
 <script src="assets/js/core.js"></script>
-<script src="assets/js/sequenza.js"></script>
 <script src="assets/js/pagine.js"></script>
 <script src="assets/js/sezioni.js"></script>
 <script>

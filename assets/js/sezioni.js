@@ -15,31 +15,17 @@
   $$('.rosso h2').forEach(h => { const rr = $$('.r>span', h); if (window.gsap) { gsap.set(rr, { yPercent: 110 }); vista(h, () => gsap.to(rr, { yPercent: 0, duration: 1.2, stagger: .1, ease: 'expo.out' })); } });
   if (window.gsap) $$('.finale h2, .mezzodi-t h2, .domande h2').forEach(h => { gsap.from(h, { y: 60, opacity: 0, duration: 1.2, ease: 'expo.out', paused: true }); vista(h, () => gsap.fromTo(h, { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2, ease: 'expo.out' })); });
 
-  /* rosso: pizza che rotola dentro con lo scroll, attratta dal cursore, ombra che si stacca */
+  /* rosso: le scintille */
   const ro = $('[data-rosso]');
   if (ro) {
-    const pz = $('.rosso-pizza', ro), im = $('img', pz), sc = $('.scintille', ro);
+    const sc = $('.scintille', ro);
     let s = 7; const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
     sc.innerHTML = Array.from({ length: 16 }, () => { const d = 2.5 + rnd() * 2.5; return `<i style="left:${rnd() * 100}%;top:${rnd() * 100}%;width:${d}px;height:${d}px;--d:${2.4 + rnd() * 3.6}s;--r:-${rnd() * 5}s"></i>`; }).join('');
-    const m = { tx: 0, ty: 0, x: 0, y: 0, at: 0 };
-    ro.addEventListener('pointermove', e => { const r = pz.getBoundingClientRect(); m.tx = (e.clientX - (r.left + r.width / 2)) * .05; m.ty = (e.clientY - (r.top + r.height / 2)) * .05; m.at = performance.now(); });
-    ogni(now => {
-      const r = ro.getBoundingClientRect(); if (r.bottom < -100 || r.top > innerHeight + 100) return;
-      const v = clamp(1 - r.top / innerHeight), w = clamp(-r.top / r.height);
-      if (now - m.at > 2600) { m.tx = 0; m.ty = 0; }
-      m.x += (m.tx - m.x) * .05; m.y += (m.ty - m.y) * .05;
-      const inn = out(v);
-      pz.style.transform = `translate3d(${(1 - inn) * 60 + m.x}vw,${m.y * .1}vh,0)`.replace(`${(1 - inn) * 60 + m.x}vw`, `calc(${(1 - inn) * 60}vw + ${m.x}px)`).replace(`${m.y * .1}vh`, `${m.y + w * -60}px`);
-      im.style.transform = `rotate(${(1 - inn) * 150 + w * 40}deg)`;
-      const lift = 1 + Math.hypot(m.x, m.y) * .02;
-      pz.style.setProperty('--sx', (-12 * lift) + 'px'); pz.style.setProperty('--sy', (30 * lift) + 'px');
-    });
   }
 
   /* impasti: gli strati si aprono, la pizza gira, le colonne convergono, tre stazioni */
   const im = $('[data-impasti]');
   if (im) {
-    let sqP = null; new IntersectionObserver(([e], o) => { if (e.isIntersecting && window.Sequenza) { sqP = new Sequenza($('#seq-pasta', im), { telefono: { cartella: 'media/seq/pasta-t', n: 96 }, schermo: { cartella: 'media/seq/pasta-o', n: 96 } }); o.disconnect(); } }, { rootMargin: '150% 0px' }).observe(im);
     const st = $$('.strati span', im), cl = $('.col-l', im), cr = $('.col-r', im), dd = $$('.impasti-d p', im);
     const li = [...$$('li', cl).map((x, i) => [x, $$('li', cr)[i]])];
     let q = 0;
@@ -48,7 +34,6 @@
       q += (av(im) - q) * (fermo ? 1 : .1);
       const a = out(seg(q, 0, .22)), H = innerHeight;
       st.forEach((s, i) => { const k = (st.length - 1 - i); s.style.transform = `translate3d(${k * a * 1.1}vmin,${k * a * 1.1}vmin,0)`; });
-      if (sqP) sqP.vai(fermo ? .6 : seg(q, .02, .98));
       cl.style.transform = `translate3d(${(1 - a) * -24}vw,-50%,0)`.replace('-50%', innerWidth > 760 ? '-50%' : '0');
       cr.style.transform = `translate3d(${(1 - a) * 24}vw,-50%,0)`.replace('-50%', innerWidth > 760 ? '-50%' : '0');
       const k = Math.min(2, Math.floor(seg(q, .12, .98) * 3));
@@ -86,20 +71,15 @@
     });
   }
 
-  /* carta: il cartone vero che si apre con lo scroll */
+  /* carta: il titolo sta dietro i cartoni 3D, poi lascia posto ai dati */
   const cc = $('[data-carta]');
   if (cc) {
-    let sq = null, q = 0;
-    const c1 = $('.c1', cc), c2 = $('.c2', cc), inf = $('.carta-info', cc);
-    new IntersectionObserver(([e], o) => { if (e.isIntersecting && window.Sequenza) { sq = new Sequenza($('#seq-cartone'), { telefono: { cartella: 'media/seq/box-t', n: 96 }, schermo: { cartella: 'media/seq/box-o', n: 96 } }); o.disconnect(); } }, { rootMargin: '150% 0px' }).observe(cc);
+    const tit = $('.carta-t', cc), inf = $('.carta-info', cc);
     ogni(() => {
       const r = cc.getBoundingClientRect(); if (r.bottom < -80 || r.top > innerHeight + 80) return;
-      q += (clamp(-r.top / (cc.offsetHeight - innerHeight)) - q) * (fermo ? 1 : .12);
-      if (sq) sq.vai(fermo ? 1 : seg(q, .08, .82));
-      const v = io(seg(q, .06, .3)), oriz = innerWidth > innerHeight;
-      c1.style.transform = oriz ? `translate3d(${-v * 40}vw,-50%,0)` : `translate3d(0,${-v * 40}svh,0)`;
-      c2.style.transform = oriz ? `translate3d(${v * 40}vw,-50%,0)` : `translate3d(0,${v * 40}svh,0)`;
-      const a = seg(q, .76, .92); inf.style.opacity = a; inf.style.transform = `translateY(${(1 - a) * 34}px)`; inf.style.visibility = a > .02 ? 'visible' : 'hidden';
+      const q = fermo ? 1 : clamp(-r.top / (cc.offsetHeight - innerHeight));
+      tit.style.opacity = 1 - seg(q, .62, .76); tit.style.transform = `translateY(${-seg(q, .5, .8) * 14}svh)`;
+      const a = seg(q, .8, .93); inf.style.opacity = a; inf.style.transform = `translateY(${(1 - a) * 34}px)`; inf.style.visibility = a > .02 ? 'visible' : 'hidden';
     });
   }
 
@@ -173,9 +153,18 @@
     addEventListener('pageshow', e => { if (e.persisted) { gsap.killTweensOf([si, pz]); gsap.set(si, { clipPath: 'inset(0 0 100% 0)' }); } });
   } else document.documentElement.classList.remove('arrivo');
 
-  const adattaNome = () => $$('.piede-nome').forEach(n => { const s = $('span', n); s.style.display = 'inline-block'; n.style.fontSize = '100px'; const w = s.getBoundingClientRect().width; n.style.fontSize = 100 * n.clientWidth / w * .995 + 'px'; s.style.display = 'block'; });
-  (document.fonts ? document.fonts.ready : Promise.resolve()).then(adattaNome); adattaNome(); addEventListener('resize', adattaNome);
-  $$('.piede-nome').forEach(n => vista(n, e => e.classList.add('su'), { threshold: .2 }));
+  /* piede: fuoco solo quando si vede, forno aperto o chiuso adesso */
+  $$('.piede-fuoco').forEach(v => new IntersectionObserver(([e]) => { if (e.isIntersecting) { if (!v.src) v.src = v.dataset.src; v.play().catch(() => {}); } else v.pause(); }).observe(v));
+  const FEST = ['1/1', '6/1', '25/4', '1/5', '2/6', '15/8', '1/11', '8/12', '25/12', '26/12'];
+  const fasce = d => d.getDay() === 0 || FEST.includes(`${d.getDate()}/${d.getMonth() + 1}`) ? [[18, 24]] : [[12, 14], [18, 24]];
+  const scriviStato = () => {
+    const a = new Date(), h = a.getHours() + a.getMinutes() / 60, ff = fasce(a), ora = ff.find(([x, y]) => h >= x && h < y), poi = ff.find(([x]) => h < x), dom = new Date(a); dom.setDate(a.getDate() + 1);
+    const t = ora ? `Forno acceso. Aperti fino alle ${ora[1]}.` : poi ? `Il forno riapre alle ${poi[0]}.` : `Il forno riapre domani alle ${fasce(dom)[0][0]}.`;
+    $$('[data-stato]').forEach(e => { e.textContent = t; });
+    const oggi = $('[data-oggi]'); if (oggi) oggi.classList.toggle('oggi', ff.length === 2);
+    const fe = $('[data-festa]'); if (fe) fe.classList.toggle('oggi', ff.length === 1);
+  };
+  scriviStato(); setInterval(scriviStato, 60000);
 
   const giro = now => { passi.forEach(f => f(now)); requestAnimationFrame(giro); };
   requestAnimationFrame(giro);

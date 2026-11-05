@@ -1,7 +1,6 @@
 // Scene 3D del sito: cartoni, pizze, ruota del menù. Girano nel browser e rispondono a mouse e dita.
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v)), seg = (p, a, b) => clamp((p - a) / (b - a)), mix = (a, b, t) => a + (b - a) * t;
 const io = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -19,8 +18,8 @@ class Palco {
     this.gl.setClearColor(0, 0); this.gl.outputColorSpace = THREE.SRGBColorSpace;
     if (ombre) { this.gl.shadowMap.enabled = true; this.gl.shadowMap.type = THREE.PCFSoftShadowMap; }
     const pm = new THREE.PMREMGenerator(this.gl); this.scena.environment = pm.fromScene(new RoomEnvironment(this.gl), .04).texture; pm.dispose();
-    this.scena.environmentIntensity = .55;
-    const k = new THREE.DirectionalLight(0xfff0dc, 2.3); k.position.set(-2.4, 4.6, 3.2); this.scena.add(k);
+    this.scena.environmentIntensity = .5;
+    const k = new THREE.DirectionalLight(0xfff0dc, 1.75); k.position.set(-2.4, 4.6, 3.2); this.scena.add(k);
     if (ombre) { k.castShadow = true; k.shadow.mapSize.set(2048, 2048); Object.assign(k.shadow.camera, { left: -3, right: 3, top: 3, bottom: -3, near: .5, far: 16 }); k.shadow.radius = 7; k.shadow.bias = -.0004; }
     this.mx = 0; this.my = 0; this.tx = 0; this.ty = 0; this.yaw = 0; this.vel = 0; this.tiene = false; this.passi = []; this.vivo = false;
     new ResizeObserver(() => this.misura()).observe(canvas); this.misura();
@@ -39,7 +38,7 @@ class Palco {
 
 /* ---------- materiali del cartone, disegnati ---------- */
 function rumore(x, W, H, n, a) { for (let i = 0; i < n; i++) { x.fillStyle = `rgba(${Math.random() < .5 ? '70,44,20' : '255,235,200'},${Math.random() * a})`; x.fillRect(Math.random() * W, Math.random() * H, 4 + Math.random() * 46, 1 + Math.random() * 1.2); } }
-function telaKraft(S = 1024) { const c = document.createElement('canvas'); c.width = c.height = S; const x = c.getContext('2d'); x.fillStyle = '#b98f5e'; x.fillRect(0, 0, S, S); rumore(x, S, S, S * 7, .07); return c; }
+function telaKraft(S = 1024) { const c = document.createElement('canvas'); c.width = c.height = S; const x = c.getContext('2d'); x.fillStyle = '#a98a68'; x.fillRect(0, 0, S, S); rumore(x, S, S, S * 7, .07); return c; }
 function tex(c) { const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 12; return t; }
 let kit = null;
 async function kitCartone() {
@@ -49,9 +48,9 @@ async function kitCartone() {
   const g = x.createRadialGradient(S / 2, S / 2, S * .35, S / 2, S / 2, S * .75); g.addColorStop(0, 'rgba(60,34,12,0)'); g.addColorStop(1, 'rgba(60,34,12,.3)'); x.fillStyle = g; x.fillRect(0, 0, S, S);
   for (let i = 0; i < 7; i++) { const a = Math.random() * S, b = Math.random() * S, r = 20 + Math.random() * 60, m = x.createRadialGradient(a, b, 0, a, b, r); m.addColorStop(0, 'rgba(90,56,20,.2)'); m.addColorStop(1, 'rgba(90,56,20,0)'); x.fillStyle = m; x.fillRect(a - r, b - r, r * 2, r * 2); }
   x.globalCompositeOperation = 'multiply'; const L = S * .72; x.drawImage(logo, (S - L) / 2, (S - L) / 2, L, L); x.globalCompositeOperation = 'source-over';
-  const lato = document.createElement('canvas'); lato.width = 1024; lato.height = 96; const y = lato.getContext('2d'); y.fillStyle = '#ab8152'; y.fillRect(0, 0, 1024, 96); y.fillStyle = 'rgba(70,44,20,.55)'; for (let i = 0; i < 1024; i += 7) y.fillRect(i, 40, 3, 16); y.fillStyle = 'rgba(70,44,20,.3)'; y.fillRect(0, 0, 1024, 3); y.fillRect(0, 93, 1024, 3);
+  const lato = document.createElement('canvas'); lato.width = 1024; lato.height = 96; const y = lato.getContext('2d'); y.fillStyle = '#9b7d5c'; y.fillRect(0, 0, 1024, 96); y.fillStyle = 'rgba(70,44,20,.55)'; for (let i = 0; i < 1024; i += 7) y.fillRect(i, 40, 3, 16); y.fillStyle = 'rgba(70,44,20,.3)'; y.fillRect(0, 0, 1024, 3); y.fillRect(0, 93, 1024, 3);
   const carta = map => new THREE.MeshStandardMaterial({ map, roughness: .86, metalness: 0 });
-  kit = { kraft: carta(tex(telaKraft())), lid: carta(tex(c)), sid: carta(tex(lato)), grezzo: new THREE.MeshStandardMaterial({ color: 0xc49c6c, roughness: .9 }) };
+  kit = { kraft: carta(tex(telaKraft())), lid: carta(tex(c)), sid: carta(tex(lato)), grezzo: new THREE.MeshStandardMaterial({ color: 0xb5977a, roughness: .9 }) };
   return kit;
 }
 const LATO = 1, ALTO = .1, SP = .012;
@@ -89,23 +88,20 @@ async function materialePizza(nome) {
   if (cachePizza.has(nome)) return cachePizza.get(nome);
   const img = await carica(`img/cut/${nome}.webp`), S = 1400, c = document.createElement('canvas'); c.width = c.height = S; const x = c.getContext('2d');
   x.fillStyle = '#c9975e'; x.fillRect(0, 0, S, S); const w = img.naturalWidth, h = img.naturalHeight, q = S / Math.max(w, h); x.drawImage(img, (S - w * q) / 2, (S - h * q) / 2, w * q, h * q);
-  const m = new THREE.MeshStandardMaterial({ map: tex(c), normalMap: rilievo(img), normalScale: new THREE.Vector2(.7, .7), roughness: .74, metalness: 0 });
+  const m = new THREE.MeshStandardMaterial({ map: tex(c), normalMap: rilievo(img), normalScale: new THREE.Vector2(.55, .55), roughness: .82, metalness: 0, color: 0xcfcac4, envMapIntensity: .55 });
   sotto = sotto || new THREE.MeshStandardMaterial({ map: sottoBruciato(), roughness: .92 });
   cachePizza.set(nome, m); return m;
 }
 const geoPizza = (() => {
-  const R = 1, T = .055, CR = .085, P = [];
-  P.push(new THREE.Vector2(.0001, T)); for (let i = 1; i <= 26; i++) P.push(new THREE.Vector2(i / 26 * (R - CR * 1.5), T));
-  for (let i = 0; i <= 18; i++) { const a = Math.PI * (i / 18); P.push(new THREE.Vector2(R - CR - Math.cos(a) * CR, T + Math.sin(a) * CR * 1.05 - .004)); }
-  P.push(new THREE.Vector2(R * .985, -T * .2)); const n1 = P.length;
-  for (let i = 1; i <= 8; i++) P.push(new THREE.Vector2((1 - i / 8) * R * .985 + .0001, -T * .35));
-  const g = new THREE.LatheGeometry(P, 128), pos = g.attributes.position, uv = g.attributes.uv;
-  // proiezione dall'alto: la foto avvolge il cornicione
-  for (let i = 0; i < pos.count; i++) uv.setXY(i, pos.getX(i) * .485 + .5, pos.getZ(i) * -.485 + .5);
-  const sopra = (n1 - 1) * 128 * 6, tot = g.index.count; g.clearGroups(); g.addGroup(0, sopra, 0); g.addGroup(sopra, tot - sopra, 1);
-  return g;
+  const R = 1, T = .055, CR = .085, A = [], B = [];
+  A.push(new THREE.Vector2(.0001, T)); for (let i = 1; i <= 26; i++) A.push(new THREE.Vector2(i / 26 * (R - CR * 1.5), T));
+  for (let i = 0; i <= 18; i++) { const a = Math.PI * (i / 18); A.push(new THREE.Vector2(R - CR - Math.cos(a) * CR, T + Math.sin(a) * CR * 1.05 - .004)); }
+  A.push(new THREE.Vector2(R * .985, -T * .2));
+  B.push(new THREE.Vector2(R * .985, -T * .2)); for (let i = 1; i <= 8; i++) B.push(new THREE.Vector2((1 - i / 8) * R * .985 + .0001, -T * .35));
+  const fai = P => { const g = new THREE.LatheGeometry(P, 128), q = g.attributes.position, uv = g.attributes.uv; for (let i = 0; i < q.count; i++) uv.setXY(i, q.getX(i) * .485 + .5, q.getZ(i) * -.485 + .5); g.computeVertexNormals(); return g; };
+  return [fai(A.reverse()), fai(B.reverse())];
 })();
-async function pizza(nome) { const m = await materialePizza(nome); const p = new THREE.Mesh(geoPizza, [m, sotto]); p.castShadow = true; p.receiveShadow = true; return p; }
+async function pizza(nome) { const m = await materialePizza(nome), g = new THREE.Group(); geoPizza.forEach((q, i) => { const p = new THREE.Mesh(q, i ? sotto : m); p.castShadow = true; p.receiveShadow = true; g.add(p); }); return g; }
 function pavimentoOmbra(y = 0, op = .34) { const m = new THREE.Mesh(new THREE.PlaneGeometry(30, 30), new THREE.ShadowMaterial({ opacity: op })); m.rotation.x = -Math.PI / 2; m.position.y = y; m.receiveShadow = true; return m; }
 function vapore(n = 14) {
   const c = document.createElement('canvas'); c.width = c.height = 128; const x = c.getContext('2d'), g = x.createRadialGradient(64, 64, 0, 64, 64, 64); g.addColorStop(0, 'rgba(255,255,255,.32)'); g.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = g; x.fillRect(0, 0, 128, 128);
@@ -147,23 +143,23 @@ export async function scenaCartoni(canvas, sezione, { quanti = 3, pizzaNome = 'm
 }
 
 /* ---------- pizza che gira: si trascina, segue il mouse, sul pulsante cadono gli ingredienti ---------- */
-const INGR = {
-  basilico: { glb: 'media/3d/basilico.glb', colore: 0x3f7a2c, scala: [.13, .02, .09] },
-  pomodoro: { glb: 'media/3d/pomodoro.glb', colore: 0xc92a1b, scala: [.075, .075, .075] },
-  mozzarella: { glb: 'media/3d/mozzarella.glb', colore: 0xf4efe2, scala: [.11, .05, .09] },
-};
-const modelli = {};
-function modello(n) { return modelli[n] || (modelli[n] = new Promise(ok => new GLTFLoader().load(INGR[n].glb, g => { const o = g.scene, b = new THREE.Box3().setFromObject(o), s = b.getSize(new THREE.Vector3()), c = b.getCenter(new THREE.Vector3()); o.position.sub(c); const w = new THREE.Group(); w.add(o); w.scale.setScalar(1 / Math.max(s.x, s.y, s.z)); w.traverse(m => { if (m.isMesh) m.castShadow = true; }); ok(w); }, undefined, () => ok(null)))); }
-export async function scenaPizza(canvas, sezione, { nome = 'burrata', ingredienti = null, inclina = .95 } = {}) {
+function fogliaBasilico() {
+  const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d'); x.fillStyle = '#3f8a2f'; x.fillRect(0, 0, 256, 256); x.strokeStyle = 'rgba(190,230,130,.55)'; x.lineWidth = 3; x.beginPath(); x.moveTo(128, 0); x.lineTo(128, 256); for (let i = 20; i < 240; i += 34) { x.moveTo(128, i); x.lineTo(20, i - 26); x.moveTo(128, i); x.lineTo(236, i - 26); } x.stroke();
+  const f = new THREE.Shape(); f.moveTo(0, -1); f.bezierCurveTo(.75, -.7, .78, .35, 0, 1); f.bezierCurveTo(-.78, .35, -.75, -.7, 0, -1);
+  const g = new THREE.ShapeGeometry(f, 18), q = g.attributes.position, uv = g.attributes.uv; for (let i = 0; i < q.count; i++) { const a = q.getX(i), b = q.getY(i); uv.setXY(i, a * .5 + .5, b * .5 + .5); q.setZ(i, a * a * .28 - b * b * .1); } g.computeVertexNormals();
+  return new THREE.Mesh(g, new THREE.MeshStandardMaterial({ map: tex(c), roughness: .42, side: THREE.DoubleSide }));
+}
+function pomodorino() { const g = new THREE.Group(), m = new THREE.Mesh(new THREE.SphereGeometry(1, 32, 24), new THREE.MeshStandardMaterial({ color: 0xc8261a, roughness: .2 })); m.scale.y = .86; g.add(m); const s = new THREE.Mesh(new THREE.ConeGeometry(.28, .22, 5), new THREE.MeshStandardMaterial({ color: 0x4d7a2c, roughness: .7 })); s.position.y = .88; g.add(s); return g; }
+function fiorDiLatte() { const g = new THREE.IcosahedronGeometry(1, 4), q = g.attributes.position; for (let i = 0; i < q.count; i++) { const a = q.getX(i), b = q.getY(i), z = q.getZ(i), k = 1 + Math.sin(a * 5 + z * 3) * .1 + Math.sin(b * 7 + a * 4) * .07; q.setXYZ(i, a * k, b * k * .62, z * k); } g.computeVertexNormals(); return new THREE.Mesh(g, new THREE.MeshStandardMaterial({ color: 0xf6f1e4, roughness: .46 })); }
+const INGR = { basilico: [fogliaBasilico, .13], pomodoro: [pomodorino, .07], mozzarella: [fiorDiLatte, .1] };
+export async function scenaPizza(canvas, sezione, { nome = 'burrata', ingredienti = null, inclina = .95, riempie = .8 } = {}) {
   const pal = new Palco(canvas, { fov: 26, z: 5.4 });
   const T = new THREE.Group(), S = new THREE.Group(); pal.scena.add(T); T.add(S);
   S.add(await pizza(nome));
   pal.scena.add(pavimentoOmbra(-.42, .26));
   const caduti = [];
-  async function fai(n) {
-    const d = INGR[n], base = await modello(n); let o;
-    if (base) { o = base.clone(true); o.scale.multiplyScalar(Math.max(...d.scala) * 2.2); }
-    else { o = new THREE.Mesh(new THREE.SphereGeometry(1, 20, 16), new THREE.MeshStandardMaterial({ color: d.colore, roughness: .55 })); o.scale.set(...d.scala); o.castShadow = true; }
+  function fai(n) {
+    const [crea, sc] = INGR[n], o = crea(); o.scale.setScalar(sc * (.85 + Math.random() * .3)); o.traverse(m => { if (m.isMesh) m.castShadow = true; });
     const a = Math.random() * 6.28, r = Math.sqrt(Math.random()) * .72; o.userData = { y: 2.4 + Math.random(), v: 0, s: (Math.random() - .5) * .3, fine: .09 + Math.random() * .03, posato: false };
     o.position.set(Math.cos(a) * r, o.userData.y, Math.sin(a) * r); o.rotation.set(Math.random() * 6, Math.random() * 6, Math.random() * 6); S.add(o); caduti.push(o);
   }
@@ -175,7 +171,7 @@ export async function scenaPizza(canvas, sezione, { nome = 'burrata', ingredient
     T.rotation.x = inclina + pal.my * .22 + .03 * Math.sin(now * .001);
     T.rotation.z = -pal.mx * .22 + .05;
     T.position.y = Math.sin(now * .0012) * .018 + .12;
-    pal.cam.position.set(0, 0, pal.alza ? 5.6 : 4.6); pal.cam.lookAt(0, 0, 0);
+    const tn = Math.tan(13 * Math.PI / 180), fit = (2 / riempie) / (2 * tn * Math.min(1, pal.cam.aspect)); pal.cam.position.set(0, 0, fit); pal.cam.lookAt(0, 0, 0);
     caduti.forEach(o => { const u = o.userData; if (u.posato) return; u.v -= .0032; u.y += u.v; if (u.y <= u.fine) { u.y = u.fine; if (Math.abs(u.v) > .012) u.v *= -.32; else { u.posato = true; u.v = 0; } } o.position.y = u.y; o.rotation.x += u.s; o.rotation.z += u.s * .7; });
     canvas.style.cursor = pal.tiene ? 'grabbing' : 'grab';
   });
@@ -185,20 +181,20 @@ export async function scenaPizza(canvas, sezione, { nome = 'burrata', ingredient
 /* ---------- ruota del menù: pizze intere in 3D su un arco, si girano trascinando o scorrendo ---------- */
 export async function scenaRuota(canvas, sezione, voci) {
   const pal = new Palco(canvas, { fov: 28, z: 7, ombre: false });
-  const W = new THREE.Group(); pal.scena.add(W); const R = 3.1, n = voci.length, mesh = [];
+  const W = new THREE.Group(); pal.scena.add(W); const R = 2.3, n = voci.length, mesh = [];
   for (let i = 0; i < n; i++) { const h = new THREE.Group(), p = await pizza(voci[i].nome); p.rotation.x = Math.PI / 2 - .35; h.add(p); h.userData = { voce: voci[i], lift: 0 }; W.add(h); mesh.push(h); }
-  let hov = null;
-  canvas.addEventListener('pointermove', e => { if (!matchMedia('(pointer:fine)').matches) return; const h = pal.raggio(e, mesh); hov = h ? h.object.parent : null; canvas.style.cursor = hov ? 'pointer' : 'grab'; });
+  let hov = null; const su = o => { while (o && !o.userData.voce) o = o.parent; return o; };
+  canvas.addEventListener('pointermove', e => { if (!matchMedia('(pointer:fine)').matches) return; const h = pal.raggio(e, mesh); hov = h ? su(h.object) : null; canvas.style.cursor = hov ? 'pointer' : 'grab'; });
   canvas.addEventListener('pointerleave', () => { hov = null; });
-  pal.tocco = e => { const h = pal.raggio(e, mesh); if (h) document.getElementById('p' + h.object.parent.userData.voce.id)?.click(); };
+  pal.tocco = e => { const h = pal.raggio(e, mesh); if (h) document.getElementById('p' + su(h.object).userData.voce.id)?.click(); };
   pal.passi.push(() => {
     const p = fermo ? 0 : avanza(sezione), v = pal.alza, ang = p * 1.5 + pal.yaw * .5;
-    W.position.set(v ? 0 : 2.5, v ? -1.5 : -.1, -R * .55);
+    W.position.set(v ? 0 : 1.55, v ? -.55 : -.05, -R);
     mesh.forEach((h, i) => {
       const a = i / n * Math.PI * 2 + ang; h.position.set(Math.sin(a) * R, Math.cos(a) * .32, Math.cos(a) * R);
       h.userData.lift += ((hov === h ? 1 : 0) - h.userData.lift) * .1;
-      h.scale.setScalar((v ? .94 : 1.08) * (1 + h.userData.lift * .08));
-      h.rotation.set(pal.my * .12, pal.mx * .22 - a * .25, 0);
+      h.scale.setScalar((v ? .66 : .78) * (1 + h.userData.lift * .08));
+      h.rotation.set(pal.my * .12, pal.mx * .22 - Math.sin(a) * .55, 0);
     });
     pal.cam.position.set(pal.mx * .2, pal.my * -.1, 7); pal.cam.lookAt(0, 0, 0);
   });
