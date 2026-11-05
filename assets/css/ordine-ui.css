@@ -193,3 +193,7 @@ body[data-pagina=menu]{background:var(--notte)}
 .m-testa .interruttore{border-radius:3px}.m-testa .interruttore i,.m-testa .interruttore button{border-radius:2px}
 .m-testa .interruttore button{font-family:var(--titoli);font-weight:800;font-size:22px;text-transform:uppercase;line-height:1}
 .m-testa .interruttore button small{font-family:var(--testo);text-transform:none;font-weight:400;font-size:12px;margin-top:3px}
+/* nel cassetto chiaro l'interruttore deve vedersi */
+.cassetto .interruttore{background:rgba(27,18,13,.1)}
+.cassetto .interruttore i{background:var(--ink)}
+.cassetto .interruttore button[aria-pressed=true]{color:var(--farina)}

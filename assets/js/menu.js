@@ -22,10 +22,10 @@ function disegna() {
   segnaPausa();
   const q = filtro.trim().toLowerCase();
   const cats = PR.menu.categories.map(c => ({ ...c, items: c.items.filter(i => !q || (i.name + ' ' + i.descr).toLowerCase().includes(q)) })).filter(c => c.items.length);
-  catBox.innerHTML = cats.map(c => `<a href="#c-${slug(c.name)}" data-cat="${slug(c.name)}">${c.name}<small>${c.items.length}</small></a>`).join('');
+  catBox.innerHTML = (q ? '' : '<a href="#crea" class="m-crea-link">Crea la tua pizza</a>') + cats.map(c => `<a href="#c-${slug(c.name)}" data-cat="${slug(c.name)}">${c.name}<small>${c.items.length}</small></a>`).join('');
   if (!cats.length) { lista.innerHTML = `<p class="nessuno">Qui niente. Prova con un altro ingrediente o chiamaci: <a href="tel:+393493838146">${PR.tel}</a>.</p>`; return; }
   lista.innerHTML = cats.map((c, k) => { const cut = TAGLI[c.name]; return `<section class="m-sez" id="c-${slug(c.name)}">
-    <div class="m-banda" data-t="${k % 4}"><h2 class="display m-nome">${c.name}</h2>${c.descr ? `<p>${c.descr}</p>` : ''}${cut ? `<img src="img/cut/${cut}.webp" alt="" loading="lazy">` : ''}</div>
+    <div class="m-banda" data-t="${k % 4}"><h2 class="display m-nome">${c.name}</h2>${c.descr ? `<p>${c.descr}</p>` : ''}${c.name === 'Pizze al Metro' ? '<a class="btn farina" href="#crea" data-meta="1">Falla metà e metà</a>' : ''}${cut ? `<img src="img/cut/${cut}.webp" alt="" loading="lazy">` : ''}</div>
     ${c.items.map(voce).join('')}
   </section>`; }).join('');
   spia(); entrate();

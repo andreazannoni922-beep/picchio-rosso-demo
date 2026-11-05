@@ -201,7 +201,7 @@ cas.addEventListener('click', async e => {
         name: d.name, phone: d.phone, email: d.email, mode: PR.modo,
         address: [d.address, d.bell].filter(Boolean).join(' · '), slot: scelte.slot,
         notes: [`Pagamento: ${scelte.pag}`, d.notes].filter(Boolean).join(' · '),
-        items: PR.carrello.map(r => ({ id: r.id, qty: r.qty, size: r.size, dough: r.dough || '', note: r.note || '' })),
+        items: PR.carrello.map(r => ({ id: r.id, qty: r.qty, size: r.size, dough: r.dough || '', note: r.crea ? (r.nota || '') : (r.note || ''), ...(r.crea ? { crea: r.crea } : {}) })),
       } });
       localStorage.setItem('pr-ultimo', JSON.stringify({ id: r.id, at: Date.now(), righe: PR.carrello }));
       PR.carrello = []; salva();

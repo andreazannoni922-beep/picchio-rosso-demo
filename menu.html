@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="assets/css/site.css">
 <link rel="stylesheet" href="assets/css/ordine-ui.css">
 <link rel="stylesheet" href="assets/css/pagine.css">
+<link rel="stylesheet" href="assets/css/crea.css">
 </head>
 <body data-pagina="menu">
 <div class="carico" aria-hidden="true"><svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -45,6 +46,34 @@
           <button data-modo="consegna">A casa<small>consegna 2 € in paese</small></button>
           <button data-modo="asporto">Passo io<small>Via Machiavelli 2</small></button>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="crea" id="crea" aria-label="Crea la tua pizza">
+    <div class="cr-palco">
+      <h2>Crea la tua.</h2>
+      <p>Mezza salsiccia, mezza patatine? Si può. Decidi tu cosa va sopra, noi la cuociamo a legna.</p>
+      <div class="cr-tavolo" data-f="tonda" data-meta="false" data-lato="a">
+        <button type="button" class="cr-mezza cr-a" data-lato="a" aria-label="Scegli la prima metà"><span class="cr-forma"><img src="img/cut/margherita.webp" alt="La tua pizza, prima metà"></span></button>
+        <button type="button" class="cr-mezza cr-b" data-lato="b" aria-label="Scegli l'altra metà"><span class="cr-forma"><img src="img/cut/margherita.webp" alt="La tua pizza, altra metà"></span></button>
+      </div>
+      <div class="cr-parole" data-meta="false"><div class="cr-p cr-p-a"></div><div class="cr-p cr-p-b" hidden></div></div>
+    </div>
+    <div class="cr-pannello">
+      <p class="cr-t">Quanto la vuoi grande?</p><div class="cr-formati"></div>
+      <p class="cr-t">Che base?</p><div class="cr-basi"></div>
+      <p class="cr-t">Tutta uguale o metà e metà?</p>
+      <div class="cr-due"><button type="button" data-mm="0">Tutta uguale</button><button type="button" data-mm="1">Metà e metà</button></div>
+      <div class="cr-lati" hidden><button type="button" data-lato="a">Prima metà</button><button type="button" data-lato="b">Altra metà</button></div>
+      <p class="cr-t cr-qui">Cosa ci metti sopra?</p>
+      <div class="cr-gruppi"></div><div class="cr-chips"></div>
+      <p class="cr-t">Che impasto?</p><div class="cr-impasti"></div>
+      <p class="cr-t">Una nota per la cucina</p>
+      <input class="cr-nota" id="cr-nota" maxlength="80" placeholder="Ben cotta, senza origano…" aria-label="Nota per la cucina">
+      <div class="cr-piede">
+        <div class="qta"><button type="button" data-cq2="-1" aria-label="Meno">−</button><span class="cr-q">1</span><button type="button" data-cq2="1" aria-label="Più">+</button></div>
+        <button type="button" class="btn rosso" data-cr-metti>Aggiungi · <span class="cr-tot"></span></button>
       </div>
     </div>
   </section>
@@ -96,6 +125,7 @@
 <script src="assets/js/core.js"></script>
 <script src="assets/js/pagine.js"></script>
 <script src="assets/js/menu.js"></script>
+<script src="assets/js/crea.js"></script>
 <script src="assets/js/sezioni.js"></script>
 </body>
 </html>
